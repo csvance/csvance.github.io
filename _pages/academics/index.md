@@ -12,34 +12,34 @@ permalink: /academics/
 
 | Course | School | Grade |
 |------|-----|-----|
-| Intro to Computer Science I - C++ | [HCC][hcc] | **TBD** |
+| Intro to Computer Science I - C++ | [HCC][hcc] | TBD |
 
 ### Mathematics
 
 | Course | School | Grade |
 |------|-----|-----|
-| College Algebra | [HCC][hcc] | **A** |
-| Trigonometry | [HCC][hcc] |  **A** |
-| Pre-Calculus | [HCC][hcc] |  **A** |
-| Calculus I | [HCC][hcc] | **TBD** |
+| College Algebra | [HCC][hcc] | A |
+| Trigonometry | [HCC][hcc] |  A |
+| Pre-Calculus | [HCC][hcc] |  A |
+| Calculus I | [HCC][hcc] | TBD |
 
 ### Natural Sciences
 
 | Course | School | Grade |
 |------|-----|-----|
-| General Chemistry I | [HCC][hcc] | **A** |
+| General Chemistry I | [HCC][hcc] | A |
 
 ### Core
 
 | Course | School | Grade |
 |------|-----|-----|
-| Learning Frameworks | [HCC][hcc] | **A** |
-| Composition I | [HCC][hcc] | **A** |
-| Composition II | [HCC][hcc] | **A** |
-| US History I | [HCC][hcc] | **A** |
-| US History II | [HCC][hcc] | **TBD** |
-| Texas Government | [HCC][hcc] | **A** |
-| Federal Government| [HCC][hcc] | **TBD** |
+| Learning Frameworks | [HCC][hcc] | A |
+| Composition I | [HCC][hcc] | A |
+| Composition II | [HCC][hcc] | A |
+| US History I | [HCC][hcc] | A |
+| US History II | [HCC][hcc] | TBD |
+| Texas Government | [HCC][hcc] | A |
+| Federal Government| [HCC][hcc] | TBD |
 
 
 
