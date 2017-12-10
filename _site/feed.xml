@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title></title>
-    <description>Hi there, and welcome to my portfolio! My name is Carroll Vance and I am a CS undergrad student exploring machine learning and artificial intelligence. I currently live in Houston, Texas. When not studying or creating ML models I enjoy cooking, writing music, running, hiking, and a good pale ale.</description>
-    <link>https://csvance.github.io/</link>
-    <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 10 Dec 2017 10:37:01 -0600</pubDate>
-    <lastBuildDate>Sun, 10 Dec 2017 10:37:01 -0600</lastBuildDate>
+    <description>Hi there, and welcome to my portfolio! My name is Carroll Vance, a C.S. undergrad student exploring machine learning and artificial intelligence. I currently live in Houston, Texas. When not studying or creating ML models I enjoy cooking, writing music, running, hiking, and a good pale ale.</description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 10 Dec 2017 10:41:54 -0600</pubDate>
+    <lastBuildDate>Sun, 10 Dec 2017 10:41:54 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -23,8 +23,8 @@
 
 </description>
         <pubDate>Sat, 09 Dec 2017 16:27:00 -0600</pubDate>
-        <link>https://csvance.github.io/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html</link>
-        <guid isPermaLink="true">https://csvance.github.io/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html</guid>
+        <link>/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html</link>
+        <guid isPermaLink="true">/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html</guid>
         
         
         <category>update</category>
@@ -48,8 +48,8 @@
         <description>&lt;p&gt;Hi, and welcome to my portfolio and blog. I will be chronicling my explorations in machine learning, artificial intelligence, and software engineering here.&lt;/p&gt;
 </description>
         <pubDate>Sat, 09 Dec 2017 13:40:48 -0600</pubDate>
-        <link>https://csvance.github.io/update/hello-world.html</link>
-        <guid isPermaLink="true">https://csvance.github.io/update/hello-world.html</guid>
+        <link>/update/hello-world.html</link>
+        <guid isPermaLink="true">/update/hello-world.html</guid>
         
         
         <category>update</category>
