@@ -1,178 +1,706 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Carroll Vance &mdash; Undergrad Student </title>
+    <meta property="og:title" content=" Carroll Vance &mdash; Undergrad Student " />
+    <meta name="twitter:title" content=" Carroll Vance &mdash; Undergrad Student " />
 
-  <link rel="stylesheet" href="/assets/main.css">
-  <link rel="alternate" type="application/rss+xml" title="Carroll Vance" href="/feed.xml">
-  
+    <meta name="description" content="Hi there, and welcome to my portfolio! My name is Carroll Vance and I am a CS undergrad student exploring machine learning and artificial intelligence. I currently live in Houston, Texas. When not studying or developing ML algorithms I enjoy cooking, writing music, running, hiking, and a good pale ale.">
+    <meta name="description" property="og:description" content="Hi there, and welcome to my portfolio! My name is Carroll Vance and I am a CS undergrad student exploring machine learning and artificial intelligence. I currently live in Houston, Texas. When not studying or developing ML algorithms I enjoy cooking, writing music, running, hiking, and a good pale ale." />
+    <meta name="twitter:description" content="Hi there, and welcome to my portfolio! My name is Carroll Vance and I am a CS undergrad student exploring machine learning and artificial intelligence. I currently live in Houston, Texas. When not studying or developing ML algorithms I enjoy cooking, writing music, running, hiking, and a good pale ale." />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    
+    <meta name="twitter:site" content="@sundial_o7" />
+    
+    <meta property="og:url" content="https://csvance.github.io/" />
+
+    <meta property="og:image" content="" />
+    <meta name="twitter:image" content="" />
+
+    <meta name="author" content="Carroll Vance" />
+
+    <meta name="copyright" content="Copyright by Carroll Vance. All Rights Reserved." />
+
+    <style>
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/roboto/v15/Hgo13k-tfSpn0qi1SFdUfVtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+        }
+
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v15/CWB0XYA8bzo0kSThX0UTuA.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+        }
+
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Roboto Bold'), local('Roboto-Bold'), url(https://fonts.gstatic.com/s/roboto/v15/d-6IYplOFocCacKzxwXSOFtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+        }
+
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 900;
+            src: local('Roboto Black'), local('Roboto-Black'), url(https://fonts.gstatic.com/s/roboto/v15/mnpfi9pxYH-Go5UiibESIltXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+        }
+
+        @font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 300;
+            src: local('Roboto Light Italic'), local('Roboto-LightItalic'), url(https://fonts.gstatic.com/s/roboto/v15/7m8l7TlFO-S3VkhHuR0at44P5ICox8Kq3LLUNMylGO4.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+        }
+
+        @font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 400;
+            src: local('Roboto Italic'), local('Roboto-Italic'), url(https://fonts.gstatic.com/s/roboto/v15/vPcynSL0qHq_6dX7lKVByfesZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+        }
+
+        @font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 700;
+            src: local('Roboto Bold Italic'), local('Roboto-BoldItalic'), url(https://fonts.gstatic.com/s/roboto/v15/t6Nd4cfPRhZP44Q5QAjcC44P5ICox8Kq3LLUNMylGO4.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+        }
+
+        @font-face {
+            font-family: 'Roboto';
+            font-style: italic;
+            font-weight: 900;
+            src: local('Roboto Black Italic'), local('Roboto-BlackItalic'), url(https://fonts.gstatic.com/s/roboto/v15/bmC0pGMXrhphrZJmniIZpY4P5ICox8Kq3LLUNMylGO4.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+        }
+    </style>
+    
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    
+    <link rel="stylesheet" href="https://csvance.github.io/assets/css/main.css">
+
+    <link rel="canonical" href="https://csvance.github.io/">
+
+    <link rel="alternate" type="application/rss+xml" title="" href="https://csvance.github.io/feed.xml">
 </head>
 
-
-  <body>
-
-    <header class="site-header" role="banner">
-
-  <div class="wrapper">
-    
-    
-    <a class="site-title" href="/">Carroll Vance</a>
-  
-    
-      <nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
-              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
-              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
+    <body>
+        <div class="wrapper clear">
+            <aside class="user-profile fixed" role="complementary">
+    <div class="burger">
+        <input class="trigger hidden" id="toggleBurger" type="checkbox" />
+        <label for="toggleBurger">
+            <span>Navigation</span>
         </label>
-
-        <div class="trigger">
-          
-            
-            
-          
-            
-            
-            <a class="page-link" href="/about/">About</a>
-            
-          
-            
-            
-            <a class="page-link" href="/academics/">Academics</a>
-            
-          
-            
-            
-          
-            
-            
-          
-            
-            
-            <a class="page-link" href="/portfolio/">Portfolio</a>
-            
-          
-            
-            
-            <a class="page-link" href="/skillset/">Skillset</a>
-            
-          
-            
-            
-          
-        </div>
-      </nav>
-    
-  </div>
-</header>
-
-
-    <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        <div class="home">
-
-  
-
-  <h1 class="page-heading">Posts</h1>
-
-  <ul class="post-list">
-    
-      <li>
-        
-        <span class="post-meta">Dec 9, 2017</span>
-
-        <h2>
-          <a class="post-link" href="/update/armchair-expert/ml/ai/rnn/lstm/markov/2017/12/09/armchair-expert-rnn.html">Next Steps: Recurrent Neural Networks</a>
-        </h2>
-      </li>
-    
-      <li>
-        
-        <span class="post-meta">Dec 9, 2017</span>
-
-        <h2>
-          <a class="post-link" href="/update/2017/12/09/hello-world.html">Hello World!</a>
-        </h2>
-      </li>
-    
-  </ul>
-
-  <!-- Pagination links -->
-  <div class="pagination">
-    
-      <span class="previous">Previous</span>
-    
-    <span class="page_number ">Page: 1 of 1</span>
-    
-      <span class="next ">Next</span>
-    
-  </div>
-
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
-
-</div>
-
-      </div>
-    </main>
-
-    <footer class="site-footer">
-
-  <div class="wrapper">
-
-    <h2 class="footer-heading">Carroll Vance</h2>
-
-    <div class="footer-col-wrapper">
-      <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li>
-            
-              Carroll Vance
-            
-            </li>
-            
-            <li><a href="mailto:vancecs@gmail.com">vancecs@gmail.com</a></li>
-            
-        </ul>
-      </div>
-
-      <div class="footer-col footer-col-2">
-        <ul class="social-media-list">
-          
-          <li>
-            <a href="https://github.com/csvance"><span class="icon icon--github"><svg viewBox="0 0 16 16" width="16px" height="16px"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
-</span><span class="username">csvance</span></a>
-
-          </li>
-          
-
-          
-          <li>
-            <a href="https://twitter.com/sundial_o7"><span class="icon icon--twitter"><svg viewBox="0 0 16 16" width="16px" height="16px"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
-</span><span class="username">sundial_o7</span></a>
-
-          </li>
-          
-        </ul>
-      </div>
-
-      <div class="footer-col footer-col-3">
-        <p>CS undergrad exploring machine learning &amp; AI</p>
-      </div>
     </div>
 
-  </div>
+    <div class="compact-header">
+        <a href="https://csvance.github.io"><img class="avatar" src="https://s3.amazonaws.com/csvance.github.io/me.jpg" /></a>
+        <div class="my-info">
+            <strong class="my-name">Carroll Vance</strong>
+            <span class="my-job-title">Undergrad Student</span>
+        </div>
+    </div>
 
-</footer>
+    
+        
+        <div class="mainmenu">
+            <a href="https://csvance.github.io" class="active">Home</a>
+            
+                
+            
+                
+            
+                
+            
+                
+                    <a href="https://csvance.github.io/academics/" >Academics</a>
+                
+            
+                
+                    <a href="https://csvance.github.io/portfolio/" >Portfolio</a>
+                
+            
+                
+                    <a href="https://csvance.github.io/skillset/" >Skillset</a>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        </div>
+        
+    
+
+    <p class="about-me">Hi there, and welcome to my portfolio! My name is Carroll Vance and I am a CS undergrad student exploring machine learning and artificial intelligence. I currently live in Houston, Texas. When not studying or developing ML algorithms I enjoy cooking, writing music, running, hiking, and a good pale ale.</p>
+
+    <ul class="socials">
+        <li><a href="https://twitter.com/Sundial_o7"><svg title="twitter" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li><li><a href="https://github.com/csvance"><svg title="github" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#github-icon"></use></svg></a></li>
+
+        
+            <li><a href="mailto:vancecs@gmail.com"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#email-icon"></use></svg></a></li>
+        
+
+        
+         <li><a href="https://csvance.github.io/feed.xml"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#rss-icon"></use></svg></a></li>
+        
+    </ul>
+</aside>
+
+            <main class="the-content" role="main">
+                <div class="search" role="search">
+    <div>
+        <div class="show-results-count">0 Results</div>
+        <div class="search-holder clear">
+            <input type="text" id="search-input" placeholder="search for...">
+        </div>
+    </div>
+    <ul id="results-container" class="results-container"></ul>
+</div>
 
 
-  </body>
+                
+<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+    <header class="post-header">
+        <ul class="clear">
+            <li><time datetime="2017-12-09T16:27:00-06:00" itemprop="datePublished">9 Dec, 2017</time></li>
+            
+        </ul>
+        <h2 itemprop="name headline"><a href="https://csvance.github.io/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html">Next Steps: Recurrent Neural Networks</a></h2>
+    </header>
 
+    <div class="post-content">
+        <p>Over a period of several years I have been gradually developing a <a href="https://en.wikipedia.org/wiki/Markov_chain">Markov chain</a> style chatbot called <a href="https://github.com/csvance/armchair-expert">armchair-expert</a> which is intended to emulate the patterns of speech it sees in chat messages, tweets, or even books over time. From its humble beginnings using a hack-eyed Markov chain engine, to its current fairly powerful yet inefficient <a href="https://en.wikipedia.org/wiki/Relational_database_management_system">RDBMS</a> incarnation, it has been slowly improving over time. Now is the time to make what I think is the next step in accuracy and performance: <a href="https://en.wikipedia.org/wiki/Long_short-term_memory">LSTM</a> based <a href="https://en.wikipedia.org/wiki/Recurrent_neural_network">recurrent neural networks</a>. However, there are certain potential problems I have been thinking about which make me hesitate fully committing to this approach when I could just create a <a href="https://en.wikipedia.org/wiki/Trie">trie</a> style Markov chain which would have the same features as the current system with much higher performance.</p>
+
+<h3 id="potential-problems">Potential Problems</h3>
+<ul>
+  <li>New Words - One reason I have hesitated moving to a word embedding neural network based solution in general was the difficulty incorporating newly encountered words without retraining the entire neural net. In theory however, we can set aside many unused embeddings for this purpose, and train the network in real time when new data is encountered.</li>
+  <li>Performance - Certain word embedding models require millions of variables with just a 10,000 word vocabulary and 300 feature hidden layer. I need to do more investigation into whether this is also a problem for RNN style nets.</li>
+  <li>Another problem in my initial investigations was the amount of training data required for vectorization of words. Algorithms like <a href="https://en.wikipedia.org/wiki/Word2vec">Word2Vec</a> (Mikolov et. al) partially overcame this problem using negative sampling, but in my limited experience I was unable to create a useful vector space with 32,000 tweets with various rates of negative sampling. This may not be an issue due to the sequential nature of our data.</li>
+  <li>Subject Based Generation - Will an LSTM based RNN be able to generate a sentence based on several keywords or even a single subject? Sentences do not always start with a subject and are mostly built around it, rather than after it.</li>
+</ul>
+
+
+
+        
+    </div>
+
+    <footer class="post-footer">
+        <div class="share">Share
+            <ul class="social-networks">
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Next Steps: Recurrent Neural Networks&p[summary]=Over a period of several years I have been gradually developing a Markov chain style chatbot called armchair-expert which is intended to ...&p[url]=https://csvance.github.io/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html&text=Over a period of several years I have been gradually developing a Markov chain style chatbot called armchair-expert which is intended to ...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
+            </ul>
+        </div>
+        
+        <div class="tags">
+            <ul>
+                
+            </ul>
+        </div>
+        
+    </footer>
+</article>
+
+<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+    <header class="post-header">
+        <ul class="clear">
+            <li><time datetime="2017-12-09T13:40:48-06:00" itemprop="datePublished">9 Dec, 2017</time></li>
+            
+        </ul>
+        <h2 itemprop="name headline"><a href="https://csvance.github.io/update/hello-world.html">Hello World!</a></h2>
+    </header>
+
+    <div class="post-content">
+        <p>Hi, and welcome to my portfolio and blog. I will be chronicling my explorations in machine learning, artificial intelligence, and software engineering here.</p>
+
+
+        
+    </div>
+
+    <footer class="post-footer">
+        <div class="share">Share
+            <ul class="social-networks">
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Hello World!&p[summary]=Hi, and welcome to my portfolio and blog. I will be chronicling my explorations in machine learning, artificial intelligence, and softwar...&p[url]=https://csvance.github.io/update/hello-world.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/update/hello-world.html&text=Hi, and welcome to my portfolio and blog. I will be chronicling my explorations in machine learning, artificial intelligence, and softwar...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
+            </ul>
+        </div>
+        
+        <div class="tags">
+            <ul>
+                
+            </ul>
+        </div>
+        
+    </footer>
+</article>
+
+<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+    <header class="post-header">
+        <ul class="clear">
+            <li><time datetime="2016-03-20T12:36:00-05:00" itemprop="datePublished">20 Mar, 2016</time></li>
+            
+                <li class="cats">
+                    
+                        <a href="/categories/docs/">docs</a>
+                    
+                        <a href="/categories/help/">help</a>
+                    
+                </li>
+            
+        </ul>
+        <h2 itemprop="name headline"><a href="https://csvance.github.io/docs/help/docmentation.html">Documentation - Configuration & First Steps</a></h2>
+    </header>
+
+    <div class="post-content">
+        <h3 id="configuration">Configuration</h3>
+<p>All configuration options are in the <code>_config.yml</code> file.</p>
+
+<figure>
+    <img src="https://d13yacurqjgara.cloudfront.net/users/239125/screenshots/2591055/littleprincedribbble.jpg" />
+    <figcaption>Created by <a href="https://dribbble.com/Pmafra" target="_blank_">Patricia Mafra</a></figcaption>
+</figure>
+
+<h5 id="general-settings">General Settings</h5>
+<ul>
+  <li><strong>name</strong>: Your name.</li>
+  <li><strong>job_title</strong>: Your job title.</li>
+  <li><strong>email</strong>: Your email. There are two cases where email is used. First, if you entered the email and you’ve activated <strong>show_email</strong> option the end result will be a visible social email icon in the sidebar. The second use of your email is when you do not set your own avatar. In this case your email is used by the gravatar plugin to automatically fetch your gravatar.</li>
+  <li><strong>description</strong>: Describe yourself with a couple of words.</li>
+  <li><strong>avatar</strong>: Write down the full path to the avatar <code>http://mysite.com/blog/assets/images/avatar.jpg</code>. If you comment this row, “Steve” checks if you have an email and shows your gravatar if you have any.</li>
+  <li><strong>favicon</strong>: Want a favicon? Enter the full path here. For example <code>http://mysite.com/blog/assets/favicon.ico</code>.</li>
+  <li><strong>twitter_handler</strong>: Add your Twitter username without the @. It will be used for <a href="https://dev.twitter.com/cards/overview" target="_blank">Twitter Cards</a>. The default card type for “Steve” is <a href="https://dev.twitter.com/cards/types/summary-large-image" target="_blank">Summary Card with Large Image</a>.</li>
+  <li><strong>analytics_code</strong>: Add your Google Analytics Tracking ID. Example ID: <em>UA-XXXXXXX-2</em>.</li>
+  <li><strong>disqus</strong>: Add your website shortname from Disqus.</li>
+</ul>
+
+<p><strong>Important Note:</strong> Keep in mind that <strong>name</strong>, <strong>job_title</strong>, <strong>twitter_handler</strong> and some of the post specific variables are used as default meta data in some cases.</p>
+
+
+
+        
+            <p><a href="https://csvance.github.io/docs/help/docmentation.html" role="button">Read More</a></p>
+        
+    </div>
+
+    <footer class="post-footer">
+        <div class="share">Share
+            <ul class="social-networks">
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Documentation - Configuration & First Steps&p[summary]=Configuration
+All configuration options are in the _config.yml file.
+
+
+    
+    Created by Patricia Mafra
+
+
+General Settings
+
+  name: You...&p[url]=https://csvance.github.io/docs/help/docmentation.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/docs/help/docmentation.html&text=Configuration
+All configuration options are in the _config.yml file.
+
+
+    
+    Created by Patricia Mafra
+
+
+General Settings
+
+  name: You...&hashtags=documentation,steve,jekyll," rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
+            </ul>
+        </div>
+        
+        <div class="tags">
+            <ul>
+                
+                <li><a href="https://csvance.github.io/tag/documentation">documentation</a></li>
+                
+                <li><a href="https://csvance.github.io/tag/steve">steve</a></li>
+                
+                <li><a href="https://csvance.github.io/tag/jekyll">jekyll</a></li>
+                
+            </ul>
+        </div>
+        
+    </footer>
+</article>
+
+<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+    <header class="post-header">
+        <ul class="clear">
+            <li><time datetime="2016-03-16T08:34:00-05:00" itemprop="datePublished">16 Mar, 2016</time></li>
+            
+                <li class="cats">
+                    
+                        <a href="/categories/docs/">docs</a>
+                    
+                        <a href="/categories/help/">help</a>
+                    
+                </li>
+            
+        </ul>
+        <h2 itemprop="name headline"><a href="https://csvance.github.io/docs/help/installation.html">Installation</a></h2>
+    </header>
+
+    <div class="post-content">
+        <figure class="aligncenter">
+    <img src="https://snipcartweb-10f3.kxcdn.com/media/all/9570/snipcart-static-site-ecommerce-jekyll.png" />
+</figure>
+
+<p>I assume you have already downloaded and installed Ruby. Here’s what you need to do next:</p>
+
+<ol>
+  <li>Run <code>gem install jekyll bundler</code>.</li>
+  <li>Copy the theme in your desired folder.</li>
+  <li>Enter into the folder by executing <code>cd name-of-the-folder</code>.</li>
+  <li>Run <code>bundle install</code>.</li>
+  <li>If you want to access and customize the theme, use <code>bundle exec jekyll serve</code>. This way it will be accessible on <code>http://localhost:4000</code>.</li>
+  <li>Upload the content of the compiled <code>_site</code> folder on your host server.</li>
+</ol>
+
+
+        
+    </div>
+
+    <footer class="post-footer">
+        <div class="share">Share
+            <ul class="social-networks">
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Installation&p[summary]=
+    
+
+
+I assume you have already downloaded and installed Ruby. Here’s what you need to do next:
+
+
+  Run gem install jekyll bundler.
+  C...&p[url]=https://csvance.github.io/docs/help/installation.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/docs/help/installation.html&text=
+    
+
+
+I assume you have already downloaded and installed Ruby. Here’s what you need to do next:
+
+
+  Run gem install jekyll bundler.
+  C...&hashtags=installation,steve,jekyll," rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
+            </ul>
+        </div>
+        
+        <div class="tags">
+            <ul>
+                
+                <li><a href="https://csvance.github.io/tag/installation">installation</a></li>
+                
+                <li><a href="https://csvance.github.io/tag/steve">steve</a></li>
+                
+                <li><a href="https://csvance.github.io/tag/jekyll">jekyll</a></li>
+                
+            </ul>
+        </div>
+        
+    </footer>
+</article>
+
+<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+    <header class="post-header">
+        <ul class="clear">
+            <li><time datetime="2016-03-15T22:00:00-05:00" itemprop="datePublished">15 Mar, 2016</time></li>
+            
+                <li class="cats">
+                    
+                        <a href="/categories/docs/">docs</a>
+                    
+                </li>
+            
+        </ul>
+        <h2 itemprop="name headline"><a href="https://csvance.github.io/docs/what-is-jekyll.html">What is Jekyll?</a></h2>
+    </header>
+
+    <div class="post-content">
+        <p>Jekyll is a parsing engine bundled as a ruby gem used to build static websites from dynamic components such as templates, partials, liquid code, markdown, etc. Jekyll is known as “a simple, blog aware, static site generator”.</p>
+
+<p><img src="https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;s=d1b9ba0f56bbb8a965d26e8c4177f4af" alt="Alt Text" /></p>
+
+
+
+        
+            <p><a href="https://csvance.github.io/docs/what-is-jekyll.html" role="button">Read More</a></p>
+        
+    </div>
+
+    <footer class="post-footer">
+        <div class="share">Share
+            <ul class="social-networks">
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=What is Jekyll?&p[summary]=Jekyll is a parsing engine bundled as a ruby gem used to build static websites from dynamic components such as templates, partials, liqui...&p[url]=https://csvance.github.io/docs/what-is-jekyll.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/docs/what-is-jekyll.html&text=Jekyll is a parsing engine bundled as a ruby gem used to build static websites from dynamic components such as templates, partials, liqui...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
+            </ul>
+        </div>
+        
+        <div class="tags">
+            <ul>
+                
+            </ul>
+        </div>
+        
+    </footer>
+</article>
+
+<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+    <header class="post-header">
+        <ul class="clear">
+            <li><time datetime="2016-03-11T23:56:00-06:00" itemprop="datePublished">11 Mar, 2016</time></li>
+            
+                <li class="cats">
+                    
+                        <a href="/categories/docs/">docs</a>
+                    
+                </li>
+            
+        </ul>
+        <h2 itemprop="name headline"><a href="https://csvance.github.io/docs/sample-data.html">Sample Data</a></h2>
+    </header>
+
+    <div class="post-content">
+        <p>Markdown (or Textile), Liquid, HTML &amp; CSS go in. Static sites come out ready for deployment.</p>
+
+<h4 id="headings">Headings</h4>
+
+<h1 id="heading-1">Heading 1</h1>
+
+<h2 id="heading-2">Heading 2</h2>
+
+<h3 id="heading-3">Heading 3</h3>
+
+<h4 id="heading-4">Heading 4</h4>
+
+<h5 id="heading-5">Heading 5</h5>
+
+<h6 id="heading-6">Heading 6</h6>
+
+<h4 id="blockquote">Blockquote</h4>
+
+<blockquote>
+  <p>No more databases, comment moderation, or pesky updates to install—just your content.</p>
+</blockquote>
+
+<h4 id="unordered-list">Unordered List</h4>
+
+<ul>
+  <li>Jekyll</li>
+  <li>Ruby</li>
+  <li>Markdown</li>
+  <li>Liquid</li>
+</ul>
+
+<h4 id="ordered-list">Ordered List</h4>
+
+<ol>
+  <li>Jekyll</li>
+  <li>Ruby</li>
+  <li>Markdown</li>
+  <li>Liquid</li>
+</ol>
+
+<h4 id="link">Link</h4>
+
+<p>This is <a href="http://example.com/" title="Title">an example</a> inline link.</p>
+
+<h4 id="paragraph-w-strong-em-etc">Paragraph w/ strong, em, etc.</h4>
+
+<p>These are just a few of the <em>available</em> <strong>configuration</strong> options. Many configuration options can <strike>either</strike> be specified as flags on the <abbr title="Command Line Tool">command line</abbr>, or alternatively (and more commonly) they can be specified in a _config.yml file at the root of the source directory. Jekyll will <a href="http://joro.me/" target="_blank">automatically use</a> the options from this file when run. For example, if you place the following lines in your _config.yml file.</p>
+
+<h4 id="image">Image</h4>
+<figure class="aligncenter">
+	<img src="https://images.unsplash.com/photo-1449452198679-05c7fd30f416?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;s=73181f1c6d56b933b30de2bfe21fdf3b" />
+	<figcaption>Photo by <a href="https://unsplash.com/rmaedavis" target="_blank">Rachel Davis</a>.</figcaption>
+</figure>
+
+<h4 id="video">Video</h4>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/iWowJBRMtpc" frameborder="0" allowfullscreen=""></iframe>
+
+<h4 id="default-code-block">Default Code Block</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>This is code blog.
+</code></pre>
+</div>
+
+<h4 id="styled-code-block">Styled Code Block</h4>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><table style="border-spacing: 0"><tbody><tr><td class="gutter gl" style="text-align: right"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></td><td class="code"><pre><span class="c1">#!/usr/bin/ruby
+</span>
+<span class="vg">$LOAD_PATH</span> <span class="o">&lt;&lt;</span> <span class="s1">'.'</span>
+<span class="nb">require</span> <span class="s2">"support"</span>
+
+<span class="k">class</span> <span class="nc">Decade</span>
+<span class="kp">include</span> <span class="no">Week</span>
+   <span class="n">no_of_yrs</span><span class="o">=</span><span class="mi">10</span>
+   <span class="k">def</span> <span class="nf">no_of_months</span>
+      <span class="nb">puts</span> <span class="no">Week</span><span class="o">::</span><span class="no">FIRST_DAY</span>
+      <span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="mi">12</span>
+      <span class="nb">puts</span> <span class="n">number</span>
+   <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">d1</span><span class="o">=</span><span class="no">Decade</span><span class="p">.</span><span class="nf">new</span>
+<span class="nb">puts</span> <span class="no">Week</span><span class="o">::</span><span class="no">FIRST_DAY</span>
+<span class="no">Week</span><span class="p">.</span><span class="nf">weeks_in_month</span>
+<span class="no">Week</span><span class="p">.</span><span class="nf">weeks_in_year</span>
+<span class="n">d1</span><span class="p">.</span><span class="nf">no_of_months</span><span class="w">
+</span></pre></td></tr></tbody></table></code></pre></figure>
+
+<h4 id="definition-lists">Definition Lists</h4>
+
+<dl>
+    <dt>Definition Title</dt>
+    <dd>Definition Description</dd>
+</dl>
+
+<h4 id="paragraphs-w-aligned-images">Paragraphs w/ Aligned Images</h4>
+
+<p>The Jekyll gem makes a jekyll executable available to you in your Terminal window. You can use this command in a number of ways.</p>
+
+<figure class="alignleft">
+	<img width="250" src="https://images.unsplash.com/photo-1432821596592-e2c18b78144f?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;s=3f9c78df0edb464244bbabb04d1797d8" />
+	<figcaption>Photo by <a href="https://unsplash.com/dustinlee" target="_blank">Dustin Lee</a>.</figcaption>
+</figure>
+
+<p>This site aims to be a comprehensive guide to Jekyll. We’ll cover topics such as getting your site up and running, creating and managing your content, customizing the way your site works and looks, deploying to various environments, and give you some advice on participating in the future development of Jekyll itself.</p>
+
+<p>Jekyll is a simple, blog-aware, static site generator. It takes a template directory containing raw text files in various formats, runs it through a converter (like Markdown) and our Liquid renderer, and spits out a complete, ready-to-publish static website suitable for serving with your favorite web server. Jekyll also happens to be the engine behind GitHub Pages, which means you can use Jekyll to host your project’s page, blog, or website from GitHub’s servers for free.</p>
+
+<figure class="alignright">
+	<img width="250" src="https://images.unsplash.com/photo-1442037025225-e1cffaa2dc23?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;s=7fe04b68b0cb123bf568c6951c14b177" />
+	<figcaption>Photo by <a href="https://unsplash.com/lobostudiohamburg" target="_blank">LoboStudio Hamburg</a>.</figcaption>
+</figure>
+
+<p>Throughout this guide there are a number of small-but-handy pieces of information that can make using Jekyll easier, more interesting, and less hazardous. Here’s what to look out for.</p>
+
+<p>If you come across anything along the way that we haven’t covered, or if you know of a tip you think others would find handy, please file an issue and we’ll see about including it in this guide.</p>
+
+<p>The front matter is where Jekyll starts to get really cool. Any file that contains a YAML front matter block will be processed by Jekyll as a special file. The front matter must be the first thing in the file and must take the form of valid YAML set between triple-dashed lines.</p>
+
+
+        
+    </div>
+
+    <footer class="post-footer">
+        <div class="share">Share
+            <ul class="social-networks">
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Sample Data&p[summary]=Markdown (or Textile), Liquid, HTML &amp; CSS go in. Static sites come out ready for deployment.
+
+Headings
+
+Heading 1
+
+Heading 2
+
+Heading...&p[url]=https://csvance.github.io/docs/sample-data.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/docs/sample-data.html&text=Markdown (or Textile), Liquid, HTML &amp; CSS go in. Static sites come out ready for deployment.
+
+Headings
+
+Heading 1
+
+Heading 2
+
+Heading...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
+            </ul>
+        </div>
+        
+        <div class="tags">
+            <ul>
+                
+            </ul>
+        </div>
+        
+    </footer>
+</article>
+
+
+
+            </main>
+        </div>
+
+        <script src="https://csvance.github.io/assets/js/jquery-1.12.2.min.js"></script>
+<script src="https://csvance.github.io/assets/js/backtotop.js"></script>
+<script src="https://csvance.github.io/assets/js/lunr.min.js"></script>
+<script src="https://csvance.github.io/assets/js/lunr-feed.js"></script>
+<script src="https://csvance.github.io/assets/js/jquery.fitvids.js"></script>
+<script src="https://csvance.github.io/assets/js/svg4everybody.min.js"></script>
+<script src="https://csvance.github.io/assets/js/scripts.js"></script>
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-XXXXXXX-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    </body>
 </html>

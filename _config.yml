@@ -1,44 +1,80 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-title: Carroll Vance
+# General Settings
+name: Carroll Vance
+job_title: Undergrad Student
 email: vancecs@gmail.com
-description: >- # this means to ignore newlines until "baseurl:"
-  CS undergrad exploring machine learning & AI
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://csvance.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: sundial_o7
+description: Hi there, and welcome to my portfolio! My name is Carroll Vance and I am a CS undergrad student exploring machine learning and artificial intelligence. I currently live in Houston, Texas. When not studying or developing ML algorithms I enjoy cooking, writing music, running, hiking, and a good pale ale.
+avatar: https://s3.amazonaws.com/csvance.github.io/me.jpg
+favicon: /favicon.ico
+twitter_handler: sundial_o7
 github_username:  csvance
+analytics_code: UA-XXXXXXX-2
+disqus: your_disqus_site
 
-# Build settings
+# Social Accounts
+social_networks:
+-  { name: facebook, url: '' }
+-  { name: twitter, url: 'https://twitter.com/Sundial_o7' }
+-  { name: instagram, url: '' }
+-  { name: google-plus, url: '' }
+-  { name: linkedin, url: '' }
+-  { name: skype, url: '' }
+-  { name: github, url: 'https://github.com/csvance' }
+-  { name: codepen, url: '' }
+-  { name: stack-overflow, url: '' }
+-  { name: dribbble, url: '' }
+-  { name: behance, url: '' }
+-  { name: pinterest, url: '' }
+-  { name: tumblr, url: '' }
+-  { name: youtube, url: '' }
+-  { name: vimeo, url: '' }
+-  { name: vine, url: '' }
+-  { name: 500px, url: '' }
+-  { name: flickr, url: '' }
+-  { name: spotify, url: '' }
+-  { name: steam, url: '' }
+-  { name: wordpress, url: '' }
+-  { name: xing, url: '' }
+-  { name: bitcoin, url: '' }
+-  { name: pocket, url: '' }
+
+# Modules Settings
+show_categories: 1
+show_tags: 1
+show_email: 1
+show_rss: 1
+show_comments: 1
+show_menu: 1
+fixed_sidebar: 1
+
+# Defaults
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      comments: "true"
+
+# Serving
+url: "https://csvance.github.io"
+baseurl: ""
+
+# Includes
+include: ["_pages"]
+
+# Outputting
+permalink: /:categories/:title.html
+category_dir: categories
+
+# Pagination
+paginate: 10
+paginate_path: "/page:num/"
+
+# Conversion
 markdown: kramdown
-theme: minima
-plugins:
-  - jekyll-feed
-  - jekyll-paginate
-paginate: 5
+excerpt_separator: <!--more-->
 
-
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+# Assets Settings
+sass:
+  sass_dir: assets/partials
+  style: compressed
