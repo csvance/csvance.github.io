@@ -2,10 +2,8 @@
 name: Carroll Vance
 job_title: C.S. Undergrad Student
 email: vancecs@gmail.com
-description: Hi there, and welcome to my portfolio! My name is Carroll Vance,
-  a C.S. undergrad student exploring machine learning and artificial intelligence.
-  I currently live in Houston, Texas.
-  When not studying or creating ML models I enjoy cooking, writing music, running, hiking, and a good pale ale.
+description: C.S. undergrad student exploring machine learning and artificial intelligence.
+  I currently live in Houston, Texas. I also enjoy cooking, writing music, running, and a good pale ale.
 avatar: https://s3.amazonaws.com/csvance.github.io/me.jpg
 favicon: /favicon.ico
 twitter_handler: sundial_o7
