@@ -7,7 +7,9 @@
 
 .user-profile { position: absolute; top: 60px; width: 100%; max-width: 300px; text-align: center; @include transition(right .3s ease-in-out);
 	&.fixed { position: fixed; }
+	&.active {overflow-y: scroll;}
 	.compact-header {
+
 		.avatar { max-width: 140px; max-height: 140px; border-radius: 50%; margin: 0 auto 25px; }
 		.my-info {
 			.my-name { display: block; font-size: 24px; font-weight: 700; line-height: 30px; color: $grey-color-dark; }
