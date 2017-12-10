@@ -4,6 +4,11 @@ title: Skillset
 permalink: /skillset/
 ---
 
+### Domains
+- [Machine Learning][ml]
+- [Natural Language Processing][nlp]
+- [Embedded Systems][embedded]
+
 ### Programming Languages
 - [Python][python] - Have been writing software in Python for nearly a decade
 - [C][c] - Coming from an embedded and systems level software background, I cut my teeth on C
@@ -85,6 +90,9 @@ permalink: /skillset/
 [freertos]: https://www.freertos.org
 [rtos]: https://en.wikipedia.org/wiki/Real-time_operating_system
 
+
 [nlp]: https://en.wikipedia.org/wiki/Natural_language_processing
 [rdbms]: https://en.wikipedia.org/wiki/Relational_database_management_system
 [markov-chain]: https://en.wikipedia.org/wiki/Markov_chain
+[ml]: https://en.wikipedia.org/wiki/Machine_learning
+[embedded]: https://en.wikipedia.org/wiki/Embedded_system
