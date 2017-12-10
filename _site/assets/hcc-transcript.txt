@@ -1,0 +1,57 @@
+Print Date   :  2017-12-10
+            - - - - -   Beginning of Semester Credit Hour Record   - - - - -
+ Program     :  Computer Sci, Info Technology
+ 2016-07-06  :  Active in Program
+                         Fall 2016  (2016-08-22 to 2016-12-11)
+ EDUC     1300       Learning Framework                3.00     3.00 A       12.000
+ ENGL     1301       Composition I                     3.00     3.00 A       12.000
+      Course Attr  : 010 Communication (I)
+ MATH     1314       College Algebra                   3.00     3.00 A       12.000
+      Course Attr  : 020 Mathematics (I)
+ CHEM     1411       General Chemistry I               4.00     4.00 A       16.000
+      Course Attr  : 030 Natural Sciences (I)
+          TERM GPA :     4.000      TERM TOTALS :     13.00    13.00         52.000
+          CUM  GPA :     4.000      CUM  TOTALS :     13.00    13.00         52.000
+                     Dean's List
+                        Spring 2017  (2017-01-17 to 2017-05-14)
+ ENGL     1302       Composition II                    3.00     3.00 A       12.000
+      Course Attr  : 010 Communication (I)
+ GOVT     2306       Texas Government                  3.00     3.00 A       12.000
+      Course Attr  : 070 Political Science (I)
+ HIST     1301       U.S. History to 1877              3.00     3.00 A       12.000
+      Course Attr  : 060 History (I)
+ MATH     1316       Plane Trigonometry                3.00     3.00 A       12.000
+      Course Attr  : 020 Mathematics (I)
+          TERM GPA :     4.000      TERM TOTALS :     12.00    12.00         48.000
+          CUM  GPA :     4.000      CUM  TOTALS :     25.00    25.00        100.000
+                     Dean's List
+                        Summer 2017  (2017-06-05 to 2017-08-13)
+ MATH     2412       Pre-Calculus Math                 4.00     4.00 A       16.000
+          TERM GPA :     4.000      TERM TOTALS :      4.00     4.00         16.000
+          CUM  GPA :     4.000      CUM  TOTALS :     29.00    29.00        116.000
+                         Fall 2017  (2017-08-28 to 2017-12-17)
+ COSC     1436       Programming Fundamentals I        4.00
+      Course Topic(s): Using C++
+ GOVT     2305       Federal Government                3.00
+      Course Attr  : 070 Political Science (I)
+ HIST     1302       United States History II          3.00
+      Course Attr  : 060 History (I)
+ MATH     2413       Calculus I                        4.00
+      Course Attr  : 020 Mathematics (I)
+          TERM GPA :     0.000      TERM TOTALS :      0.00     0.00          0.000
+          CUM  GPA :     4.000      CUM  TOTALS :     29.00    29.00        116.000
+                        Spring 2018  (2018-01-16 to 2018-05-13)
+ COSC     1437       Programming Fundamentals II       4.00
+      Course Topic(s): Using C++
+ ECON     2302       Principles of Microeconomics      3.00
+      Course Attr  : 080 Soc & Beh Science (I)
+ MATH     2414       Calculus II                       4.00
+      Course Attr  : 020 Mathematics (I)
+ PHYS     2125       Univer. Physics Laboratory I      1.00
+      Course Attr  : 030 Natural Sciences (I)
+ PHYS     2325       University Physics I              3.00
+      Course Attr  : 030 Natural Sciences (I)
+          TERM GPA :     0.000      TERM TOTALS :      0.00     0.00          0.000
+          CUM  GPA :     4.000      CUM  TOTALS :     29.00    29.00        116.000
+ Semester Credit Hour Career Totals
+          CUM  GPA :     4.000      CUM  TOTALS :     29.00    29.00        116.000

@@ -11,7 +11,7 @@ permalink: /skillset/
 
 ### Programming Languages
 - [Python][python] - Have been writing software in Python for nearly a decade
-- [C][c] - Implemented many, many embedded projects in C
+- [C][c] - Implemented many embedded projects in C
 - [C++][cpp], [C#][csharp], and [Java][java] from time to time
 
 ### Libraries
