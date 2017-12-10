@@ -8,7 +8,7 @@ permalink: /portfolio/
 
 | Name | Domain | Description |
 |---------------|--------|--------|
-| [armchair-expert][armchair-expert] | AI\|ML\|NLP | Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries. Uses [NLP][nlp] to select a subject for which to generate a response. Does a form of sentiment analysis on potential reactions to its replies which fuels a reinforcement learning process. Learns input text and sentence structure along with capitalization styles. |
+| [armchair-expert][armchair-expert] | AI\|ML\|NLP | - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries<br>- Uses [NLP][nlp] to select a subject for which to generate a response<br>- Does a form of sentiment analysis on potential reactions to its replies which fuels a reinforcement learning process<br>- Learns input text and sentence structure along with capitalization styles |
 
 ## Neural Networks
 
