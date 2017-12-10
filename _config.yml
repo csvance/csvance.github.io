@@ -16,7 +16,7 @@ disqus: your_disqus_site
 social_networks:
 -  { name: facebook, url: '' }
 -  { name: twitter, url: 'https://twitter.com/Sundial_o7' }
--  { name: instagram, url: '' }
+-  { name: instagram, url: 'https://www.instagram.com/vance.carroll/' }
 -  { name: google-plus, url: '' }
 -  { name: linkedin, url: '' }
 -  { name: skype, url: '' }
