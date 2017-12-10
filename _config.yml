@@ -58,8 +58,8 @@ defaults:
       comments: "true"
 
 # Serving
-#url: "https://csvance.github.io"
-url: ""
+url: "https://csvance.github.io"
+#url: ""
 baseurl: ""
 
 # Includes
