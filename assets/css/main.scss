@@ -198,7 +198,7 @@
 table {
   font-family: 'Arial';
 	width: 100%;
-  margin: 25px auto;
+  margin: 2px auto;
   border-collapse: collapse;
   border: 1px solid #eee;
   border-bottom: 2px solid $primary-color;
@@ -207,6 +207,7 @@ table {
      0px 20px 20px rgba(0,0,0,0.05),
      0px 30px 20px rgba(0,0,0,0.05);
   tr {
+		text-align: center;
      &:hover {
       background: #f4f4f4;
 
@@ -218,14 +219,13 @@ table {
   th, td {
     color: #999;
     border: 1px solid #eee;
-    padding: 12px 35px;
+    #padding: 12px 35px;
+		padding: 4px 4px;
     border-collapse: collapse;
   }
   th {
     background: $primary-color;
     color: #fff;
-    text-transform: uppercase;
-    font-size: 12px;
     &.last {
       border-right: none;
     }
