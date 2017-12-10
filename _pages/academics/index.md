@@ -44,4 +44,4 @@ permalink: /academics/
 
 
 [hcc]: http://www.hccs.edu
-[hcc-transcript]: {{ site.baseurl }}/assets/hcc-transcript.txt
+[hcc-transcript]: {{ site.baseurl }}/academics/hcc-transcript.txt
