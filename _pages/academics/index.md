@@ -4,10 +4,6 @@ title: Academics
 permalink: /academics/
 ---
 
-### Transcripts
-
-- [HCC Transcript][hcc-transcript] - Updated Summer 2017
-
 ### Computer Science
 
 | Course | School |
@@ -41,7 +37,9 @@ permalink: /academics/
 | Texas Government | [HCC][hcc] |
 | Federal Government| [HCC][hcc] |
 
+### Transcripts
 
+- [HCC Transcript][hcc-transcript] - Updated Summer 2017
 
 [hcc]: http://www.hccs.edu
 [hcc-transcript]: {{ site.baseurl }}/assets/txt/hcc-transcript.txt
