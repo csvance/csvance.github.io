@@ -31,7 +31,7 @@ permalink: /portfolio/
 ## Non-NN Machine Learning
 
 ### PoS Tree
-- Sequential probability tree used by [armchair-expert][armchair-expert] which learns sentence / text format structures in order to generate more realistic output than with a Markov chain based approach
+- Probability tree used by [armchair-expert][armchair-expert] which learns sentence / text format structures in order to generate output following PoS sequences in training data
 - [Github][pos-tree-model]
 
 ### Neighbor Markov Chain
