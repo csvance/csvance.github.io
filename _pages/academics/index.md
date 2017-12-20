@@ -8,7 +8,7 @@ permalink: /academics/
 
 | Course | School |
 |------|-----|
-| **Intro to Computer Science I - C++** | [HCC][hcc] |
+| Intro to Computer Science I - C++ | [HCC][hcc] |
 
 ### Mathematics
 
@@ -17,7 +17,7 @@ permalink: /academics/
 | College Algebra | [HCC][hcc] |
 | Trigonometry | [HCC][hcc] |
 | Pre-Calculus | [HCC][hcc] |
-| **Calculus I** | [HCC][hcc] |
+| Calculus I | [HCC][hcc] |
 
 ### Natural Sciences
 
@@ -33,9 +33,9 @@ permalink: /academics/
 | Composition I | [HCC][hcc] |
 | Composition II | [HCC][hcc] |
 | US History I | [HCC][hcc] |
-| **US History II** | [HCC][hcc] |
+| US History II | [HCC][hcc] |
 | Texas Government | [HCC][hcc] |
-| **Federal Government**| [HCC][hcc] |
+| Federal Government | [HCC][hcc] |
 
 ### Transcripts
 
