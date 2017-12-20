@@ -12,11 +12,11 @@ permalink: /skillset/
 ### Programming Languages
 - [Python][python] - Have been writing software in Python for nearly a decade
 - [C][c] - Implemented many embedded projects in C
-- [C++][cpp], [C#][csharp], and [Java][java] from time to time
+- [C++][cpp], [C#][csharp], [Java][java], and even [Javascript][js] from time to time
 
 ### Libraries
-- [Keras][keras] - Created and trained several classification neural networks
-- [spaCy][spacy] - Extensive use of spaCy for NLP in [armchair-expert][armchair-expert]
+- [Keras][keras]
+- [spaCy][spacy]
 - [Tensorflow][tensorflow]
 - [NumPy][numpy]
 - [SQLAlchemy][sqlalchemy]
@@ -27,15 +27,10 @@ permalink: /skillset/
 - [nVidia Jetson TK1][tk1]
 - [NXP IMX6 SABRE][sabre]
 
-### Embedded Micro-controllers
+### Micro-controllers
 - [Cypress PSOC][cypress]
 - [Cypress FX3S][cypress]
 - [PIC16 / dsPIC24][pic]
-
-### Cloud Computing
-- [Amazon EC2][ec2]
-- [Amazon S3][s3]
-- [Amazon RDS][rds]
 
 ### Relational Database
 - [MySQL][mysql] / [MariaDB][mariadb]
@@ -53,6 +48,7 @@ permalink: /skillset/
 [cpp]: https://isocpp.org
 [csharp]: https://en.wikipedia.org/wiki/C_Sharp_(programming_language)
 [java]: https://java.com/en/
+[js]: https://www.javascript.com
 
 [armchair-expert]: https://github.com/csvance/armchair-expert
 
