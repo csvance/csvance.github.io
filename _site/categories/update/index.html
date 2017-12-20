@@ -148,18 +148,6 @@
             
                 
             
-                
-            
-                
-            
-                
-            
-                
-            
-                
-            
-                
-            
         </div>
         
     
@@ -193,50 +181,6 @@
 
                 <h1>Posts From Category: update</h1>
 
-
-<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
-    <header class="post-header">
-        <ul class="clear">
-            <li><time datetime="2017-12-09T16:27:00-06:00" itemprop="datePublished">9 Dec, 2017</time></li>
-            
-        </ul>
-        <h2 itemprop="name headline"><a href="https://csvance.github.io/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html">Next Steps: Recurrent Neural Networks</a></h2>
-    </header>
-
-    <div class="post-content">
-        <p>Over a period of several years I have been gradually developing a <a href="https://en.wikipedia.org/wiki/Markov_chain">Markov chain</a> style chatbot called <a href="https://github.com/csvance/armchair-expert">armchair-expert</a> which is intended to emulate the patterns of speech it sees in chat messages, tweets, or even books over time. From its humble beginnings using a hack-eyed Markov chain engine, to its current fairly powerful yet inefficient <a href="https://en.wikipedia.org/wiki/Relational_database_management_system">RDBMS</a> incarnation, it has been slowly improving over time. Now is the time to make what I think is the next step in accuracy and performance: <a href="https://en.wikipedia.org/wiki/Long_short-term_memory">LSTM</a> based <a href="https://en.wikipedia.org/wiki/Recurrent_neural_network">recurrent neural networks</a>. However, there are certain potential problems I have been thinking about which make me hesitate fully committing to this approach when I could just create a <a href="https://en.wikipedia.org/wiki/Trie">trie</a> style Markov chain which would have the same features as the current system with much higher performance.</p>
-
-<h3 id="potential-problems">Potential Problems</h3>
-<ul>
-  <li>New Words - One reason I have hesitated moving to a word embedding neural network based solution in general was the difficulty incorporating newly encountered words without retraining the entire neural net. In theory however, we can set aside many unused embeddings for this purpose, and train the network in real time when new data is encountered.</li>
-  <li>Performance - Certain word embedding models require millions of variables with just a 10,000 word vocabulary and 300 feature hidden layer. I need to do more investigation into whether this is also a problem for RNN style nets.</li>
-  <li>Another problem in my initial investigations was the amount of training data required for vectorization of words. Algorithms like <a href="https://en.wikipedia.org/wiki/Word2vec">Word2Vec</a> (Mikolov et. al) partially overcame this problem using negative sampling, but in my limited experience I was unable to create a useful vector space with 32,000 tweets with various rates of negative sampling.</li>
-  <li>Subject Based Generation - Will an LSTM based RNN be able to generate a sentence based on several keywords or even a single subject? Sentences do not always start with a subject and are mostly built around it, rather than after it. What about multiple subject words?</li>
-</ul>
-
-
-
-        
-            <p><a href="/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html" role="button">Read More</a></p>
-        
-    </div>
-
-    <footer class="post-footer">
-        <div class="share">Share
-            <ul class="social-networks">
-                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Next Steps: Recurrent Neural Networks&p[summary]=Over a period of several years I have been gradually developing a Markov chain style chatbot called armchair-expert which is intended to ...&p[url]=https://csvance.github.io/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
-                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/update/armchair-expert/ml/ai/rnn/lstm/markov/armchair-expert-rnn.html&text=Over a period of several years I have been gradually developing a Markov chain style chatbot called armchair-expert which is intended to ...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
-            </ul>
-        </div>
-        
-        <div class="tags">
-            <ul>
-                
-            </ul>
-        </div>
-        
-    </footer>
-</article>
 
 <article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
     <header class="post-header">
