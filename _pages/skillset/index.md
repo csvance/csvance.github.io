@@ -36,7 +36,6 @@ permalink: /skillset/
 - [MySQL][mysql] / [MariaDB][mariadb]
 - [PostgreSQL][postgresql]
 - [SQLite][sqlite]
-- [SQL Server][sqlserver]
 
 ### Operating Systems
 - [Linux][linux] - [RHEL][rhel]/[CentOS][centos], [Ubuntu][ubuntu]
