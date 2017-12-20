@@ -39,7 +39,7 @@ permalink: /academics/
 
 ### Transcripts
 
-- [HCC Transcript][hcc-transcript] - Updated Summer 2017
+- [HCC Transcript][hcc-transcript] - Updated Fall 2017
 
 [hcc]: http://www.hccs.edu
 [hcc-transcript]: {{ site.baseurl }}/assets/txt/hcc-transcript.txt
