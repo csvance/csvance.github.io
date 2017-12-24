@@ -192,7 +192,11 @@
   <li>Uses <a href="https://en.wikipedia.org/wiki/Natural_language_processing">NLP</a> to select a subject for which to generate a response</li>
   <li>Uses sentiment analysis on reactions to replies which fuels reinforcement learning</li>
   <li>Learns input text and sentence structure along with capitalization styles</li>
-  <li><a href="https://github.com/csvance/armchair-expert">Github</a></li>
+  <li><a href="https://github.com/csvance/armchair-expert">Github</a>
+    <h3 id="liltrumpyai">LilTrumpyAI</h3>
+  </li>
+  <li><a href="https://github.com/csvance/armchair-expert">armchair-expert</a> trained with all of Donald Trump’s tweets</li>
+  <li>Tweet <a href="https://twitter.com/LilTrumpyAI">@LilTrumpyAI</a> on <a href="https://twitter.com/LilTrumpyAI">Twitter</a> or DM <a href="https://twitter.com/LilTrumpyAI">@LilTrumpyAI</a>!</li>
 </ul>
 
 <h2 id="neural-networks">Neural Networks</h2>
@@ -217,6 +221,13 @@
 
 <h2 id="non-nn-machine-learning">Non-NN Machine Learning</h2>
 
+<h3 id="positional-vector-markov-chain">Positional Vector Markov Chain</h3>
+<ul>
+  <li>Custom Markov Chain database which stores positional frequencies of word bi-grams</li>
+  <li>Each generated word is effected by n words around it, where n is the window size</li>
+  <li><a href="https://github.com/csvance/armchair-expert/blob/master/markov.py">Github</a></li>
+</ul>
+
 <h3 id="pos-tree">PoS Tree</h3>
 <ul>
   <li>Probability tree used by <a href="https://github.com/csvance/armchair-expert">armchair-expert</a> which learns sentence / text format structures in order to generate output following PoS sequences in training data</li>
@@ -226,7 +237,7 @@
 <h3 id="neighbor-markov-chain">Neighbor Markov Chain</h3>
 <ul>
   <li><a href="https://en.wikipedia.org/wiki/Relational_database_management_system">RDBMS</a> based <a href="https://en.wikipedia.org/wiki/Markov_chain">Markov chain</a> used by <a href="https://github.com/csvance/armchair-expert">armchair-expert</a>. In addition to simple a-&gt;b relationships, it uses a window function to relate to more distant words, capturing its context as a subject. While this algorithm has provided good results for its intended purpose, its performance has suffered with larger datasets and it may soon be replaced with an LSTM based recurrent neural network.</li>
-  <li><a href="https://github.com/csvance/armchair-expert/blob/master/markov.py">Github</a></li>
+  <li><a href="https://github.com/csvance/armchair-expert/blob/legacy-sql/markov.py">Github</a></li>
 </ul>
 
 
