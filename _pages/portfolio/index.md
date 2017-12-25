@@ -38,10 +38,6 @@ permalink: /portfolio/
 - Probability tree used by [armchair-expert][armchair-expert] which learns sentence / text format structures in order to generate output following PoS sequences in training data
 - [Github][pos-tree-model]
 
-### Neighbor Markov Chain
-- [RDBMS][rdbms] based [Markov chain][markov-chain] used by [armchair-expert][armchair-expert]. In addition to simple a->b relationships, it uses a window function to relate to more distant words, capturing its context as a subject. While this algorithm has provided good results for its intended purpose, its performance has suffered with larger datasets and it may soon be replaced with an LSTM based recurrent neural network.
-- [Github][neighbor-markov-chain]
-
 [armchair-expert]: https://github.com/csvance/armchair-expert
 
 [aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/reaction_model.py
