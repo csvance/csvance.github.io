@@ -21,10 +21,11 @@ permalink: /skillset/
 - [Tensorflow][tensorflow]
 
 ### Single Board Computers
-- [Raspberry Pi][pi]
-- [BeagleBoard][beagleboard]
 - [nVidia Jetson TK1][tk1]
 - [NXP IMX6 SABRE][sabre]
+- [Raspberry Pi][pi]
+- [BeagleBoard][beagleboard]
+
 
 ### Micro-controllers
 - [Cypress PSOC][cypress]
