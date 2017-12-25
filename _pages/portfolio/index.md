@@ -3,15 +3,13 @@ layout: page
 title: Portfolio
 permalink: /portfolio/
 ---
-
-## Projects
-### armchair-expert
+## armchair-expert
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
-- Uses [NLP][nlp] to select a subject for which to generate a response
+- Uses [NLP][nlp] to select several subjects for which to generate a response
 - Uses sentiment analysis on reactions to replies which fuels reinforcement learning
 - Learns input text and sentence structure along with capitalization styles
 - [Github][armchair-expert]
-### LilTrumpyAI
+## LilTrumpyAI
 - [armchair-expert][armchair-expert] trained with all of Donald Trump's tweets
 - Tweet or DM [@LilTrumpyAI][liltrumpy] on [Twitter][liltrumpy]
 

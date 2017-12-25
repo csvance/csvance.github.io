@@ -26,7 +26,6 @@ permalink: /skillset/
 - [Raspberry Pi][pi]
 - [BeagleBoard][beagleboard]
 
-
 ### Micro-controllers
 - [Cypress PSOC][cypress]
 - [Cypress FX3S][cypress]
