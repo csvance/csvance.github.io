@@ -13,14 +13,14 @@ permalink: /portfolio/
 - [Github][armchair-expert]
 ### LilTrumpyAI
 - [armchair-expert][armchair-expert] trained with all of Donald Trump's tweets
-- Tweet [@LilTrumpyAI][liltrumpy] on [Twitter][liltrumpy] or DM [@LilTrumpyAI][liltrumpy]!
+- Tweet or DM [@LilTrumpyAI][liltrumpy] on [Twitter][liltrumpy]
 
-## Neural Networks
+## ML Models
 
 ### AOLReactionModel
 - Determine whether a reaction to a message indicates amusement
 - Binary Classification
-- Implemented in  [Keras][keras] and [Tensorflow][tensorflow]
+- Implemented in [Keras][keras] and [Tensorflow][tensorflow]
 - 8 Features, 1 Hidden Layer
 - [Github][aol-reaction-model]
 
@@ -30,8 +30,6 @@ permalink: /portfolio/
 - Implemented in [Keras][keras]
 - 23 Features, 4 Classifications
 - [Github][capitalization-model]
-
-## Non-NN Machine Learning
 
 ### Positional Vector Markov Chain
 - Custom Markov Chain database which stores positional frequencies of word bi-grams
