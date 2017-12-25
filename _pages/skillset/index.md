@@ -31,11 +31,6 @@ permalink: /skillset/
 - [Cypress FX3S][cypress]
 - [PIC16 / dsPIC24][pic]
 
-### Relational Database
-- [MySQL][mysql] / [MariaDB][mariadb]
-- [PostgreSQL][postgresql]
-- [SQLite][sqlite]
-
 ### Operating Systems
 - [Linux][linux] - [RHEL][rhel]/[CentOS][centos], [Ubuntu][ubuntu]
 - [Embedded Linux][linux] - [Yocto Project][yocto], [Angstrom][angstrom]
