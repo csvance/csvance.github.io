@@ -17,9 +17,8 @@ permalink: /skillset/
 ### Libraries
 - [Keras][keras]
 - [spaCy][spacy]
-- [Tensorflow][tensorflow]
 - [NumPy][numpy]
-- [SQLAlchemy][sqlalchemy]
+- [Tensorflow][tensorflow]
 
 ### Single Board Computers
 - [Raspberry Pi][pi]
