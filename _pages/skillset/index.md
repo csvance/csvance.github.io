@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Skillset
+#title: Skillset
 permalink: /skillset/
 ---
 

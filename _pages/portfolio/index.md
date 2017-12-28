@@ -2,6 +2,7 @@
 layout: page
 title: Portfolio
 permalink: /portfolio/
+menu: main
 ---
 ## armchair-expert
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
