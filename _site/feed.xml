@@ -5,8 +5,8 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 29 Dec 2017 11:46:45 -0600</pubDate>
-    <lastBuildDate>Fri, 29 Dec 2017 11:46:45 -0600</lastBuildDate>
+    <pubDate>Fri, 29 Dec 2017 11:56:06 -0600</pubDate>
+    <lastBuildDate>Fri, 29 Dec 2017 11:56:06 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -36,7 +36,7 @@
 &lt;/code&gt;
 &lt;/pre&gt;
 &lt;h3 id=&quot;sequence-size&quot;&gt;Sequence Size&lt;/h3&gt;
-&lt;p&gt;If you have a sequence larger than your maximum size, start removing the first element before you append a new one. This will have no bearing on prediction because the network will learn how to handle this. I have had luck using sequence lengths half the length of my average sequence.&lt;/p&gt;
+&lt;p&gt;If you have a sequence larger than your maximum size, start removing the first element before you append a new one. This will have no bearing on prediction because the network will learn how to handle this.&lt;/p&gt;
 
 &lt;h2 id=&quot;examples&quot;&gt;Examples&lt;/h2&gt;
 &lt;ul&gt;
