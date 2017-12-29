@@ -32,7 +32,7 @@ var store = [{
     "title": "The RNN Sequence Prediction Seed Problem and How To Solve It",
     "link": "/update/RNN-seed-problem.html",
     "image": null,
-    "date": "December 9, 2017",
+    "date": "December 29, 2017",
     "category": null,
     "excerpt": "The Problem There are many tutorials on how to create Recurrent Neural Networks and use them for sequence generation. However,..."
 },{
