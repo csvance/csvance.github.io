@@ -3,7 +3,7 @@ layout: post
 title:  "The RNN Sequence Prediction Seed Problem and How To Solve It"
 date:   2017-12-29 12:04:00 -0600
 author: Carroll Vance
-categories: update
+categories: update keras rnn lstm sequence generation ml
 ---
 ## The Problem
 There are many [tutorials][mlm] on how to create [Recurrent Neural Networks][rnn] and use them for sequence generation. However, most of these tutorials show an example where an initial seed value must be used to start the generation process. This is highly impractical for generating small and frequent sequences. Luckily, there is a fairly easy way to solve this involving how we format our training data.

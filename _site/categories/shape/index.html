@@ -5,19 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Category: update | Carroll Vance &mdash; C.S. Undergrad Student </title>
-    <meta property="og:title" content="Category: update | Carroll Vance &mdash; C.S. Undergrad Student " />
-    <meta name="twitter:title" content="Category: update | Carroll Vance &mdash; C.S. Undergrad Student " />
+    <title>Category: shape | Carroll Vance &mdash; C.S. Undergrad Student </title>
+    <meta property="og:title" content="Category: shape | Carroll Vance &mdash; C.S. Undergrad Student " />
+    <meta name="twitter:title" content="Category: shape | Carroll Vance &mdash; C.S. Undergrad Student " />
 
-    <meta name="description" content="Category: update">
-    <meta name="description" property="og:description" content="Category: update" />
-    <meta name="twitter:description" content="Category: update" />
+    <meta name="description" content="Category: shape">
+    <meta name="description" property="og:description" content="Category: shape" />
+    <meta name="twitter:description" content="Category: shape" />
 
     <meta name="twitter:card" content="summary_large_image" />
     
     <meta name="twitter:site" content="@sundial_o7" />
     
-    <meta property="og:url" content="https://csvance.github.io/categories/update/" />
+    <meta property="og:url" content="https://csvance.github.io/categories/shape/" />
 
     <meta property="og:image" content="" />
     <meta name="twitter:image" content="" />
@@ -96,7 +96,7 @@
     
     <link rel="stylesheet" href="https://csvance.github.io/assets/css/main.css">
 
-    <link rel="canonical" href="https://csvance.github.io/categories/update/">
+    <link rel="canonical" href="https://csvance.github.io/categories/shape/">
 
     <link rel="alternate" type="application/rss+xml" title="" href="https://csvance.github.io/feed.xml">
 </head>
@@ -192,7 +192,7 @@
 </div>
 
 
-                <h1>Posts From Category: update</h1>
+                <h1>Posts From Category: shape</h1>
 
 
 <article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
@@ -231,109 +231,6 @@ one_hot_labels = np_utils.to_categorical(labels, num_classes=NUM_CLASSES)
 The Embedding layer in Keras is a great tool to simplify the formatting of our training data. However, a common issue many pe...&p[url]=https://csvance.github.io/update/keras/embedding/rnn/shape/keras-embedding-rnn-label-shape.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
                 <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/update/keras/embedding/rnn/shape/keras-embedding-rnn-label-shape.html&text=The Problem
 The Embedding layer in Keras is a great tool to simplify the formatting of our training data. However, a common issue many pe...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
-            </ul>
-        </div>
-        
-        <div class="tags">
-            <ul>
-                
-            </ul>
-        </div>
-        
-    </footer>
-</article>
-
-<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
-    <header class="post-header">
-        <ul class="clear">
-            <li><time datetime="2017-12-29T12:04:00-06:00" itemprop="datePublished">29 Dec, 2017</time></li>
-            
-        </ul>
-        <h2 itemprop="name headline"><a href="https://csvance.github.io/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html">The RNN Sequence Prediction Seed Problem and How To Solve It</a></h2>
-    </header>
-
-    <div class="post-content">
-        <h2 id="the-problem">The Problem</h2>
-<p>There are many <a href="https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/">tutorials</a> on how to create <a href="https://en.wikipedia.org/wiki/Recurrent_neural_network">Recurrent Neural Networks</a> and use them for sequence generation. However, most of these tutorials show an example where an initial seed value must be used to start the generation process. This is highly impractical for generating small and frequent sequences. Luckily, there is a fairly easy way to solve this involving how we format our training data.</p>
-
-<h2 id="solution">Solution</h2>
-<h3 id="empty-item">Empty Item</h3>
-<p>First of all, we need to make sure we have a dummy value which represents an empty sequence item. It is convenient to use zero for this, because most padding functions are going to pad with zeros, and functions like np.zeros make it easy to initialize this. We will represent this value as NULL for simplicity.</p>
-<h3 id="end-of-sequence-item">End of Sequence Item</h3>
-<p>We need a second special value for marking the end of a sequence. Call it EOS for short, and it can be whatever value you want provided it stays consistent.</p>
-<h3 id="sequence-steps">Sequence Steps</h3>
-<p>Instead of feeding entire sequences for training, we are going to step through each sequence, generating subsequences starting with all empty values and adding one more item in each step. The label for each sequence will simply be the next word in the sequence, or <EOS> if we reach the end of the sequence. For example, take the sequence "The quick brown fox jumps over the lazy dog. This will break down into the following sequences:</EOS></p>
-<pre><code class="python">
-"NULL NULL NULL NULL NULL NULL NULL NULL NULL" -&gt; The
-"The NULL NULL NULL NULL NULL NULL NULL NULL" -&gt; quick
-"The quick NULL NULL NULL NULL NULL NULL NULL" -&gt; brown
-"The quick brown NULL NULL NULL NULL NULL NULL" -&gt; fox
-"The quick brown fox NULL NULL NULL NULL NULL" -&gt; jumps
-"The quick brown fox jumps NULL NULL NULL NULL" -&gt; over
-"The quick brown fox jumps over NULL NULL NULL" -&gt; the
-"The quick brown fox jumps over the NULL NULL" -&gt; lazy
-"The quick brown fox jumps over the lazy NULL" -&gt; dog
-"The quick brown fox jumps over the lazy dog" -&gt; EOS
-</code></pre>
-<h3 id="sequence-size">Sequence Size</h3>
-<p>If you have a sequence larger than your maximum size, start removing the first element before you append a new one. This will have no bearing on prediction because the network will learn how to handle this.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>We can now train the network and start by feeding it a sequence filled with NULLs to predict the first value. Here are some examples doing this using <a href="https://keras.io">Keras</a>:</p>
-<ul>
-  <li><a href="https://github.com/csvance/armchair-expert/blob/master/scripts/preprocess_data_twitter.py">Preprocessing</a></li>
-  <li><a href="https://github.com/csvance/armchair-expert/blob/master/scripts/train_preprocessed_data.py">Training</a></li>
-  <li><a href="https://github.com/csvance/armchair-expert/blob/master/structure_model.py">Model</a></li>
-</ul>
-
-
-
-        
-            <p><a href="/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html" role="button">Read More</a></p>
-        
-    </div>
-
-    <footer class="post-footer">
-        <div class="share">Share
-            <ul class="social-networks">
-                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=The RNN Sequence Prediction Seed Problem and How To Solve It&p[summary]=The Problem
-There are many tutorials on how to create Recurrent Neural Networks and use them for sequence generation. However, most of th...&p[url]=https://csvance.github.io/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
-                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html&text=The Problem
-There are many tutorials on how to create Recurrent Neural Networks and use them for sequence generation. However, most of th...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
-            </ul>
-        </div>
-        
-        <div class="tags">
-            <ul>
-                
-            </ul>
-        </div>
-        
-    </footer>
-</article>
-
-<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
-    <header class="post-header">
-        <ul class="clear">
-            <li><time datetime="2017-12-09T13:40:48-06:00" itemprop="datePublished">9 Dec, 2017</time></li>
-            
-        </ul>
-        <h2 itemprop="name headline"><a href="https://csvance.github.io/update/hello-world.html">Hello World!</a></h2>
-    </header>
-
-    <div class="post-content">
-        <p>Hi, and welcome to my portfolio and blog. I will be chronicling my explorations in machine learning, artificial intelligence, and software engineering here.</p>
-
-
-        
-            <p><a href="/update/hello-world.html" role="button">Read More</a></p>
-        
-    </div>
-
-    <footer class="post-footer">
-        <div class="share">Share
-            <ul class="social-networks">
-                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Hello World!&p[summary]=Hi, and welcome to my portfolio and blog. I will be chronicling my explorations in machine learning, artificial intelligence, and softwar...&p[url]=https://csvance.github.io/update/hello-world.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
-                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/update/hello-world.html&text=Hi, and welcome to my portfolio and blog. I will be chronicling my explorations in machine learning, artificial intelligence, and softwar...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
             </ul>
         </div>
         
