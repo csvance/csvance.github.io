@@ -16,6 +16,17 @@ menu: main
 
 ## ML Models
 
+### Sentence Structure and Style Model
+- Multiple Classification Recurrent Neural Network with learns sentence structure and capitalization style
+- Can be used to generate a structure without being seeded with an initial sequence
+- 120 Features and Classifications
+- [Github][structure-model]
+
+### Positional Vector Markov Chain
+- Custom Markov Chain database which stores positional frequencies of word bi-grams
+- Each generated word is effected by n words around it, where n is the window size
+- [Github][markov-chain-ng]
+
 ### AOLReactionModel
 - Determine whether a reaction to a message indicates amusement
 - Binary Classification
@@ -23,27 +34,11 @@ menu: main
 - 8 Features, 1 Hidden Layer
 - [Github][aol-reaction-model]
 
-### CapitalizationModel
-- Learn and match capitalization styles based on PoS and sentence position
-- Multiple Classification
-- Implemented in [Keras][keras]
-- 23 Features, 4 Classifications
-- [Github][capitalization-model]
 
-### Positional Vector Markov Chain
-- Custom Markov Chain database which stores positional frequencies of word bi-grams
-- Each generated word is effected by n words around it, where n is the window size
-- [Github][markov-chain-ng]
-
-### PoS Tree
-- Probability tree used by [armchair-expert][armchair-expert] which learns sentence / text format structures in order to generate output following PoS sequences in training data
-- [Github][pos-tree-model]
-
+[structure-model]: https://github.com/csvance/armchair-expert/blob/master/structure_model.py
 [armchair-expert]: https://github.com/csvance/armchair-expert
 
 [aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/reaction_model.py
-[capitalization-model]: https://github.com/csvance/armchair-expert/blob/master/capitalization_model.py
-[pos-tree-model]: https://github.com/csvance/armchair-expert/blob/master/pos_tree_model.py
 [neighbor-markov-chain]: https://github.com/csvance/armchair-expert/blob/legacy-sql/markov.py
 [markov-chain-ng]: https://github.com/csvance/armchair-expert/blob/master/markov.py
 
