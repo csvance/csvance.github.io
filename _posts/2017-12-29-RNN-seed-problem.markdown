@@ -32,6 +32,9 @@ Instead of feeding entire sequences for training, we are going to step through e
 ### Sequence Size
 If you have a sequence larger than your maximum size, start removing the first element before you append a new one. This will have no bearing on prediction because the network will learn how to handle this.
 
+## Conclusion
+We can now train the network and start by feeding it a sequence filled with NULLs to predict the first value.
+
 ## Examples
 - [Preprocessing][preprocess]
 - [Training][train]
