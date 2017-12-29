@@ -17,9 +17,11 @@ menu: main
 ## ML Models
 
 ### Sentence Structure and Style Model
-- Multiple Classification Recurrent Neural Network with learns sentence structure and capitalization style
+- [Recurrent Neural Network][rnn] with learns sentence structure and capitalization style
+- Multiple Classification
 - Can be used to generate a structure without being seeded with an initial sequence
-- 120 Features and Classifications
+- Implemented in [Keras][keras]
+- 120 Classifications
 - [Github][structure-model]
 
 ### Positional Vector Markov Chain
@@ -50,3 +52,4 @@ menu: main
 [markov-chain]: https://en.wikipedia.org/wiki/Markov_chain
 [liltrumpy]: https://twitter.com/LilTrumpyAI
 [twitter]: https://twitter.com
+[rnn]: https://en.wikipedia.org/wiki/Recurrent_neural_network
