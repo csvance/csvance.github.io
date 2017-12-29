@@ -6,7 +6,7 @@ author: Carroll Vance
 categories: update
 ---
 ## The Problem
-There are many tutorials on how to create [Recurrent Neural Networks][rnn] and use them for sequence generation. However, most of these tutorials show an example where an initial seed value must be used to start the generation process. This is highly impractical for generating small and frequent sequences. Luckily, there is a fairly easy way to solve this involving how we format our training data.
+There are many [tutorials][mlm] on how to create [Recurrent Neural Networks][rnn] and use them for sequence generation. However, most of these tutorials show an example where an initial seed value must be used to start the generation process. This is highly impractical for generating small and frequent sequences. Luckily, there is a fairly easy way to solve this involving how we format our training data.
 
 ## Solution
 ### Empty Item
@@ -35,6 +35,7 @@ We can now train the network and start by feeding it a sequence filled with NULL
 - [Training][train]
 - [Model][model]
 
+[mlm]: https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/
 [keras]: https://keras.io
 [preprocess]: https://github.com/csvance/armchair-expert/blob/master/scripts/preprocess_data_twitter.py
 [train]: https://github.com/csvance/armchair-expert/blob/master/scripts/train_preprocessed_data.py

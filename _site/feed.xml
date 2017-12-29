@@ -5,14 +5,14 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 29 Dec 2017 12:01:18 -0600</pubDate>
-    <lastBuildDate>Fri, 29 Dec 2017 12:01:18 -0600</lastBuildDate>
+    <pubDate>Fri, 29 Dec 2017 12:04:07 -0600</pubDate>
+    <lastBuildDate>Fri, 29 Dec 2017 12:04:07 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
         <title>The RNN Sequence Prediction Seed Problem and How To Solve It</title>
         <description>&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
-&lt;p&gt;There are many tutorials on how to create &lt;a href=&quot;https://en.wikipedia.org/wiki/Recurrent_neural_network&quot;&gt;Recurrent Neural Networks&lt;/a&gt; and use them for sequence generation. However, most of these tutorials show an example where an initial seed value must be used to start the generation process. This is highly impractical for generating small and frequent sequences. Luckily, there is a fairly easy way to solve this involving how we format our training data.&lt;/p&gt;
+&lt;p&gt;There are many &lt;a href=&quot;https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/&quot;&gt;tutorials&lt;/a&gt; on how to create &lt;a href=&quot;https://en.wikipedia.org/wiki/Recurrent_neural_network&quot;&gt;Recurrent Neural Networks&lt;/a&gt; and use them for sequence generation. However, most of these tutorials show an example where an initial seed value must be used to start the generation process. This is highly impractical for generating small and frequent sequences. Luckily, there is a fairly easy way to solve this involving how we format our training data.&lt;/p&gt;
 
 &lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
 &lt;h3 id=&quot;empty-item&quot;&gt;Empty Item&lt;/h3&gt;
