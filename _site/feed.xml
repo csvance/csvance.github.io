@@ -5,9 +5,55 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 29 Dec 2017 11:12:38 -0600</pubDate>
-    <lastBuildDate>Fri, 29 Dec 2017 11:12:38 -0600</lastBuildDate>
+    <pubDate>Fri, 29 Dec 2017 11:46:45 -0600</pubDate>
+    <lastBuildDate>Fri, 29 Dec 2017 11:46:45 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>The RNN Sequence Prediction Seed Problem and How To Solve It</title>
+        <description>&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;There are many tutorials on how to create &lt;a href=&quot;https://en.wikipedia.org/wiki/Recurrent_neural_network&quot;&gt;Recurrent Neural Networks&lt;/a&gt; and use them for sequence generation. However, most of these tutorials show an example where an initial seed value must be used to start the generation process. This is highly impractical for generating small and frequent sequences. Luckily, there is a fairly easy way to solve this involving how we format our training data.&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+&lt;h3 id=&quot;empty-item&quot;&gt;Empty Item&lt;/h3&gt;
+&lt;p&gt;First of all, we need to make sure we have a dummy value which represents an empty sequence item. It is convenient to use zero for this, because most padding functions are going to pad with zeros, and functions like np.zeros make it easy to initialize this. We will represent this value as NULL for simplicity.&lt;/p&gt;
+&lt;h3 id=&quot;end-of-sequence-item&quot;&gt;End of Sequence Item&lt;/h3&gt;
+&lt;p&gt;We need a second special value for marking the end of a sequence. Call it EOS for short, and it can be whatever value you want provided it stays consistent.&lt;/p&gt;
+&lt;h3 id=&quot;sequence-steps&quot;&gt;Sequence Steps&lt;/h3&gt;
+&lt;p&gt;Instead of feeding entire sequences for training, we are going to step through each sequence, generating subsequences starting with all empty values and adding one more item in each step. The label for each sequence will simply be the next word in the sequence, or &lt;EOS&gt; if we reach the end of the sequence. For example, take the sequence &quot;The quick brown fox jumps over the lazy dog. This will break down into the following sequences:&lt;/EOS&gt;&lt;/p&gt;
+&lt;pre&gt;
+&lt;code class=&quot;python&quot;&gt;
+&quot;NULL NULL NULL NULL NULL NULL NULL NULL NULL&quot; -&amp;gt; The
+&quot;The NULL NULL NULL NULL NULL NULL NULL NULL&quot; -&amp;gt; quick
+&quot;The quick NULL NULL NULL NULL NULL NULL NULL&quot; -&amp;gt; brown
+&quot;The quick brown NULL NULL NULL NULL NULL NULL&quot; -&amp;gt; fox
+&quot;The quick brown fox NULL NULL NULL NULL NULL&quot; -&amp;gt; jumps
+&quot;The quick brown fox jumps NULL NULL NULL NULL&quot; -&amp;gt; over
+&quot;The quick brown fox jumps over NULL NULL NULL&quot; -&amp;gt; the
+&quot;The quick brown fox jumps over the NULL NULL&quot; -&amp;gt; lazy
+&quot;The quick brown fox jumps over the lazy NULL&quot; -&amp;gt; dog
+&quot;The quick brown fox jumps over the lazy dog&quot; -&amp;gt; EOS
+&lt;/code&gt;
+&lt;/pre&gt;
+&lt;h3 id=&quot;sequence-size&quot;&gt;Sequence Size&lt;/h3&gt;
+&lt;p&gt;If you have a sequence larger than your maximum size, start removing the first element before you append a new one. This will have no bearing on prediction because the network will learn how to handle this. I have had luck using sequence lengths half the length of my average sequence.&lt;/p&gt;
+
+&lt;h2 id=&quot;examples&quot;&gt;Examples&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/scripts/preprocess_data_twitter.py&quot;&gt;Preprocessing&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/scripts/train_preprocessed_data.py&quot;&gt;Training&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/structure_model.py&quot;&gt;Model&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sat, 09 Dec 2017 13:40:48 -0600</pubDate>
+        <link>https://csvance.github.io/update/RNN-seed-problem.html</link>
+        <guid isPermaLink="true">https://csvance.github.io/update/RNN-seed-problem.html</guid>
+        
+        
+        <category>update</category>
+        
+      </item>
     
       <item>
         <title>Hello World!</title>
