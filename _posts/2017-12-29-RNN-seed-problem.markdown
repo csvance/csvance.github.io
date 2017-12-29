@@ -15,8 +15,7 @@ First of all, we need to make sure we have a dummy value which represents an emp
 We need a second special value for marking the end of a sequence. Call it EOS for short, and it can be whatever value you want provided it stays consistent.
 ### Sequence Steps
 Instead of feeding entire sequences for training, we are going to step through each sequence, generating subsequences starting with all empty values and adding one more item in each step. The label for each sequence will simply be the next word in the sequence, or <EOS> if we reach the end of the sequence. For example, take the sequence "The quick brown fox jumps over the lazy dog. This will break down into the following sequences:
-<pre>
-<code class="python">
+<pre><code class="python">
 "NULL NULL NULL NULL NULL NULL NULL NULL NULL" -> The
 "The NULL NULL NULL NULL NULL NULL NULL NULL" -> quick
 "The quick NULL NULL NULL NULL NULL NULL NULL" -> brown
@@ -27,19 +26,16 @@ Instead of feeding entire sequences for training, we are going to step through e
 "The quick brown fox jumps over the NULL NULL" -> lazy
 "The quick brown fox jumps over the lazy NULL" -> dog
 "The quick brown fox jumps over the lazy dog" -> EOS
-</code>
-</pre>
+</code></pre>
 ### Sequence Size
 If you have a sequence larger than your maximum size, start removing the first element before you append a new one. This will have no bearing on prediction because the network will learn how to handle this.
-
 ## Conclusion
-We can now train the network and start by feeding it a sequence filled with NULLs to predict the first value.
-
-## Examples
+We can now train the network and start by feeding it a sequence filled with NULLs to predict the first value. Here are some examples doing this using [Keras][keras]:
 - [Preprocessing][preprocess]
 - [Training][train]
 - [Model][model]
 
+[keras]: https://keras.io
 [preprocess]: https://github.com/csvance/armchair-expert/blob/master/scripts/preprocess_data_twitter.py
 [train]: https://github.com/csvance/armchair-expert/blob/master/scripts/train_preprocessed_data.py
 [model]: https://github.com/csvance/armchair-expert/blob/master/structure_model.py
