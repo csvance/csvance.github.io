@@ -5,8 +5,8 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 29 Dec 2017 12:28:08 -0600</pubDate>
-    <lastBuildDate>Fri, 29 Dec 2017 12:28:08 -0600</lastBuildDate>
+    <pubDate>Fri, 29 Dec 2017 16:21:59 -0600</pubDate>
+    <lastBuildDate>Fri, 29 Dec 2017 16:21:59 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -15,7 +15,7 @@
 &lt;p&gt;The &lt;a href=&quot;https://keras.io/layers/embeddings/&quot;&gt;Embedding&lt;/a&gt; layer in &lt;a href=&quot;https://keras.io&quot;&gt;Keras&lt;/a&gt; is a great tool to simplify the formatting of our training data. However, a common issue many people run into is an error message stating that the &lt;a href=&quot;https://keras.io/layers/core/#dense&quot;&gt;Dense&lt;/a&gt; layer expected a different sized input, where the last dimension is your model’s number of features or classifications. You might think that because we used an embedding layer, we do not have to convert our labels into a “one hot” format, as the embedding layer takes care of this for us. However, this is not the case.&lt;/p&gt;
 
 &lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
-&lt;p&gt;Luckily for us, the solution is relatively simple. We just need to convert each item in all sequences to a “one hot” format. &lt;a href=&quot;https://keras.io&quot;&gt;Keras&lt;/a&gt; makes this easy for us.&lt;/p&gt;
+&lt;p&gt;Luckily for us, the solution is relatively simple. We just need to convert each item in all sequences to a “one hot” format. Keras makes this easy for us.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;python&quot;&gt;
 from keras.utils import np_utils
 labels = [0, 1, 2, 3, 4]
@@ -25,8 +25,8 @@ one_hot_labels = np_utils.to_categorical(labels, num_classes=NUM_CLASSES)
 
 </description>
         <pubDate>Fri, 29 Dec 2017 12:22:00 -0600</pubDate>
-        <link>https://csvance.github.io/update/keras/embedding/rnn/shape/keras-embedding-rnn-label-shape.html</link>
-        <guid isPermaLink="true">https://csvance.github.io/update/keras/embedding/rnn/shape/keras-embedding-rnn-label-shape.html</guid>
+        <link>https://csvance.github.io/update/keras/embedding/rnn/shape/ml/keras-embedding-rnn-label-shape.html</link>
+        <guid isPermaLink="true">https://csvance.github.io/update/keras/embedding/rnn/shape/ml/keras-embedding-rnn-label-shape.html</guid>
         
         
         <category>update</category>
@@ -38,6 +38,8 @@ one_hot_labels = np_utils.to_categorical(labels, num_classes=NUM_CLASSES)
         <category>rnn</category>
         
         <category>shape</category>
+        
+        <category>ml</category>
         
       </item>
     
@@ -72,7 +74,7 @@ one_hot_labels = np_utils.to_categorical(labels, num_classes=NUM_CLASSES)
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/scripts/preprocess_data_twitter.py&quot;&gt;Preprocessing&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/scripts/train_preprocessed_data.py&quot;&gt;Training&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/structure_model.py&quot;&gt;Model&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/models/structure.py&quot;&gt;Model&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 </description>

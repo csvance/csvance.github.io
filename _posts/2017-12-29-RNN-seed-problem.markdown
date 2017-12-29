@@ -39,5 +39,5 @@ We can now train the network and start by feeding it a sequence filled with NULL
 [keras]: https://keras.io
 [preprocess]: https://github.com/csvance/armchair-expert/blob/master/scripts/preprocess_data_twitter.py
 [train]: https://github.com/csvance/armchair-expert/blob/master/scripts/train_preprocessed_data.py
-[model]: https://github.com/csvance/armchair-expert/blob/master/structure_model.py
+[model]: https://github.com/csvance/armchair-expert/blob/master/models/structure.py
 [rnn]: https://en.wikipedia.org/wiki/Recurrent_neural_network

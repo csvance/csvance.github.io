@@ -37,10 +37,10 @@ menu: main
 - [Github][aol-reaction-model]
 
 
-[structure-model]: https://github.com/csvance/armchair-expert/blob/master/structure_model.py
+[structure-model]: https://github.com/csvance/armchair-expert/blob/master/models/structure.py
 [armchair-expert]: https://github.com/csvance/armchair-expert
 
-[aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/reaction_model.py
+[aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/models/reaction.py
 [neighbor-markov-chain]: https://github.com/csvance/armchair-expert/blob/legacy-sql/markov.py
 [markov-chain-ng]: https://github.com/csvance/armchair-expert/blob/master/markov.py
 

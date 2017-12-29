@@ -39,7 +39,7 @@ var index = lunr(function () {
 
 var store = [{
     "title": "Keras Embedding Layer Shape Problems",
-    "link": "/update/keras/embedding/rnn/shape/keras-embedding-rnn-label-shape.html",
+    "link": "/update/keras/embedding/rnn/shape/ml/keras-embedding-rnn-label-shape.html",
     "image": null,
     "date": "December 29, 2017",
     "category": null,

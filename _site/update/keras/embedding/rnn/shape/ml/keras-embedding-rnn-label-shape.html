@@ -17,7 +17,7 @@
     
     <meta name="twitter:site" content="@sundial_o7" />
     
-    <meta property="og:url" content="https://csvance.github.io/update/keras/embedding/rnn/shape/keras-embedding-rnn-label-shape.html" />
+    <meta property="og:url" content="https://csvance.github.io/update/keras/embedding/rnn/shape/ml/keras-embedding-rnn-label-shape.html" />
 
     <meta property="og:image" content="" />
     <meta name="twitter:image" content="" />
@@ -96,7 +96,7 @@
     
     <link rel="stylesheet" href="https://csvance.github.io/assets/css/main.css">
 
-    <link rel="canonical" href="https://csvance.github.io/update/keras/embedding/rnn/shape/keras-embedding-rnn-label-shape.html">
+    <link rel="canonical" href="https://csvance.github.io/update/keras/embedding/rnn/shape/ml/keras-embedding-rnn-label-shape.html">
 
     <link rel="alternate" type="application/rss+xml" title="" href="https://csvance.github.io/feed.xml">
 </head>
@@ -206,7 +206,7 @@
 <p>The <a href="https://keras.io/layers/embeddings/">Embedding</a> layer in <a href="https://keras.io">Keras</a> is a great tool to simplify the formatting of our training data. However, a common issue many people run into is an error message stating that the <a href="https://keras.io/layers/core/#dense">Dense</a> layer expected a different sized input, where the last dimension is your model’s number of features or classifications. You might think that because we used an embedding layer, we do not have to convert our labels into a “one hot” format, as the embedding layer takes care of this for us. However, this is not the case.</p>
 
 <h2 id="solution">Solution</h2>
-<p>Luckily for us, the solution is relatively simple. We just need to convert each item in all sequences to a “one hot” format. <a href="https://keras.io">Keras</a> makes this easy for us.</p>
+<p>Luckily for us, the solution is relatively simple. We just need to convert each item in all sequences to a “one hot” format. Keras makes this easy for us.</p>
 <pre><code class="python">
 from keras.utils import np_utils
 labels = [0, 1, 2, 3, 4]
@@ -221,8 +221,8 @@ one_hot_labels = np_utils.to_categorical(labels, num_classes=NUM_CLASSES)
         <div class="share">Share
             <ul class="social-networks">
                 <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Keras Embedding Layer Shape Problems&p[summary]=The Problem
-The Embedding layer in Keras is a great tool to simplify the formatting of our training data. However, a common issue many pe...&p[url]=https://csvance.github.io/update/keras/embedding/rnn/shape/keras-embedding-rnn-label-shape.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
-                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/update/keras/embedding/rnn/shape/keras-embedding-rnn-label-shape.html&text=The Problem
+The Embedding layer in Keras is a great tool to simplify the formatting of our training data. However, a common issue many pe...&p[url]=https://csvance.github.io/update/keras/embedding/rnn/shape/ml/keras-embedding-rnn-label-shape.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/update/keras/embedding/rnn/shape/ml/keras-embedding-rnn-label-shape.html&text=The Problem
 The Embedding layer in Keras is a great tool to simplify the formatting of our training data. However, a common issue many pe...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
             </ul>
         </div>
@@ -241,7 +241,7 @@ The Embedding layer in Keras is a great tool to simplify the formatting of our t
     <div id="disqus_thread"></div>
     <script>
         var disqus_config = function () {
-            this.page.url = 'https://csvance.github.io/update/keras/embedding/rnn/shape/keras-embedding-rnn-label-shape.html';
+            this.page.url = 'https://csvance.github.io/update/keras/embedding/rnn/shape/ml/keras-embedding-rnn-label-shape.html';
             this.page.identifier = '12/29/2017';
         };
         (function() {
