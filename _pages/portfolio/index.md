@@ -6,7 +6,7 @@ menu: main
 ---
 ## armchair-expert
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
-- Uses [NLP][nlp] to select several subjects for which to generate a response
+- Uses [NLP][nlp] to select the most optimal subjects for which to generate a response
 - Learns new words in realtime like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
 
 - [Github][armchair-expert]
