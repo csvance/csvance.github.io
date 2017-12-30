@@ -14,6 +14,13 @@ Luckily for us, the solution is relatively simple. We just need to convert each 
 from keras.utils import np_utils
 labels = [0, 1, 2, 3, 4]
 one_hot_labels = np_utils.to_categorical(labels, num_classes=NUM_CLASSES)
+print(one_hot_labels)
+
+[[ 1.  0.  0.  0.  0.]
+ [ 0.  1.  0.  0.  0.]
+ [ 0.  0.  1.  0.  0.]
+ [ 0.  0.  0.  1.  0.]
+ [ 0.  0.  0.  0.  1.]]
 </code></pre>
 We now have a "one hot" numpy ndarray which we can use for training purposes!
 
