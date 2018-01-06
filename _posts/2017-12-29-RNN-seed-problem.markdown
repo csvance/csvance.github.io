@@ -30,14 +30,10 @@ Instead of feeding entire sequences for training, we are going to step through e
 ### Sequence Size
 If you have a sequence larger than your maximum size, start removing the first element before you append a new one. This will have no bearing on prediction because the network will learn how to handle this.
 ## Conclusion
-We can now train the network and start by feeding it a sequence filled with NULLs to predict the first value. Here are some examples doing this using [Keras][keras]:
-- [Preprocessing][preprocess]
-- [Preprocessing & Training][pat]
+We can now train the network and start by feeding it a sequence filled with NULLs to predict the first value. Here is an example doing this using [Keras][keras]:
+- [Preprocessing & Model][model]
 
-[pat]: https://github.com/csvance/armchair-expert/blob/master/armchair_expert.py
 [mlm]: https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/
 [keras]: https://keras.io
-[preprocess]: https://github.com/csvance/armchair-expert/blob/master/scripts/preprocess_data_twitter.py
-[train]: https://github.com/csvance/armchair-expert/blob/master/scripts/train_preprocessed_data.py
 [model]: https://github.com/csvance/armchair-expert/blob/master/models/structure.py
 [rnn]: https://en.wikipedia.org/wiki/Recurrent_neural_network

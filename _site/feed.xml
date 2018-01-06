@@ -5,8 +5,8 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 06 Jan 2018 12:28:55 -0600</pubDate>
-    <lastBuildDate>Sat, 06 Jan 2018 12:28:55 -0600</lastBuildDate>
+    <pubDate>Sat, 06 Jan 2018 12:30:40 -0600</pubDate>
+    <lastBuildDate>Sat, 06 Jan 2018 12:30:40 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -36,10 +36,9 @@
 &lt;h3 id=&quot;sequence-size&quot;&gt;Sequence Size&lt;/h3&gt;
 &lt;p&gt;If you have a sequence larger than your maximum size, start removing the first element before you append a new one. This will have no bearing on prediction because the network will learn how to handle this.&lt;/p&gt;
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;We can now train the network and start by feeding it a sequence filled with NULLs to predict the first value. Here are some examples doing this using &lt;a href=&quot;https://keras.io&quot;&gt;Keras&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;We can now train the network and start by feeding it a sequence filled with NULLs to predict the first value. Here is an example doing this using &lt;a href=&quot;https://keras.io&quot;&gt;Keras&lt;/a&gt;:&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/scripts/preprocess_data_twitter.py&quot;&gt;Preprocessing&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/armchair_expert.py&quot;&gt;Preprocessing &amp;amp; Training&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/models/structure.py&quot;&gt;Preprocessing &amp;amp; Model&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 </description>
