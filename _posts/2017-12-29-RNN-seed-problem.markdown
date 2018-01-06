@@ -32,9 +32,9 @@ If you have a sequence larger than your maximum size, start removing the first e
 ## Conclusion
 We can now train the network and start by feeding it a sequence filled with NULLs to predict the first value. Here are some examples doing this using [Keras][keras]:
 - [Preprocessing][preprocess]
-- [Training][train]
-- [Model][model]
+- [Preprocessing & Training][pat]
 
+[pat]: https://github.com/csvance/armchair-expert/blob/master/armchair_expert.py
 [mlm]: https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/
 [keras]: https://keras.io
 [preprocess]: https://github.com/csvance/armchair-expert/blob/master/scripts/preprocess_data_twitter.py
