@@ -5,8 +5,8 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 09 Jan 2018 15:01:09 -0600</pubDate>
-    <lastBuildDate>Tue, 09 Jan 2018 15:01:09 -0600</lastBuildDate>
+    <pubDate>Tue, 09 Jan 2018 15:03:41 -0600</pubDate>
+    <lastBuildDate>Tue, 09 Jan 2018 15:03:41 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -97,7 +97,7 @@ future_reward = reward + gamma * amax(predict(next_state))
 &lt;p&gt;One other factor in network stability is our experience replay buffer size. Too small and our network will forget past things it learned, and too big and it will take excessive time to learn. Generally its better to start smaller while testing if the network is able to learn simple gameplay, and increasing it as training time increases and expert strategies are learned.&lt;/p&gt;
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Deep Q Learning without feature engineering proves to be both extremely interesting and challenging. While I am not completely happy with my own results in training a DQN for Connect Four so far, I think it is at least worth posting some of the things I have learned from the experience. My current agent can be found at the link below.&lt;/p&gt;
+&lt;p&gt;Deep Q Learning without feature engineering proves to be both extremely interesting and challenging. While I am not completely happy with my own results in training a DQN for Connect Four, I think it is at least worth posting some of the things I have learned from the experience. My current agent can be found at the link below.&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/deep-learning-connect-four&quot;&gt;Github: Averaged-DQN AI for Connect Four&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
