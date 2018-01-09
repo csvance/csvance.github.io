@@ -225,19 +225,18 @@
 <p><img src="/assets/img/perspective_b.png" alt="perspective" /></p>
 
 <p>However, this is not the only tweak needed to get DQN working with a dueling turn based game. Let us recall how the discounted future reward is calculated:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code># gamma: discount factor, for example 0.9
-# reward: the reward the agent recieved for taking an action
-# next_state: the state generated from applying an action to the original state
-# amax selects: highest value from the result
-
-future_reward = reward + gamma * amax(predict(next_state))
-</code></pre>
-</div>
+<ul>
+  <li><code class="highlighter-rouge">future_reward = reward + gamma * amax(predict(next_state))</code></li>
+  <li>gamma: discount factor, for example 0.9</li>
+  <li>reward: the reward the agent recieved for taking an action</li>
+  <li>next_state: the state generated from applying an action to the original state</li>
+  <li>amax selects: highest value from the result</li>
+</ul>
 
 <p>Remember, next_state will be the enemy agent’s state. So if we simply implement this formula, we are predicting the discounted future reward that the enemy agent might receive, not our own. Fortunately, with a modified version of Anschel et al. (2016) <a href="https://arxiv.org/abs/1611.01929">Averaged-DQN</a> we have a framework to address this. They proposed a DQN which looks K steps into the future, and averaged the rewards. When K=1, the Averaged DQN behaves like a standard DQN. To solve our problem, we will obviously use a K value higher than one. Instead of adding all future rewards together and averaging them, we will put them into two different buckets: future_rewards_self and future_rewards_enemy. We will then average each of these buckets separately and subtract future_rewards_enemy from future_rewards_self. Our discounted future reward now looks more like this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>future_reward = reward + gamma * (avg(future_rewards_self) - avg(future_rewards_enemy))
+<div class="highlighter-rouge"><pre class="highlight"><code>future_reward = reward + gamma * (avg(future_rewards_self)
+                              - avg(future_rewards_enemy))
 </code></pre>
 </div>
 

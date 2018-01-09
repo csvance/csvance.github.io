@@ -21,20 +21,17 @@ However, this next state wouldn't be used by the agent who went second to take a
 ![perspective]({{ "/assets/img/perspective_b.png" | absolute_url }})
 
 However, this is not the only tweak needed to get DQN working with a dueling turn based game. Let us recall how the discounted future reward is calculated:
-
-```
-# gamma: discount factor, for example 0.9
-# reward: the reward the agent recieved for taking an action
-# next_state: the state generated from applying an action to the original state
-# amax selects: highest value from the result
-
-future_reward = reward + gamma * amax(predict(next_state))
-```
+* `future_reward = reward + gamma * amax(predict(next_state))`
+* gamma: discount factor, for example 0.9
+* reward: the reward the agent recieved for taking an action
+* next_state: the state generated from applying an action to the original state
+* amax selects: highest value from the result
 
 Remember, next_state will be the enemy agent's state. So if we simply implement this formula, we are predicting the discounted future reward that the enemy agent might receive, not our own. Fortunately, with a modified version of Anschel et al. (2016) [Averaged-DQN][averaged-dqn] we have a framework to address this. They proposed a DQN which looks K steps into the future, and averaged the rewards. When K=1, the Averaged DQN behaves like a standard DQN. To solve our problem, we will obviously use a K value higher than one. Instead of adding all future rewards together and averaging them, we will put them into two different buckets: future_rewards_self and future_rewards_enemy. We will then average each of these buckets separately and subtract future_rewards_enemy from future_rewards_self. Our discounted future reward now looks more like this:
 
 ```
-future_reward = reward + gamma * (avg(future_rewards_self) - avg(future_rewards_enemy))
+future_reward = reward + gamma * (avg(future_rewards_self)
+                              - avg(future_rewards_enemy))
 ```
 
 Keep in mind that for each step in [0, K], we will need to invert the perspective of next_state, make the reward prediction, then apply the maximum rewarded action to the state. If we do not do this, we will be training the DQN to play the other agents turn from a different perspective half of the time! Here is what the part of the training function which calculates discounted future reward might look like:
