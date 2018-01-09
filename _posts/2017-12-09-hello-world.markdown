@@ -6,4 +6,4 @@ author: Carroll Vance
 categories: update
 ---
 
-Hi, and welcome to my portfolio and blog. I will be chronicling my explorations in machine learning, artificial intelligence, and software engineering here.
+Hi, and welcome to my portfolio.
