@@ -5,13 +5,13 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 09 Jan 2018 15:59:25 -0600</pubDate>
-    <lastBuildDate>Tue, 09 Jan 2018 15:59:25 -0600</lastBuildDate>
+    <pubDate>Tue, 09 Jan 2018 16:02:25 -0600</pubDate>
+    <lastBuildDate>Tue, 09 Jan 2018 16:02:25 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
         <title>Hello World!</title>
-        <description>&lt;p&gt;Hi, and welcome to my portfolio.&lt;/p&gt;
+        <description>&lt;p&gt;Hi, and welcome to my portfolio!&lt;/p&gt;
 </description>
         <pubDate>Sat, 09 Dec 2017 13:40:48 -0600</pubDate>
         <link>https://csvance.github.io/update/hello-world.html</link>

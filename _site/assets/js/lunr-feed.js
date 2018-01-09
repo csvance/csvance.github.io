@@ -12,7 +12,7 @@ var index = lunr(function () {
     index.add({
       title: "Hello World!",
       category: null,
-      content: "Hi, and welcome to my portfolio.\n",
+      content: "Hi, and welcome to my portfolio!\n",
       tags: [],
       id: 0
     });
@@ -25,7 +25,7 @@ var store = [{
     "image": null,
     "date": "December 9, 2017",
     "category": null,
-    "excerpt": "Hi, and welcome to my portfolio.\n"
+    "excerpt": "Hi, and welcome to my portfolio!\n"
 }]
 
 $(document).ready(function() {

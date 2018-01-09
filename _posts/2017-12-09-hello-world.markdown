@@ -6,4 +6,4 @@ author: Carroll Vance
 categories: update
 ---
 
-Hi, and welcome to my portfolio.
+Hi, and welcome to my portfolio!
