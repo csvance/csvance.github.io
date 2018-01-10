@@ -1,9 +1,10 @@
 ---
-layout: page
-title: Portfolio
-permalink: /portfolio/
-menu: main
+layout: post
+title:  "Portfolio"
+date:   2018-01-09 13:40:48 -0600
+author: Carroll Vance
 ---
+
 ## armchair-expert
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
 - Uses [NLP][nlp] to select the most optimal subjects for which to generate a response
