@@ -5,8 +5,8 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 09 Jan 2018 19:54:47 -0600</pubDate>
-    <lastBuildDate>Tue, 09 Jan 2018 19:54:47 -0600</lastBuildDate>
+    <pubDate>Tue, 09 Jan 2018 20:08:49 -0600</pubDate>
+    <lastBuildDate>Tue, 09 Jan 2018 20:08:49 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -93,7 +93,7 @@
 
 &lt;p&gt;&lt;img src=&quot;/assets/img/dqn_stats.png&quot; alt=&quot;perspective&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;One other factor in network stability is our experience replay buffer size. Too small and our network will forget past things it learned, and too big and it will take excessive time to learn. Generally its better to start smaller while testing if the network is able to learn simple gameplay, and increasing it as training time increases and expert strategies are learned.&lt;/p&gt;
+&lt;p&gt;One other factor in network stability is our experience replay buffer size. Too small and our network will forget past things it learned, and too big and it will take excessive time to learn. I find it is generally its better to start smaller while testing if the network is able to learn simple gameplay, and increasing it as training time increases and expert strategies need to be learned. People smarter than I such as Schaul et al. (2017) have proposed methods to optimize the size of the experience replay buffer: &lt;a href=&quot;https://arxiv.org/abs/1511.05952&quot;&gt;Prioritized Experience Replay&lt;/a&gt; which may be worth investigating if you are unsure how to tune this.&lt;/p&gt;
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;Deep Q Learning without feature engineering proves to be both extremely interesting and challenging. While I am not completely happy with my own results in training a DQN for Connect Four, I think it is at least worth posting some of the things I have learned from the experience. My current agent can be found at the link below.&lt;/p&gt;

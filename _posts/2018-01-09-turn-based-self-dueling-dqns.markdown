@@ -84,7 +84,7 @@ While using an Averaged-DQN makes the network much more likely to converge, we s
 
 ![perspective]({{ "/assets/img/dqn_stats.png" | absolute_url }})
 
-One other factor in network stability is our experience replay buffer size. Too small and our network will forget past things it learned, and too big and it will take excessive time to learn. Generally its better to start smaller while testing if the network is able to learn simple gameplay, and increasing it as training time increases and expert strategies are learned.
+One other factor in network stability is our experience replay buffer size. Too small and our network will forget past things it learned, and too big and it will take excessive time to learn. I find it is generally its better to start smaller while testing if the network is able to learn simple gameplay, and increasing it as training time increases and expert strategies need to be learned. People smarter than I such as Schaul et al. (2017) have proposed methods to optimize the size of the experience replay buffer: [Prioritized Experience Replay][per] which may be worth investigating if you are unsure how to tune this.
 
 ## Conclusion
 Deep Q Learning without feature engineering proves to be both extremely interesting and challenging. While I am not completely happy with my own results in training a DQN for Connect Four, I think it is at least worth posting some of the things I have learned from the experience. My current agent can be found at the link below.
@@ -97,3 +97,4 @@ Deep Q Learning without feature engineering proves to be both extremely interest
 [alphago]: https://deepmind.com/research/alphago/
 [dqn]: https://deepmind.com/research/dqn/
 [openai-gym]: https://github.com/openai/gym
+[per]: https://arxiv.org/abs/1511.05952
