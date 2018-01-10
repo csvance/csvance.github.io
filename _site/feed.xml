@@ -5,44 +5,20 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 09 Jan 2018 18:20:33 -0600</pubDate>
-    <lastBuildDate>Tue, 09 Jan 2018 18:20:33 -0600</lastBuildDate>
+    <pubDate>Tue, 09 Jan 2018 19:26:23 -0600</pubDate>
+    <lastBuildDate>Tue, 09 Jan 2018 19:26:23 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
-        <title>Portfolio</title>
-        <description>&lt;h2 id=&quot;armchair-expert&quot;&gt;armchair-expert&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries&lt;/li&gt;
-  &lt;li&gt;Uses &lt;a href=&quot;https://en.wikipedia.org/wiki/Natural_language_processing&quot;&gt;NLP&lt;/a&gt; to select the most optimal subjects for which to generate a response&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Learns new words in realtime like a typical &lt;a href=&quot;https://en.wikipedia.org/wiki/Markov_chain&quot;&gt;Markov chain&lt;/a&gt;, but uses an &lt;a href=&quot;https://en.wikipedia.org/wiki/Recurrent_neural_network&quot;&gt;RNN&lt;/a&gt; to structure and capitalize the output&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert&quot;&gt;Github&lt;/a&gt;
-    &lt;h2 id=&quot;liltrumpyai&quot;&gt;LilTrumpyAI&lt;/h2&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert&quot;&gt;armchair-expert&lt;/a&gt; trained with all of Donald Trump’s tweets&lt;/li&gt;
-  &lt;li&gt;Tweet or DM &lt;a href=&quot;https://twitter.com/LilTrumpyAI&quot;&gt;@LilTrumpyAI&lt;/a&gt; on &lt;a href=&quot;https://twitter.com/LilTrumpyAI&quot;&gt;Twitter&lt;/a&gt;
-    &lt;h2 id=&quot;ml-models&quot;&gt;ML Models&lt;/h2&gt;
-    &lt;h3 id=&quot;sentence-structure-and-style-model&quot;&gt;Sentence Structure and Style Model&lt;/h3&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Recurrent_neural_network&quot;&gt;Recurrent Neural Network&lt;/a&gt; with learns sentence structure and capitalization style&lt;/li&gt;
-  &lt;li&gt;Multiple Classification&lt;/li&gt;
-  &lt;li&gt;Can be used to generate a structure without being seeded with an initial sequence&lt;/li&gt;
-  &lt;li&gt;Implemented in &lt;a href=&quot;https://keras.io&quot;&gt;Keras&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/models/structure.py&quot;&gt;Github&lt;/a&gt;
-    &lt;h3 id=&quot;positional-vector-markov-chain&quot;&gt;Positional Vector Markov Chain&lt;/h3&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Custom Markov Chain database which stores positional frequencies of word bi-grams&lt;/li&gt;
-  &lt;li&gt;Each generated word is effected by n words around it, where n is the window size&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/markov_engine.py&quot;&gt;Github&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
+        <title>Hello World!</title>
+        <description>&lt;p&gt;Hi, and welcome to my portfolio!&lt;/p&gt;
 </description>
-        <pubDate>Tue, 09 Jan 2018 13:40:48 -0600</pubDate>
-        <link>https://csvance.github.io/portfolio.html</link>
-        <guid isPermaLink="true">https://csvance.github.io/portfolio.html</guid>
+        <pubDate>Sat, 09 Dec 2017 13:40:48 -0600</pubDate>
+        <link>https://csvance.github.io/update/hello-world.html</link>
+        <guid isPermaLink="true">https://csvance.github.io/update/hello-world.html</guid>
         
+        
+        <category>update</category>
         
       </item>
     

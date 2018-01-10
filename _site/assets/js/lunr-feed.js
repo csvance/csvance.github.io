@@ -10,9 +10,9 @@ var index = lunr(function () {
 
 
     index.add({
-      title: "Portfolio",
+      title: "Hello World!",
       category: null,
-      content: "armchair-expert\n\n  Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries\n  Uses NLP to select the most optimal subjects for which to generate a response\n  \n    Learns new words in realtime like a typical Markov chain, but uses an RNN to structure and capitalize the output\n  \n  Github\n    LilTrumpyAI\n  \n  armchair-expert trained with all of Donald Trump’s tweets\n  Tweet or DM @LilTrumpyAI on Twitter\n    ML Models\n    Sentence Structure and Style Model\n  \n  Recurrent Neural Network with learns sentence structure and capitalization style\n  Multiple Classification\n  Can be used to generate a structure without being seeded with an initial sequence\n  Implemented in Keras\n  Github\n    Positional Vector Markov Chain\n  \n  Custom Markov Chain database which stores positional frequencies of word bi-grams\n  Each generated word is effected by n words around it, where n is the window size\n  Github\n\n\n",
+      content: "Hi, and welcome to my portfolio!\n",
       tags: [],
       id: 0
     });
@@ -20,12 +20,12 @@ var index = lunr(function () {
 
 
 var store = [{
-    "title": "Portfolio",
-    "link": "/portfolio.html",
+    "title": "Hello World!",
+    "link": "/update/hello-world.html",
     "image": null,
-    "date": "January 9, 2018",
+    "date": "December 9, 2017",
     "category": null,
-    "excerpt": "armchair-expert Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries Uses..."
+    "excerpt": "Hi, and welcome to my portfolio!\n"
 }]
 
 $(document).ready(function() {
