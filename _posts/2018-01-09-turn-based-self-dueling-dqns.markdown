@@ -32,7 +32,7 @@ Remember, next_state will be the enemy agent's state. So if we simply implement 
 
 ```
 future_reward = reward + gamma * (avg(future_rewards_self)
-                      - gamma_e * avg(future_rewards_enemy))
+                    - gamma_e * avg(future_rewards_enemy))
 ```
 
 Keep in mind that for each step in [0, K], we will need to invert the perspective of next_state, make the reward prediction, then apply the maximum rewarded action to the state. If we do not do this, we will be training the DQN to play the other agents turn from a different perspective half of the time! Here is what the part of the training function which calculates discounted future reward might look like:

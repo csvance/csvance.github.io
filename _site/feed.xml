@@ -5,8 +5,8 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 10 Jan 2018 00:48:33 -0600</pubDate>
-    <lastBuildDate>Wed, 10 Jan 2018 00:48:33 -0600</lastBuildDate>
+    <pubDate>Wed, 10 Jan 2018 00:49:25 -0600</pubDate>
+    <lastBuildDate>Wed, 10 Jan 2018 00:49:25 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -40,7 +40,7 @@
 &lt;p&gt;Remember, next_state will be the enemy agent’s state. So if we simply implement this formula, we are predicting the discounted future reward that the enemy agent might receive, not our own. Fortunately, with a modified version of Anschel et al. (2016) &lt;a href=&quot;https://arxiv.org/abs/1611.01929&quot;&gt;Averaged-DQN&lt;/a&gt; we have a framework to address this. They proposed a DQN which looks K steps into the future, and averaged the rewards. When K=1, the Averaged DQN behaves like a standard DQN. To solve our problem, we will obviously use a K value higher than one. Instead of adding all future rewards together and averaging them, we will put them into two different buckets: future_rewards_self and future_rewards_enemy. We will then average each of these buckets separately and subtract future_rewards_enemy from future_rewards_self. However, we need to apply a discount factor to future_rewards_enemy as well, or the over time the system will eventually stabilize as if our discount factor was 0, making it permanently short sighted. Our discounted future reward now looks more like this:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;future_reward = reward + gamma * (avg(future_rewards_self)
-                      - gamma_e * avg(future_rewards_enemy))
+                    - gamma_e * avg(future_rewards_enemy))
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
