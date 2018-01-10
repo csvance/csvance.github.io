@@ -5,8 +5,8 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 09 Jan 2018 18:19:16 -0600</pubDate>
-    <lastBuildDate>Tue, 09 Jan 2018 18:19:16 -0600</lastBuildDate>
+    <pubDate>Tue, 09 Jan 2018 18:20:33 -0600</pubDate>
+    <lastBuildDate>Tue, 09 Jan 2018 18:20:33 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -35,7 +35,7 @@
   &lt;/li&gt;
   &lt;li&gt;Custom Markov Chain database which stores positional frequencies of word bi-grams&lt;/li&gt;
   &lt;li&gt;Each generated word is effected by n words around it, where n is the window size&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/markov.py&quot;&gt;Github&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/csvance/armchair-expert/blob/master/markov_engine.py&quot;&gt;Github&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 </description>

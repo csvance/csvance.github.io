@@ -26,12 +26,12 @@ author: Carroll Vance
 - Each generated word is effected by n words around it, where n is the window size
 - [Github][markov-chain-ng]
 
-[structure-model]: https://github.com/csvance/armchair-expert/blob/master/models/structure.py
+[liltrumpy]: https://twitter.com/LilTrumpyAI
 [armchair-expert]: https://github.com/csvance/armchair-expert
 
-[aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/models/reaction.py
-[neighbor-markov-chain]: https://github.com/csvance/armchair-expert/blob/legacy-sql/markov.py
-[markov-chain-ng]: https://github.com/csvance/armchair-expert/blob/master/markov.py
+[structure-model]: https://github.com/csvance/armchair-expert/blob/master/models/structure.py
+[markov-chain-ng]: https://github.com/csvance/armchair-expert/blob/master/markov_engine.py
+
 
 [keras]: https://keras.io
 [tensorflow]: https://www.tensorflow.org
@@ -39,6 +39,5 @@ author: Carroll Vance
 [nlp]: https://en.wikipedia.org/wiki/Natural_language_processing
 [rdbms]: https://en.wikipedia.org/wiki/Relational_database_management_system
 [markov-chain]: https://en.wikipedia.org/wiki/Markov_chain
-[liltrumpy]: https://twitter.com/LilTrumpyAI
 [twitter]: https://twitter.com
 [rnn]: https://en.wikipedia.org/wiki/Recurrent_neural_network
