@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title> Carroll Vance &mdash; C.S. Undergrad Student </title>
-    <meta property="og:title" content=" Carroll Vance &mdash; C.S. Undergrad Student " />
-    <meta name="twitter:title" content=" Carroll Vance &mdash; C.S. Undergrad Student " />
+    <title>The RNN Sequence Prediction Seed Problem and How To Solve It | Carroll Vance &mdash; C.S. Undergrad Student </title>
+    <meta property="og:title" content="The RNN Sequence Prediction Seed Problem and How To Solve It | Carroll Vance &mdash; C.S. Undergrad Student " />
+    <meta name="twitter:title" content="The RNN Sequence Prediction Seed Problem and How To Solve It | Carroll Vance &mdash; C.S. Undergrad Student " />
 
     <meta name="description" content="I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.">
     <meta name="description" property="og:description" content="I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale." />
@@ -17,7 +17,7 @@
     
     <meta name="twitter:site" content="@sundial_o7" />
     
-    <meta property="og:url" content="https://csvance.github.io/academics/" />
+    <meta property="og:url" content="https://csvance.github.io/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html" />
 
     <meta property="og:image" content="" />
     <meta name="twitter:image" content="" />
@@ -96,7 +96,7 @@
     
     <link rel="stylesheet" href="https://csvance.github.io/assets/css/main.css">
 
-    <link rel="canonical" href="https://csvance.github.io/academics/">
+    <link rel="canonical" href="https://csvance.github.io/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html">
 
     <link rel="alternate" type="application/rss+xml" title="" href="https://csvance.github.io/feed.xml">
 </head>
@@ -196,125 +196,87 @@
 </div>
 
 
-                <article class="post page single" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+                <article class="post single" role="article" itemscope itemtype="http://schema.org/BlogPosting">
     <header class="post-header">
-        <h2 itemprop="name headline"></h2>
+        <ul class="clear">
+            <li><time datetime="2017-12-29T12:04:00-06:00" itemprop="datePublished">29 Dec, 2017</time></li>
+            
+        </ul>
+        <h2 itemprop="name headline">The RNN Sequence Prediction Seed Problem and How To Solve It</h2>
     </header>
 
     <div class="post-content">
-        <h3 id="computer-science">Computer Science</h3>
+        <h2 id="the-problem">The Problem</h2>
+<p>There are many <a href="https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/">tutorials</a> on how to create <a href="https://en.wikipedia.org/wiki/Recurrent_neural_network">Recurrent Neural Networks</a> and use them for sequence generation. However, most of these tutorials show an example where an initial seed value must be used to start the generation process. This is highly impractical for a query response generation scheme. Luckily, there is a fairly easy way to solve this involving how we format our training data.</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Course</th>
-      <th>School</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Intro to Computer Science I - C++</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="mathematics">Mathematics</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Course</th>
-      <th>School</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>College Algebra</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-    <tr>
-      <td>Trigonometry</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-    <tr>
-      <td>Pre-Calculus</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-    <tr>
-      <td>Calculus I</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="natural-sciences">Natural Sciences</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Course</th>
-      <th>School</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>General Chemistry I</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="core">Core</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Course</th>
-      <th>School</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Learning Frameworks</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-    <tr>
-      <td>Composition I</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-    <tr>
-      <td>Composition II</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-    <tr>
-      <td>US History I</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-    <tr>
-      <td>US History II</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-    <tr>
-      <td>Texas Government</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-    <tr>
-      <td>Federal Government</td>
-      <td><a href="http://www.hccs.edu">HCC</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="transcripts">Transcripts</h3>
-
+<h2 id="solution">Solution</h2>
+<h3 id="empty-item">Empty Item</h3>
+<p>First of all, we need to make sure we have a dummy value which represents an empty sequence item. It is convenient to use zero for this, because most padding functions are going to pad with zeros, and functions like np.zeros make it easy to initialize this. We will represent this value as NULL for simplicity.</p>
+<h3 id="end-of-sequence-item">End of Sequence Item</h3>
+<p>We need a second special value for marking the end of a sequence. Call it EOS for short, and it can be whatever value you want provided it stays consistent.</p>
+<h3 id="sequence-steps">Sequence Steps</h3>
+<p>Instead of feeding entire sequences for training, we are going to step through each sequence, generating subsequences starting with all empty values and adding one more item in each step. The label for each sequence will simply be the next word in the sequence, or <EOS> if we reach the end of the sequence. For example, take the sequence "The quick brown fox jumps over the lazy dog. This will break down into the following sequences:</EOS></p>
+<pre><code class="python">
+"NULL NULL NULL NULL NULL NULL NULL NULL NULL" -&gt; The
+"The NULL NULL NULL NULL NULL NULL NULL NULL" -&gt; quick
+"The quick NULL NULL NULL NULL NULL NULL NULL" -&gt; brown
+"The quick brown NULL NULL NULL NULL NULL NULL" -&gt; fox
+"The quick brown fox NULL NULL NULL NULL NULL" -&gt; jumps
+"The quick brown fox jumps NULL NULL NULL NULL" -&gt; over
+"The quick brown fox jumps over NULL NULL NULL" -&gt; the
+"The quick brown fox jumps over the NULL NULL" -&gt; lazy
+"The quick brown fox jumps over the lazy NULL" -&gt; dog
+"The quick brown fox jumps over the lazy dog" -&gt; EOS
+</code></pre>
+<h3 id="sequence-size">Sequence Size</h3>
+<p>If you have a sequence larger than your maximum size, start removing the first element before you append a new one. This will have no bearing on prediction because the network will learn how to handle this.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We can now train the network and start by feeding it a sequence filled with NULLs to predict the first value. Here is an example doing this using <a href="https://keras.io">Keras</a>:</p>
 <ul>
-  <li><a href="/assets/txt/hcc-transcript.txt">HCC Transcript</a></li>
+  <li><a href="https://github.com/csvance/armchair-expert/blob/master/models/structure.py">Preprocessing &amp; Model</a></li>
 </ul>
 
 
     </div>
+
+    <footer class="post-footer">
+        <div class="share">Share
+            <ul class="social-networks">
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=The RNN Sequence Prediction Seed Problem and How To Solve It&p[summary]=The Problem
+There are many tutorials on how to create Recurrent Neural Networks and use them for sequence generation. However, most of th...&p[url]=https://csvance.github.io/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html&text=The Problem
+There are many tutorials on how to create Recurrent Neural Networks and use them for sequence generation. However, most of th...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
+            </ul>
+        </div>
+        
+        <div class="tags">
+            <ul>
+                
+            </ul>
+        </div>
+        
+    </footer>
 </article>
+
+
+<aside class="comments" role="complementary">
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_config = function () {
+            this.page.url = 'https://csvance.github.io/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html';
+            this.page.identifier = '12/29/2017';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');
+
+            s.src = '//your_disqus_site.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+</aside>
+
             </main>
         </div>
 
