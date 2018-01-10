@@ -5,8 +5,8 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 09 Jan 2018 20:08:49 -0600</pubDate>
-    <lastBuildDate>Tue, 09 Jan 2018 20:08:49 -0600</lastBuildDate>
+    <pubDate>Tue, 09 Jan 2018 21:43:09 -0600</pubDate>
+    <lastBuildDate>Tue, 09 Jan 2018 21:43:09 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -89,9 +89,7 @@
 &lt;p&gt;One major challenge of DQNs with only win / loss conditions is measuring the networks performance over time. I haven’t found any single solution to this problem other than playing against the network and monitoring certain statistics such as the average number of turns taken to complete a game.&lt;/p&gt;
 
 &lt;h2 id=&quot;network-stability&quot;&gt;Network Stability&lt;/h2&gt;
-&lt;p&gt;While using an Averaged-DQN makes the network much more likely to converge, we still must make sure our training data and labels are formatted in a way to ensure stability. Rewards should be normalized in the [-1.0, 1.0] range, and any discounted future reward which is outside of this range should be clipped. However, significant clipping is generally a sign that something is not tuned correctly in your network, and will likely result in general instability and/or failure to converge. A stable DQN network will have a statistically stable mean, median, and standard deviation for the discounted future reward with minimal to no clipping. Heres a chart showing this where the x axis represents the number of games (not training steps):&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/img/dqn_stats.png&quot; alt=&quot;perspective&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;While using an Averaged-DQN makes the network much more likely to converge, we still must make sure our training data and labels are formatted in a way to ensure stability. Rewards should be normalized in the [-1.0, 1.0] range, and any discounted future reward which is outside of this range should be clipped.&lt;/p&gt;
 
 &lt;p&gt;One other factor in network stability is our experience replay buffer size. Too small and our network will forget past things it learned, and too big and it will take excessive time to learn. I find it is generally its better to start smaller while testing if the network is able to learn simple gameplay, and increasing it as training time increases and expert strategies need to be learned. People smarter than I such as Schaul et al. (2017) have proposed methods to optimize the size of the experience replay buffer: &lt;a href=&quot;https://arxiv.org/abs/1511.05952&quot;&gt;Prioritized Experience Replay&lt;/a&gt; which may be worth investigating if you are unsure how to tune this.&lt;/p&gt;
 
