@@ -8,7 +8,7 @@ avatar: https://s3.amazonaws.com/csvance.github.io/me.jpg
 favicon: /favicon.ico
 twitter_handler: sundial_o7
 analytics_code: UA-XXXXXXX-2
-disqus: your_disqus_site
+disqus: csvance-blog
 
 # Social Accounts
 social_networks:

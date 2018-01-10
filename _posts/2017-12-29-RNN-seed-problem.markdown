@@ -3,6 +3,7 @@ layout: post
 title:  "The RNN Sequence Prediction Seed Problem and How To Solve It"
 date:   2017-12-29 12:04:00 -0600
 author: Carroll Vance
+comments: true
 categories: blog
 ---
 ## The Problem
