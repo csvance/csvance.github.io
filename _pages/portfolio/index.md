@@ -30,7 +30,7 @@ menu: main
 
 [aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/models/reaction.py
 [neighbor-markov-chain]: https://github.com/csvance/armchair-expert/blob/legacy-sql/markov.py
-[markov-chain-ng]: https://github.com/csvance/armchair-expert/blob/master/markov.py
+[markov-chain-ng]: https://github.com/csvance/armchair-expert/blob/master/markov_engine.py
 
 [keras]: https://keras.io
 [tensorflow]: https://www.tensorflow.org
