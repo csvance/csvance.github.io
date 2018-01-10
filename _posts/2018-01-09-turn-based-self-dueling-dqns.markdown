@@ -3,6 +3,7 @@ layout: post
 title:  "Turn Based Games and Self Dueling DQNs"
 date:   2018-01-09 12:04:00 -0600
 author: Carroll Vance
+comments: true
 categories: blog
 ---
 ## Background
@@ -76,10 +77,10 @@ Keep in mind that for each step in [0, K], we will need to invert the perspectiv
 Another problem with certain board games such as Connect Four is that they have no objective way of keeping score, and if we plan on training the DQN to play itself without any feature engineering, making our own is off limits for games such as checkers and chess. There is only reward for victory, punishment, and a minute reward for surviving another turn. I have had luck using 1.0 for victory, -1.0 for failure, and 0.1 for all other moves as a slight encouragement for survival. Samples for duplicate games in a row and ties should be discarded as they don't contain any useful information and will only serve to pollute our replay memory.
 
 ## Measuring Performance
-One major challenge of DQNs with only win / loss conditions is measuring the networks performance over time. I havn't found any single solution to this problem other than playing against the network and monitoring certain statistics such as the average number of turns taken to complete a game.
+One major challenge of DQNs with only win / loss conditions is measuring the networks performance over time. I haven't found any single solution to this problem other than playing against the network and monitoring certain statistics such as the average number of turns taken to complete a game.
 
 ## Network Stability
-While using an Averaged-DQN makes the network much more likely to converge, we still must make sure our training data and labels are formatted in a way to ensure stability. Rewards should be normalized in the [-1.0, 1.0] range, and any discounted future reward which is outside of this range should be clipped. However, significant clipping is generally a sign that something is not tuned correctly in your network, and will likely result in general instability and/or failure to converge. A stable DQN network will have a statistically stable mean, median, and standard deviation for the discounted future reward with minimal to no clipping:
+While using an Averaged-DQN makes the network much more likely to converge, we still must make sure our training data and labels are formatted in a way to ensure stability. Rewards should be normalized in the [-1.0, 1.0] range, and any discounted future reward which is outside of this range should be clipped. However, significant clipping is generally a sign that something is not tuned correctly in your network, and will likely result in general instability and/or failure to converge. A stable DQN network will have a statistically stable mean, median, and standard deviation for the discounted future reward with minimal to no clipping. Heres a chart showing this where the x axis represents the number of games (not training steps):
 
 ![perspective]({{ "/assets/img/dqn_stats.png" | absolute_url }})
 
