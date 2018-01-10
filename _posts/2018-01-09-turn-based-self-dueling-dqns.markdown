@@ -3,7 +3,7 @@ layout: post
 title:  "Turn Based Games and Self Dueling DQNs"
 date:   2018-01-09 12:04:00 -0600
 author: Carroll Vance
-categories: update dqn keras dueling connectfour ai ml
+categories: blog
 ---
 ## Background
 At this point, one would have to be living under a rock to have not heard of [DeepMind's][deepmind] success at teaching itself to play Go by playing itself without any feature engineering. However, most available tutorials online about [Deep Q Networks][dqn] are coming from an entirely different angle: learning how to play various single player games in the [OpenAI Gym][openai-gym]. If one simply applies these examples to turn based games in which the AI learns by playing itself, a world of hurt is in store for several reasons:

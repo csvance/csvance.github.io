@@ -39,21 +39,21 @@ var index = lunr(function () {
 
 var store = [{
     "title": "Turn Based Games and Self Dueling DQNs",
-    "link": "/update/dqn/keras/dueling/connectfour/ai/ml/turn-based-self-dueling-dqns.html",
+    "link": "/blog/turn-based-self-dueling-dqns.html",
     "image": null,
     "date": "January 9, 2018",
     "category": null,
     "excerpt": "Background At this point, one would have to be living under a rock to have not heard of DeepMind’s success..."
 },{
     "title": "The RNN Sequence Prediction Seed Problem and How To Solve It",
-    "link": "/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html",
+    "link": "/blog/rnn-seed-problem.html",
     "image": null,
     "date": "December 29, 2017",
     "category": null,
     "excerpt": "The Problem There are many tutorials on how to create Recurrent Neural Networks and use them for sequence generation. However,..."
 },{
     "title": "Hello World!",
-    "link": "/update/hello-world.html",
+    "link": "/blog/hello-world.html",
     "image": null,
     "date": "December 9, 2017",
     "category": null,

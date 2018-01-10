@@ -5,8 +5,8 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 09 Jan 2018 19:28:34 -0600</pubDate>
-    <lastBuildDate>Tue, 09 Jan 2018 19:28:34 -0600</lastBuildDate>
+    <pubDate>Tue, 09 Jan 2018 19:32:19 -0600</pubDate>
+    <lastBuildDate>Tue, 09 Jan 2018 19:32:19 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -103,23 +103,11 @@
 
 </description>
         <pubDate>Tue, 09 Jan 2018 12:04:00 -0600</pubDate>
-        <link>https://csvance.github.io/update/dqn/keras/dueling/connectfour/ai/ml/turn-based-self-dueling-dqns.html</link>
-        <guid isPermaLink="true">https://csvance.github.io/update/dqn/keras/dueling/connectfour/ai/ml/turn-based-self-dueling-dqns.html</guid>
+        <link>https://csvance.github.io/blog/turn-based-self-dueling-dqns.html</link>
+        <guid isPermaLink="true">https://csvance.github.io/blog/turn-based-self-dueling-dqns.html</guid>
         
         
-        <category>update</category>
-        
-        <category>dqn</category>
-        
-        <category>keras</category>
-        
-        <category>dueling</category>
-        
-        <category>connectfour</category>
-        
-        <category>ai</category>
-        
-        <category>ml</category>
+        <category>blog</category>
         
       </item>
     
@@ -157,23 +145,11 @@
 
 </description>
         <pubDate>Fri, 29 Dec 2017 12:04:00 -0600</pubDate>
-        <link>https://csvance.github.io/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html</link>
-        <guid isPermaLink="true">https://csvance.github.io/update/keras/rnn/lstm/sequence/generation/ml/RNN-seed-problem.html</guid>
+        <link>https://csvance.github.io/blog/rnn-seed-problem.html</link>
+        <guid isPermaLink="true">https://csvance.github.io/blog/rnn-seed-problem.html</guid>
         
         
-        <category>update</category>
-        
-        <category>keras</category>
-        
-        <category>rnn</category>
-        
-        <category>lstm</category>
-        
-        <category>sequence</category>
-        
-        <category>generation</category>
-        
-        <category>ml</category>
+        <category>blog</category>
         
       </item>
     
@@ -182,11 +158,11 @@
         <description>&lt;p&gt;Hi, and welcome to my portfolio and blog. I will be chronicling my explorations in machine learning, artificial intelligence, and software engineering here.&lt;/p&gt;
 </description>
         <pubDate>Sat, 09 Dec 2017 13:40:48 -0600</pubDate>
-        <link>https://csvance.github.io/update/hello-world.html</link>
-        <guid isPermaLink="true">https://csvance.github.io/update/hello-world.html</guid>
+        <link>https://csvance.github.io/blog/hello-world.html</link>
+        <guid isPermaLink="true">https://csvance.github.io/blog/hello-world.html</guid>
         
         
-        <category>update</category>
+        <category>blog</category>
         
       </item>
     
