@@ -5,12 +5,12 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 11 Jan 2018 00:43:51 -0600</pubDate>
-    <lastBuildDate>Thu, 11 Jan 2018 00:43:51 -0600</lastBuildDate>
+    <pubDate>Thu, 11 Jan 2018 16:41:40 -0600</pubDate>
+    <lastBuildDate>Thu, 11 Jan 2018 16:41:40 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
-        <title>Turn Based Games and Self Dueling DQNs</title>
+        <title>Turn Based Games and Agent vs. Agent DQNs</title>
         <description>&lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
 &lt;p&gt;At this point, one would have to be living under a rock to have not heard of &lt;a href=&quot;https://deepmind.com&quot;&gt;DeepMind’s&lt;/a&gt; success at teaching itself to play Go by playing itself without any feature engineering. However, most available tutorials online about &lt;a href=&quot;https://deepmind.com/research/dqn/&quot;&gt;Deep Q Networks&lt;/a&gt; are coming from an entirely different angle: learning how to play various single player games in the &lt;a href=&quot;https://github.com/openai/gym&quot;&gt;OpenAI Gym&lt;/a&gt;. If one simply applies these examples to turn based games in which the AI learns by playing itself, a world of hurt is in store for several reasons:&lt;/p&gt;
 
