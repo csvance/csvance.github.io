@@ -28,11 +28,11 @@ However, this is not the only tweak needed to get DQN working with a dueling tur
 * next_state: the state generated from applying an action to the original state
 * amax selects: highest value from the result
 
-Remember, next_state will be the enemy agent's state. So if we simply implement this formula, we are predicting the discounted future reward that the enemy agent might receive, not our own. Fortunately, with a modified version of Anschel et al. (2016) [Averaged-DQN][averaged-dqn] we have a framework to address this. They proposed a DQN which looks K steps into the future, and averaged the rewards. When K=1, the Averaged DQN behaves like a standard DQN. To solve our problem, we will obviously use a K value higher than one. Instead of adding all future rewards together and averaging them, we will put them into two different buckets: future_rewards_self and future_rewards_enemy. We will then average each of these buckets separately and subtract future_rewards_enemy from future_rewards_self. However, we need to apply a discount factor to future_rewards_enemy as well, or the over time the system will eventually stabilize as if our discount factor was 0, making it permanently short sighted. Our discounted future reward now looks more like this:
+Remember, next_state will be the enemy agent's state. So if we simply implement this formula, we are predicting the discounted future reward that the enemy agent might receive, not our own. Fortunately, with a modified version of Anschel et al. (2016) [Averaged-DQN][averaged-dqn] we have a framework to address this. They proposed a DQN which looks K steps into the future, and averaged the rewards. When K=1, the Averaged DQN behaves like a standard DQN. To solve our problem, we will obviously use a K value higher than one. Instead of adding all future rewards together and averaging them, we will put them into two different buckets: future_rewards_self and future_rewards_enemy. We will then average each of these buckets separately and subtract future_rewards_enemy from future_rewards_self. Our discounted future reward now looks more like this:
 
 {% highlight python %}
 future_reward = reward + gamma * (avg(future_rewards_self)
-                    - gamma_e * avg(future_rewards_enemy))
+                              - avg(future_rewards_enemy))
 {% endhighlight %}
 
 
