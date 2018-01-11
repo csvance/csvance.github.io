@@ -68,7 +68,7 @@ Keep in mind that for each step in [0, K], we will need to invert the perspectiv
 
      target = result.reward + self.gamma * \
               (positive_reward_sum / self.k_self
-    - self.gamma_e*negative_reward_sum / self.k_enemy)
+    - negative_reward_sum / self.k_enemy)
 
  else:
      target = result.reward
