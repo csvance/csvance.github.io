@@ -81,7 +81,7 @@ Another problem with certain board games such as Connect Four is that they have 
 One major challenge of DQNs with only win / loss conditions is measuring the networks performance over time. I haven't found any single solution to this problem other than playing against the network and monitoring certain statistics such as the average number of turns taken to complete a game.
 
 ## Network Stability
-While using an Averaged-DQN makes the network much more likely to converge, we still must make sure our training data and labels are formatted in a way to ensure stability. Rewards should be normalized in the [-1.0, 1.0] range, and don't use negative rewards at all if using ReLu. Any discounted future reward which is outside of this range should be clipped.
+While using an Averaged-DQN makes the network much more likely to converge, we still must make sure our training data and labels are formatted in a way to ensure stability. Rewards should be normalized in the [0., 1.] range, and any discounted future reward which is outside of this range should be clipped.
 
 One other factor in network stability is our experience replay buffer size. Too small and our network will forget past things it learned, and too big and it will take excessive time to learn. I find it is generally its better to start smaller while testing if the network is able to learn simple gameplay, and increasing it as training time increases and expert strategies need to be learned. People smarter than I such as Schaul et al. (2017) have proposed methods to optimize the size of the experience replay buffer: [Prioritized Experience Replay][per] which may be worth investigating if you are unsure how to tune this.
 
