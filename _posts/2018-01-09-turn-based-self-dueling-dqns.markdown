@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Turn Based Games and Agent vs. Agent DQNs"
+title:  "Turn Based Games and 1v1 DQNs"
 date:   2018-01-09 12:04:00 -0600
 author: Carroll Vance
 comments: true
