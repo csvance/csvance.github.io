@@ -181,7 +181,7 @@
             <li><time datetime="2018-01-09T12:04:00-06:00" itemprop="datePublished">9 Jan, 2018</time></li>
             
         </ul>
-        <h2 itemprop="name headline"><a href="https://csvance.github.io/blog/turn-based-self-dueling-dqns.html">Turn Based Games and Agent vs. Agent DQNs</a></h2>
+        <h2 itemprop="name headline"><a href="https://csvance.github.io/blog/turn-based-self-dueling-dqns.html">Turn Based Games and 1v1 DQNs</a></h2>
     </header>
 
     <div class="post-content">
@@ -211,60 +211,35 @@
   <li>amax selects: highest value from the result</li>
 </ul>
 
-<p>Remember, next_state will be the enemy agent’s state. So if we simply implement this formula, we are predicting the discounted future reward that the enemy agent might receive, not our own. Fortunately, with a modified version of Anschel et al. (2016) <a href="https://arxiv.org/abs/1611.01929">Averaged-DQN</a> we have a framework to address this. They proposed a DQN which looks K steps into the future, and averaged the rewards. When K=1, the Averaged DQN behaves like a standard DQN. To solve our problem, we will obviously use a K value higher than one. Instead of adding all future rewards together and averaging them, we will put them into two different buckets: future_rewards_self and future_rewards_enemy. We will then average each of these buckets separately and subtract future_rewards_enemy from future_rewards_self. Our discounted future reward now looks more like this:</p>
+<p>Remember, next_state will be the enemy agent’s state. So if we simply implement this formula, we are predicting the discounted future reward that the enemy agent might receive, not our own. We must predict one more state into the future in order to propagate the discounted future reward:</p>
 
-<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">future_reward</span> <span class="o">=</span> <span class="n">reward</span> <span class="o">+</span> <span class="n">gamma</span> <span class="o">*</span> <span class="p">(</span><span class="n">avg</span><span class="p">(</span><span class="n">future_rewards_self</span><span class="p">)</span>
-                              <span class="o">-</span> <span class="n">avg</span><span class="p">(</span><span class="n">future_rewards_enemy</span><span class="p">))</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># We must invert the perspective of next_state so it is in the perspective of the enemy of the player who took the action which resulted in next_state</span>
+<span class="n">next_state</span><span class="o">.</span><span class="n">invert_perspective</span><span class="p">()</span>
+<span class="c"># Predict the action the enemy is most likely to take</span>
+<span class="n">enemy_action</span> <span class="o">=</span> <span class="n">argmax</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="n">next_state</span><span class="p">))</span>
+<span class="c"># Apply the action and invert the perspective back to the original one</span>
+<span class="n">true_next_state</span> <span class="o">=</span> <span class="n">next_state</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">enemy_action</span><span class="p">)</span>
+<span class="n">true_next_state</span><span class="o">.</span><span class="n">invert_perspective</span><span class="p">()</span>
+<span class="c"># Finally calculate discounted future reward</span>
+<span class="n">future_reward</span> <span class="o">=</span> <span class="n">reward</span> <span class="o">+</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">amax</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="n">true_next_state</span><span class="p">))</span></code></pre></figure>
 
-<p>Keep in mind that for each step in [0, K], we will need to invert the perspective of next_state, make the reward prediction, then apply the maximum rewarded action to the state. If we do not do this, we will be training the DQN to play the other agents turn from a different perspective half of the time! Here is what the part of the training function which calculates discounted future reward might look like:</p>
-
-<figure class="highlight"><pre><code class="language-python" data-lang="python"> <span class="n">positive_reward_sum</span> <span class="o">=</span> <span class="mf">0.</span>
- <span class="n">negative_reward_sum</span> <span class="o">=</span> <span class="mf">0.</span>
-
- <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">done</span><span class="p">:</span>
-     <span class="n">new_state</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">new_state</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">):</span>
-
-         <span class="c"># Change the perspective</span>
-         <span class="n">new_state</span><span class="o">.</span><span class="n">invert_perspective</span><span class="p">()</span>
-
-         <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
-                      <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-                      <span class="p">[</span><span class="n">new_state</span><span class="o">.</span><span class="n">normalized</span><span class="p">()]</span>
-                      <span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-         <span class="n">reward</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
-         <span class="n">action</span> <span class="o">=</span> <span class="n">C4Action</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">prediction</span><span class="p">))</span>
-
-         <span class="c"># Enemy reward</span>
-         <span class="k">if</span> <span class="n">k</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-             <span class="n">negative_reward_sum</span> <span class="o">+=</span> <span class="n">reward</span>
-         <span class="c"># Self Reward</span>
-         <span class="k">else</span><span class="p">:</span>
-             <span class="n">positive_reward_sum</span> <span class="o">+=</span> <span class="n">reward</span>
-
-         <span class="c"># Apply the action</span>
-         <span class="n">move_result</span> <span class="o">=</span> <span class="n">new_state</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
-
-     <span class="n">target</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">reward</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> \
-              <span class="p">(</span><span class="n">positive_reward_sum</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_self</span>
-    <span class="o">-</span> <span class="n">negative_reward_sum</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">k_enemy</span><span class="p">)</span>
-
- <span class="k">else</span><span class="p">:</span>
-     <span class="n">target</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">reward</span></code></pre></figure>
+<p>I have also tried subtracting the enemy reward from the reward that took the original action, but have not been able to measure good long or short term results with this policy.</p>
 
 <h2 id="win-conditions-and-rewards">Win Conditions and Rewards</h2>
-<p>Another problem with certain board games such as Connect Four is that they have no objective way of keeping score, and if we plan on training the DQN to play itself without any feature engineering, making our own is off limits for games such as checkers and chess. There is only reward for victory, punishment, and a minute reward for surviving another turn. I have had luck using 1.0 for victory, -1.0 for failure, and 0.1 for all other moves as a slight encouragement for survival. Samples for duplicate games in a row and ties should be discarded as they don’t contain any useful information and will only serve to pollute our replay memory.</p>
+<p>Another problem with certain board games such as Connect Four is that they have no objective way of keeping score. There is only reward for victory and punishment for failure. I have had luck using 0.5 for victory, -1.0 for failure, and 0.0 for all other moves. The reason to use 0.5 for a reward instead of 1.0 is it provides more headroom for more rewarding paths to propagate to previous states, allowing us to increase our gamma factor higher without significant clipping. Samples for duplicate games in a row and ties should be discarded as they don’t contain any useful information and will only serve to pollute our replay memory.</p>
 
 <h2 id="measuring-performance">Measuring Performance</h2>
-<p>One major challenge of DQNs with only win / loss conditions is measuring the networks performance over time. I haven’t found any single solution to this problem other than playing against the network and monitoring certain statistics such as the average number of turns taken to complete a game.</p>
+<p>One major challenge of DQNs with only win / loss conditions is measuring the networks performance over time. I have found a few ways to do this, including having the agent play a short term reward maximizing AI every N games. If our agent cannot beat an agent that only thinks in the short term, there is no point in using a deep neural network for the task anyway. Beating this short sighted AI consistently should be our first goal.</p>
 
 <h2 id="network-stability">Network Stability</h2>
-<p>While using an Averaged-DQN makes the network much more likely to converge, we still must make sure our training data and labels are formatted in a way to ensure stability. Rewards should be normalized in the [-1.0, 1.0] range, and any discounted future reward which is outside of this range should be clipped.</p>
+<p>We must make sure our training data and labels are formatted in a way to ensure stability. Rewards should be normalized in the [-1., 1.] range, and any discounted future reward which is outside of this range should be clipped.</p>
 
 <p>One other factor in network stability is our experience replay buffer size. Too small and our network will forget past things it learned, and too big and it will take excessive time to learn. I find it is generally its better to start smaller while testing if the network is able to learn simple gameplay, and increasing it as training time increases and expert strategies need to be learned. People smarter than I such as Schaul et al. (2017) have proposed methods to optimize the size of the experience replay buffer: <a href="https://arxiv.org/abs/1511.05952">Prioritized Experience Replay</a> which may be worth investigating if you are unsure how to tune this.</p>
 
+<p>Another important factor is the prioritization of events with reward. In a game such as Connect Four where only two rewards are given per game (win and lose), we must replay these events much more often to ensure that the network actually learns short term strategies. Without doing this, we can never hope to beat a short term maximizing agent, much less anything which can strategize many moves ahead.</p>
+
 <h2 id="conclusion">Conclusion</h2>
-<p>Deep Q Learning without feature engineering proves to be both extremely interesting and challenging. While I am not completely happy with my own results in training a DQN for Connect Four, I think it is at least worth posting some of the things I have learned from the experience. My current agent can be found at the link below.</p>
+<p>Deep Q Learning proves to be both extremely interesting and challenging. While I am not completely happy with my own results in training a DQN for Connect Four, I think it is at least worth posting some of the things I have learned from the experience. My current agent can be found at the link below.</p>
 <ul>
   <li><a href="https://github.com/csvance/deep-learning-connect-four">Github: Averaged-DQN AI for Connect Four</a></li>
 </ul>
@@ -279,7 +254,7 @@
     <footer class="post-footer">
         <div class="share">Share
             <ul class="social-networks">
-                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Turn Based Games and Agent vs. Agent DQNs&p[summary]=Background
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Turn Based Games and 1v1 DQNs&p[summary]=Background
 At this point, one would have to be living under a rock to have not heard of DeepMind’s success at teaching itself to play Go ...&p[url]=https://csvance.github.io/blog/turn-based-self-dueling-dqns.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
                 <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/blog/turn-based-self-dueling-dqns.html&text=Background
 At this point, one would have to be living under a rock to have not heard of DeepMind’s success at teaching itself to play Go ...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
