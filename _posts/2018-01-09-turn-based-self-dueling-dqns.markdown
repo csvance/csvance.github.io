@@ -59,7 +59,7 @@ Another important factor is the prioritization of events with reward. In a game 
 
 ## Conclusion
 Deep Q Learning proves to be both extremely interesting and challenging. While I am not completely happy with my own results in training a DQN for Connect Four, I think it is at least worth posting some of the things I have learned from the experience. My current agent can be found at the link below.
-* [Github: Averaged-DQN AI for Connect Four][dqn-connectfour]
+* [Github: DQN AI for Connect Four][dqn-connectfour]
 
 ## References
 * [Deep Q-Learning with Keras and Gym][keras-dqn]
