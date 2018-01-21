@@ -5,8 +5,8 @@
     <description>I'm an undergrad student exploring machine learning and artificial intelligence. In my spare time I enjoy cooking, writing music, running, and a cold pale ale.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 21 Jan 2018 17:40:17 -0600</pubDate>
-    <lastBuildDate>Sun, 21 Jan 2018 17:40:17 -0600</lastBuildDate>
+    <pubDate>Sun, 21 Jan 2018 17:42:52 -0600</pubDate>
+    <lastBuildDate>Sun, 21 Jan 2018 17:42:52 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -82,8 +82,8 @@
 
 </description>
         <pubDate>Tue, 09 Jan 2018 12:04:00 -0600</pubDate>
-        <link>https://csvance.github.io/blog/turn-based-self-dueling-dqns.html</link>
-        <guid isPermaLink="true">https://csvance.github.io/blog/turn-based-self-dueling-dqns.html</guid>
+        <link>https://csvance.github.io/blog/turn-based-games-1v1-dqn.html</link>
+        <guid isPermaLink="true">https://csvance.github.io/blog/turn-based-games-1v1-dqn.html</guid>
         
         
         <category>blog</category>

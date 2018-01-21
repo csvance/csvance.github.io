@@ -39,7 +39,7 @@ var index = lunr(function () {
 
 var store = [{
     "title": "Turn Based Games and 1v1 DQNs",
-    "link": "/blog/turn-based-self-dueling-dqns.html",
+    "link": "/blog/turn-based-games-1v1-dqn.html",
     "image": null,
     "date": "January 9, 2018",
     "category": null,
