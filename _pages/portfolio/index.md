@@ -4,9 +4,17 @@ title: Portfolio
 permalink: /portfolio/
 menu: main
 ---
+## deep-connect-four
+- Deep Reinforcement Learning agent for the game "Connect Four" powered by a Deep Q-Network
+- [Github][deep-connect-four]
+
+## deep-hammy
+- DeepHammy is a virtual hamster who learns to survive over many lifetimes using a Deep Q-Network
+- Learns the right balance between eating, drinking, sleeping, and petting over time
+- [Github][deep-hammy]
+
 ## armchair-expert
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
-- Uses [NLP][nlp] to select the most optimal subjects for which to generate a response
 - Learns new words in realtime like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
 
 - [Github][armchair-expert]
@@ -27,6 +35,8 @@ menu: main
 
 [structure-model]: https://github.com/csvance/armchair-expert/blob/master/models/structure.py
 [armchair-expert]: https://github.com/csvance/armchair-expert
+[deep-hammy]: https://github.com/csvance/deep-hammy
+[deep-connect-four]: https://github.com/csvance/deep-connect-four
 
 [aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/models/reaction.py
 [neighbor-markov-chain]: https://github.com/csvance/armchair-expert/blob/legacy-sql/markov.py
