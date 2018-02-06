@@ -3,7 +3,7 @@ name: Carroll Vance
 job_title: C.S. Undergrad Student
 email: vancecs@gmail.com
 description: I'm an undergrad student exploring machine learning and artificial intelligence.
-  In my spare time I enjoy cooking, writing music, running, and a cold pale ale.
+  In my spare time I enjoy cooking, writing music and running.
 avatar: https://s3.amazonaws.com/csvance.github.io/me.jpg
 favicon: /favicon.ico
 twitter_handler: sundial_o7
@@ -14,7 +14,7 @@ disqus: csvance-blog
 social_networks:
 -  { name: facebook, url: '' }
 -  { name: twitter, url: 'https://twitter.com/Sundial_o7' }
--  { name: instagram, url: 'https://www.instagram.com/vance.carroll/' }
+-  { name: instagram, url: '' }
 -  { name: google-plus, url: '' }
 -  { name: linkedin, url: '' }
 -  { name: skype, url: '' }
