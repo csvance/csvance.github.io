@@ -8,19 +8,14 @@ menu: main
 - Deep Reinforcement Learning agent for the game "Connect Four" powered by a Deep Q-Network
 - [Github][deep-connect-four]
 
-## deep-hammy
-- DeepHammy is a virtual hamster who learns to survive over many lifetimes using a Deep Q-Network
-- Learns the right balance between eating, drinking, sleeping, and petting over time
-- [Github][deep-hammy]
-
 ## armchair-expert
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
 - Learns new words in realtime like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
 
 - [Github][armchair-expert]
-## LilTrumpyAI
+## LilTrumpyAI (Retired)
 - [armchair-expert][armchair-expert] trained with all of Donald Trump's tweets
-- Tweet or DM [@LilTrumpyAI][liltrumpy] on [Twitter][liltrumpy]
+- [https://twitter.com/LilTrumpyAI][liltrumpy]
 ## ML Models
 ### Sentence Structure and Style Model
 - [Recurrent Neural Network][rnn] with learns sentence structure and capitalization style
