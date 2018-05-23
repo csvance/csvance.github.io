@@ -208,7 +208,7 @@ python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/
 <p>More information on the .pb export and .uff conversion is available from <a href="https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#exporttftouff">nVidia</a></p>
 
 <h2 id="3-loading-the-uff-into-tensorrt-c-inference-api">3. Loading the .uff into TensorRT C++ Inference API</h2>
-<p>I have create a generic class which can load the graph from a .uff file and setup TensorRT for inference. It supports any number of inputs and outputs and is available on my <a href="https://github.com/csvance/keras-tensorrt-jetson/blob/master/inference/">Github</a>. It can be built with <a href="https://developer.nvidia.com/nsight-eclipse-edition">nVidia nSight Eclipse Edition</a> using a remote toolchain <a href="https://devblogs.nvidia.com/remote-application-development-nvidia-nsight-eclipse-edition/">(instructions here)</a></p>
+<p>I have created a generic class which can load the graph from a .uff file and setup TensorRT for inference. It supports any number of inputs and outputs and is available on my <a href="https://github.com/csvance/keras-tensorrt-jetson/blob/master/inference/">Github</a>. It can be built with <a href="https://developer.nvidia.com/nsight-eclipse-edition">nVidia nSight Eclipse Edition</a> using a remote toolchain <a href="https://devblogs.nvidia.com/remote-application-development-nvidia-nsight-eclipse-edition/">(instructions here)</a></p>
 
 <h3 id="caveats">Caveats</h3>
 <ul>

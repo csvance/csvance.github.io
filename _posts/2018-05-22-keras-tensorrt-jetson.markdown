@@ -30,7 +30,7 @@ python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/
 More information on the .pb export and .uff conversion is available from [nVidia][uff]
 
 ## 3. Loading the .uff into TensorRT C++ Inference API
-I have create a generic class which can load the graph from a .uff file and setup TensorRT for inference. It supports any number of inputs and outputs and is available on my [Github][cpp]. It can be built with [nVidia nSight Eclipse Edition][eclipse] using a remote toolchain [(instructions here)][nsight]
+I have created a generic class which can load the graph from a .uff file and setup TensorRT for inference. It supports any number of inputs and outputs and is available on my [Github][cpp]. It can be built with [nVidia nSight Eclipse Edition][eclipse] using a remote toolchain [(instructions here)][nsight]
 
 ### Caveats
 - Keep in mind that many layers are not supported by TensorRT 3.0. The most obvious omission is BatchNorm, which is used in many different types of deep neural nets.
