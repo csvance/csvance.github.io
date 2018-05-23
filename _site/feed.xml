@@ -5,9 +5,55 @@
     <description>I'm an undergrad student interested in artificial intelligence and robotics. In my spare time I enjoy cooking, writing music and running.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 16 May 2018 17:10:23 -0500</pubDate>
-    <lastBuildDate>Wed, 16 May 2018 17:10:23 -0500</lastBuildDate>
+    <pubDate>Tue, 22 May 2018 21:22:00 -0500</pubDate>
+    <lastBuildDate>Tue, 22 May 2018 21:22:00 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>Keras/Tensorflow, TensorRT, and Jetson</title>
+        <description>&lt;p&gt;nVidia’s Jetson platform is arguably the most powerful family of devices for deep learning at the edge. In order to achieve the full benefits of the platform, a framework called TensorRT drastically reduces inference time for supported network architectures and layers. However, nVidia does not currently make it easy to take your existing models from Keras/Tensorflow and deploy them on the Jetson with TensorRT. One reason for this is the python API for TensorRT only supports x86 based architectures. This leaves us with no real easy way of taking advantage of the benefits of TensorRT. However, there is a harder way that does work: To achieve maximum inference performance we can export and convert our model to .uff format, and then load it in TensorRT’s C++ API.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-training-and-exporting-to-pb&quot;&gt;1. Training and exporting to .pb&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Train your model&lt;/li&gt;
+  &lt;li&gt;If using Jupyter, restart the kernel you trained your model in to remove training layers from the graph&lt;/li&gt;
+  &lt;li&gt;Reload the models weights&lt;/li&gt;
+  &lt;li&gt;Use an export function like the one in &lt;a href=&quot;https://github.com/csvance/keras-tensorrt-jetson/blob/master/training/training.ipynb&quot;&gt;this notebook&lt;/a&gt; to export the graph to a .pb file&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;2-converting-pb-to-uff&quot;&gt;2. Converting .pb to .uff&lt;/h2&gt;
+&lt;p&gt;I suggest using the &lt;a href=&quot;https://github.com/chybhao666/TensorRT&quot;&gt;chybhao666/cuda9_cudnn7_tensorrt3.0:latest Docker container&lt;/a&gt; to access the script needed for converting a .pb export from Keras/Tensorflow to .uff format for TensorRT import.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /usr/lib/python2.7/dist-packages/uff/bin
+# List Layers and manually pick out the output layer
+# For most networks it will be dense_x/BiasAdd, the last one that isn't a placeholder or activation layer
+python convert_to_uff.py tensorflow --input-file /path/to/graph.pb -l
+
+# Convert to .uff, replace dense_1/BiasAdd with the name of your output layer
+python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/graph.pb -O dense_1/BiasAdd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;More information on the .pb export and .uff conversion is available from &lt;a href=&quot;https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#exporttftouff&quot;&gt;nVidia&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;3-loading-the-uff-into-tensorrt-c-inference-api&quot;&gt;3. Loading the .uff into TensorRT C++ Inference API&lt;/h2&gt;
+&lt;p&gt;I have create a generic class which can load the graph from a .uff file and setup TensorRT for inference. It supports any number of inputs and outputs and is available on my &lt;a href=&quot;https://github.com/csvance/keras-tensorrt-jetson/blob/master/inference/&quot;&gt;Github&lt;/a&gt;. It can be built with &lt;a href=&quot;https://developer.nvidia.com/nsight-eclipse-edition&quot;&gt;nVidia nSight Eclipse Edition&lt;/a&gt; using a remote toolchain &lt;a href=&quot;https://devblogs.nvidia.com/remote-application-development-nvidia-nsight-eclipse-edition/&quot;&gt;(instructions here)&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;caveats&quot;&gt;Caveats&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Keep in mind that many layers are not supported by TensorRT 3.0. The most obvious omission is BatchNorm, which is used in many different types of deep neural nets.&lt;/li&gt;
+  &lt;li&gt;Concatenate only works on the channel axis and if and only if the other dimensions are the same. If you have multiple paths for convolution, you are limited to concatenating them only when they have the same dimensions.&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sun, 22 Apr 2018 22:00:00 -0500</pubDate>
+        <link>https://csvance.github.io/blog/keras-tensorrt-jetson.html</link>
+        <guid isPermaLink="true">https://csvance.github.io/blog/keras-tensorrt-jetson.html</guid>
+        
+        
+        <category>blog</category>
+        
+      </item>
     
       <item>
         <title>Turn Based Games and 1v1 DQNs</title>

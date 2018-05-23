@@ -176,6 +176,72 @@
 <article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
     <header class="post-header">
         <ul class="clear">
+            <li><time datetime="2018-04-22T22:00:00-05:00" itemprop="datePublished">22 Apr, 2018</time></li>
+            
+        </ul>
+        <h2 itemprop="name headline"><a href="https://csvance.github.io/blog/keras-tensorrt-jetson.html">Keras/Tensorflow, TensorRT, and Jetson</a></h2>
+    </header>
+
+    <div class="post-content">
+        <p>nVidia’s Jetson platform is arguably the most powerful family of devices for deep learning at the edge. In order to achieve the full benefits of the platform, a framework called TensorRT drastically reduces inference time for supported network architectures and layers. However, nVidia does not currently make it easy to take your existing models from Keras/Tensorflow and deploy them on the Jetson with TensorRT. One reason for this is the python API for TensorRT only supports x86 based architectures. This leaves us with no real easy way of taking advantage of the benefits of TensorRT. However, there is a harder way that does work: To achieve maximum inference performance we can export and convert our model to .uff format, and then load it in TensorRT’s C++ API.</p>
+
+<h2 id="1-training-and-exporting-to-pb">1. Training and exporting to .pb</h2>
+<ul>
+  <li>Train your model</li>
+  <li>If using Jupyter, restart the kernel you trained your model in to remove training layers from the graph</li>
+  <li>Reload the models weights</li>
+  <li>Use an export function like the one in <a href="https://github.com/csvance/keras-tensorrt-jetson/blob/master/training/training.ipynb">this notebook</a> to export the graph to a .pb file</li>
+</ul>
+
+<h2 id="2-converting-pb-to-uff">2. Converting .pb to .uff</h2>
+<p>I suggest using the <a href="https://github.com/chybhao666/TensorRT">chybhao666/cuda9_cudnn7_tensorrt3.0:latest Docker container</a> to access the script needed for converting a .pb export from Keras/Tensorflow to .uff format for TensorRT import.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd /usr/lib/python2.7/dist-packages/uff/bin
+# List Layers and manually pick out the output layer
+# For most networks it will be dense_x/BiasAdd, the last one that isn't a placeholder or activation layer
+python convert_to_uff.py tensorflow --input-file /path/to/graph.pb -l
+
+# Convert to .uff, replace dense_1/BiasAdd with the name of your output layer
+python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/graph.pb -O dense_1/BiasAdd
+</code></pre>
+</div>
+
+<p>More information on the .pb export and .uff conversion is available from <a href="https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#exporttftouff">nVidia</a></p>
+
+<h2 id="3-loading-the-uff-into-tensorrt-c-inference-api">3. Loading the .uff into TensorRT C++ Inference API</h2>
+<p>I have create a generic class which can load the graph from a .uff file and setup TensorRT for inference. It supports any number of inputs and outputs and is available on my <a href="https://github.com/csvance/keras-tensorrt-jetson/blob/master/inference/">Github</a>. It can be built with <a href="https://developer.nvidia.com/nsight-eclipse-edition">nVidia nSight Eclipse Edition</a> using a remote toolchain <a href="https://devblogs.nvidia.com/remote-application-development-nvidia-nsight-eclipse-edition/">(instructions here)</a></p>
+
+<h3 id="caveats">Caveats</h3>
+<ul>
+  <li>Keep in mind that many layers are not supported by TensorRT 3.0. The most obvious omission is BatchNorm, which is used in many different types of deep neural nets.</li>
+  <li>Concatenate only works on the channel axis and if and only if the other dimensions are the same. If you have multiple paths for convolution, you are limited to concatenating them only when they have the same dimensions.</li>
+</ul>
+
+
+
+        
+    </div>
+
+    <footer class="post-footer">
+        <div class="share">Share
+            <ul class="social-networks">
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Keras/Tensorflow, TensorRT, and Jetson&p[summary]=nVidia’s Jetson platform is arguably the most powerful family of devices for deep learning at the edge. In order to achieve the full bene...&p[url]=https://csvance.github.io/blog/keras-tensorrt-jetson.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/blog/keras-tensorrt-jetson.html&text=nVidia’s Jetson platform is arguably the most powerful family of devices for deep learning at the edge. In order to achieve the full bene...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
+            </ul>
+        </div>
+        
+        <div class="tags">
+            <ul>
+                
+            </ul>
+        </div>
+        
+    </footer>
+</article>
+
+<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+    <header class="post-header">
+        <ul class="clear">
             <li><time datetime="2018-01-09T12:04:00-06:00" itemprop="datePublished">9 Jan, 2018</time></li>
             
         </ul>
