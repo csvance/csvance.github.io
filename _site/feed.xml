@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in artificial intelligence and robotics. In my spare time I enjoy cooking, writing music and running.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 23 May 2018 09:20:41 -0500</pubDate>
-    <lastBuildDate>Wed, 23 May 2018 09:20:41 -0500</lastBuildDate>
+    <pubDate>Wed, 23 May 2018 09:47:48 -0500</pubDate>
+    <lastBuildDate>Wed, 23 May 2018 09:47:48 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -37,7 +37,7 @@ python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/
 &lt;p&gt;More information on the .pb export and .uff conversion is available from &lt;a href=&quot;https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#exporttftouff&quot;&gt;nVidia&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;3-loading-the-uff-into-tensorrt-c-inference-api&quot;&gt;3. Loading the .uff into TensorRT C++ Inference API&lt;/h2&gt;
-&lt;p&gt;I have created a generic class which can load the graph from a .uff file and setup TensorRT for inference. It supports any number of inputs and outputs and is available on my &lt;a href=&quot;https://github.com/csvance/keras-tensorrt-jetson/blob/master/inference/&quot;&gt;Github&lt;/a&gt;. It can be built with &lt;a href=&quot;https://developer.nvidia.com/nsight-eclipse-edition&quot;&gt;nVidia nSight Eclipse Edition&lt;/a&gt; using a remote toolchain &lt;a href=&quot;https://devblogs.nvidia.com/remote-application-development-nvidia-nsight-eclipse-edition/&quot;&gt;(instructions here)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I have created a generic class which can load the graph from a .uff file and setup TensorRT for inference while taking care of all host / device CUDA memory management behind the scenes. It supports any number of inputs and outputs and is available on my &lt;a href=&quot;https://github.com/csvance/keras-tensorrt-jetson/blob/master/inference/&quot;&gt;Github&lt;/a&gt;. It can be built with &lt;a href=&quot;https://developer.nvidia.com/nsight-eclipse-edition&quot;&gt;nVidia nSight Eclipse Edition&lt;/a&gt; using a remote toolchain &lt;a href=&quot;https://devblogs.nvidia.com/remote-application-development-nvidia-nsight-eclipse-edition/&quot;&gt;(instructions here)&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;caveats&quot;&gt;Caveats&lt;/h3&gt;
 &lt;ul&gt;
