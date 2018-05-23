@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Keras/Tensorflow, TensorRT, and Jetson"
-date:   2018-04-22 21:00:00 -0600
+date:   2018-05-22 21:00:00 -0600
 author: Carroll Vance
 comments: true
 categories: blog

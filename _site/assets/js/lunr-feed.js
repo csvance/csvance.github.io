@@ -50,7 +50,7 @@ var store = [{
     "title": "Keras/Tensorflow, TensorRT, and Jetson",
     "link": "/blog/keras-tensorrt-jetson.html",
     "image": null,
-    "date": "April 22, 2018",
+    "date": "May 22, 2018",
     "category": null,
     "excerpt": "nVidia’s Jetson platform is arguably the most powerful family of devices for deep learning at the edge. In order to..."
 },{

@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in artificial intelligence and robotics. In my spare time I enjoy cooking, writing music and running.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 22 May 2018 21:33:11 -0500</pubDate>
-    <lastBuildDate>Tue, 22 May 2018 21:33:11 -0500</lastBuildDate>
+    <pubDate>Wed, 23 May 2018 08:10:44 -0500</pubDate>
+    <lastBuildDate>Wed, 23 May 2018 08:10:44 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -46,7 +46,7 @@ python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/
 &lt;/ul&gt;
 
 </description>
-        <pubDate>Sun, 22 Apr 2018 22:00:00 -0500</pubDate>
+        <pubDate>Tue, 22 May 2018 22:00:00 -0500</pubDate>
         <link>https://csvance.github.io/blog/keras-tensorrt-jetson.html</link>
         <guid isPermaLink="true">https://csvance.github.io/blog/keras-tensorrt-jetson.html</guid>
         
