@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in artificial intelligence and embedded systems. In my spare time I enjoy cooking, writing music and running.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 05 Jul 2018 10:11:34 -0500</pubDate>
-    <lastBuildDate>Thu, 05 Jul 2018 10:11:34 -0500</lastBuildDate>
+    <pubDate>Tue, 17 Jul 2018 22:18:00 -0700</pubDate>
+    <lastBuildDate>Tue, 17 Jul 2018 22:18:00 -0700</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -46,7 +46,7 @@ python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/
 &lt;/ul&gt;
 
 </description>
-        <pubDate>Tue, 22 May 2018 22:00:00 -0500</pubDate>
+        <pubDate>Tue, 22 May 2018 20:00:00 -0700</pubDate>
         <link>https://csvance.github.io/blog/keras-tensorrt-jetson.html</link>
         <guid isPermaLink="true">https://csvance.github.io/blog/keras-tensorrt-jetson.html</guid>
         
@@ -127,7 +127,7 @@ python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/
 &lt;/ul&gt;
 
 </description>
-        <pubDate>Tue, 09 Jan 2018 12:04:00 -0600</pubDate>
+        <pubDate>Tue, 09 Jan 2018 10:04:00 -0800</pubDate>
         <link>https://csvance.github.io/blog/turn-based-games-1v1-dqn.html</link>
         <guid isPermaLink="true">https://csvance.github.io/blog/turn-based-games-1v1-dqn.html</guid>
         
@@ -169,7 +169,7 @@ python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/
 &lt;/ul&gt;
 
 </description>
-        <pubDate>Fri, 29 Dec 2017 12:04:00 -0600</pubDate>
+        <pubDate>Fri, 29 Dec 2017 10:04:00 -0800</pubDate>
         <link>https://csvance.github.io/blog/rnn-seed-problem.html</link>
         <guid isPermaLink="true">https://csvance.github.io/blog/rnn-seed-problem.html</guid>
         
@@ -182,7 +182,7 @@ python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/
         <title>Hello World!</title>
         <description>&lt;p&gt;Hi, and welcome to my portfolio and blog. I will be chronicling my explorations in machine learning, artificial intelligence, and software engineering here.&lt;/p&gt;
 </description>
-        <pubDate>Sat, 09 Dec 2017 13:40:48 -0600</pubDate>
+        <pubDate>Sat, 09 Dec 2017 11:40:48 -0800</pubDate>
         <link>https://csvance.github.io/blog/hello-world.html</link>
         <guid isPermaLink="true">https://csvance.github.io/blog/hello-world.html</guid>
         
