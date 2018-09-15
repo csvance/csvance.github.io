@@ -5,28 +5,24 @@ permalink: /portfolio/
 menu: main
 ---
 
-# Finished Projects
-
-## deep-connect-four
+## deep-connect-four (Finished)
 - Deep Reinforcement Learning agent for the game "Connect Four" powered by a Deep Q-Network
 - [Github][deep-connect-four]
 
-## armchair-expert
+## armchair-expert (Finished)
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
 - Learns new words in realtime like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
 
-# Current Projects
-
-## EduBot
+## EduBot (Current)
 - Raspberry Pi powered autonomous robot implemented from scratch in Python
 - Designed to teach robotics to newcomers by abstracting complexities with a simple python programming interface.
 
-## Jetson TensorRT ROS Nodes
+## Jetson TensorRT ROS Nodes (Current)
 - TensorRT ROS nodes for Jetson TX1/TX2
 - nVidia DIGITS Node (detection, classification, and segmentation)
 - Tensorflow & Keras Node
 
-# Machine Learning Models
+## Machine Learning Models
 ### Sentence Structure and Style Model
 - [Recurrent Neural Network][rnn] with learns sentence structure and capitalization style
 - Multiple Classification
