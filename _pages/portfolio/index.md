@@ -22,7 +22,8 @@ menu: main
 - Designed to teach robotics to newcomers by abstracting complexities with a simple python programming interface.
 
 ## Jetson TensorRT ROS Nodes
-- nVidia DIGITS Node (detection, classification, and segmentation
+- TensorRT ROS nodes for Jetson TX1/TX2
+- nVidia DIGITS Node (detection, classification, and segmentation)
 - Tensorflow & Keras Node
 
 # Machine Learning Models
