@@ -4,6 +4,9 @@ title: Portfolio
 permalink: /portfolio/
 menu: main
 ---
+
+# Finished Projects
+
 ## deep-connect-four
 - Deep Reinforcement Learning agent for the game "Connect Four" powered by a Deep Q-Network
 - [Github][deep-connect-four]
@@ -12,11 +15,17 @@ menu: main
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
 - Learns new words in realtime like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
 
-- [Github][armchair-expert]
-## LilTrumpyAI (Retired)
-- [armchair-expert][armchair-expert] trained with all of Donald Trump's tweets
-- [https://twitter.com/LilTrumpyAI][liltrumpy]
-## ML Models
+# Current Projects
+
+## EduBot
+- Raspberry Pi powered autonomous robot implemented from scratch in Python
+- Designed to teach robotics to newcomers by abstracting complexities with a simple python programming interface.
+
+## Jetson TensorRT ROS Nodes
+- nVidia DIGITS Node (detection, classification, and segmentation
+- Tensorflow & Keras Node
+
+# Machine Learning Models
 ### Sentence Structure and Style Model
 - [Recurrent Neural Network][rnn] with learns sentence structure and capitalization style
 - Multiple Classification
