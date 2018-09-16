@@ -19,8 +19,9 @@ menu: main
 
 ## Jetson TensorRT ROS Nodes (Current)
 - TensorRT ROS nodes for Jetson TX1/TX2
-- nVidia DIGITS Node (detection, classification, and segmentation)
+- nVidia DIGITS Nodes (detection, classification, and segmentation)
 - Tensorflow & Keras Node
+- [Github][ros-jetson-tensorrt]
 
 ## Machine Learning Models
 ### Sentence Structure and Style Model
@@ -38,6 +39,7 @@ menu: main
 [armchair-expert]: https://github.com/csvance/armchair-expert
 [deep-hammy]: https://github.com/csvance/deep-hammy
 [deep-connect-four]: https://github.com/csvance/deep-connect-four
+[ros-jetson-tensorrt]: https://github.com/csvance/ros_jetson_tensorrt
 
 [aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/models/reaction.py
 [neighbor-markov-chain]: https://github.com/csvance/armchair-expert/blob/legacy-sql/markov.py
