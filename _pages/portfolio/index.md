@@ -10,7 +10,7 @@ menu: main
 - nVidia DIGITS Nodes (detection, classification, and segmentation)
 - Generic Tensorflow & Keras Nodes
 - Generic Caffe Node
-- [Github][ros-jetson-tensorrt]
+- [Github][jetson-tensorrt]
 
 ## deep-connect-four (Finished)
 - Deep Reinforcement Learning agent for the game "Connect Four" powered by a Deep Q-Network
@@ -40,7 +40,7 @@ menu: main
 [armchair-expert]: https://github.com/csvance/armchair-expert
 [deep-hammy]: https://github.com/csvance/deep-hammy
 [deep-connect-four]: https://github.com/csvance/deep-connect-four
-[ros-jetson-tensorrt]: https://github.com/csvance/ros_jetson_tensorrt
+[jetson-tensorrt]: https://github.com/csvance/jetson_tensorrt
 
 [aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/models/reaction.py
 [neighbor-markov-chain]: https://github.com/csvance/armchair-expert/blob/legacy-sql/markov.py
