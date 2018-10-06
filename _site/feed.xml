@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title></title>
-    <description>I'm an undergrad student interested in robotics and aritifical intelligence. In my spare time I enjoy camping, cooking, writing music and hiking.</description>
+    <description>I'm an undergrad student interested in robotics, real-time systems, and artifical intelligence. In my spare time I enjoy camping, cooking, writing music and hiking.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 06 Oct 2018 11:15:53 -0500</pubDate>
-    <lastBuildDate>Sat, 06 Oct 2018 11:15:53 -0500</lastBuildDate>
+    <pubDate>Sat, 06 Oct 2018 11:18:15 -0500</pubDate>
+    <lastBuildDate>Sat, 06 Oct 2018 11:18:15 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
