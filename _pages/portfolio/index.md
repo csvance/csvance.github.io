@@ -19,6 +19,7 @@ menu: main
 ## armchair-expert (Finished)
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
 - Learns new words in realtime like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
+- [Github][armchair-expert]
 
 ## EduBot (Current)
 - Raspberry Pi powered autonomous robot powered by ROS
