@@ -8,8 +8,6 @@ menu: main
 ## Jetson TensorRT ROS Nodes (Current)
 - TensorRT ROS nodes for Jetson TX1/TX2
 - nVidia DIGITS Nodes (detection, classification, and segmentation)
-- Generic Tensorflow & Keras Nodes
-- Generic Caffe Node
 - [Github][jetson-tensorrt]
 
 ## deep-connect-four (Finished)
