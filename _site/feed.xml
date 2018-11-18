@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in embedded systems, computer vision, and artificial intelligence. In my spare time I enjoy camping, cooking, writing music and hiking.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 18 Nov 2018 09:15:19 -0600</pubDate>
-    <lastBuildDate>Sun, 18 Nov 2018 09:15:19 -0600</lastBuildDate>
+    <pubDate>Sun, 18 Nov 2018 10:38:27 -0600</pubDate>
+    <lastBuildDate>Sun, 18 Nov 2018 10:38:27 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -14,12 +14,12 @@
         <description>&lt;p&gt;During the past few months I have been working towards making high performance deep learning inferences much more accessible in &lt;a href=&quot;http://www.ros.org&quot;&gt;ROS&lt;/a&gt; on the &lt;a href=&quot;https://www.nvidia.com/en-us/autonomous-machines/embedded-systems-dev-kits-modules/&quot;&gt;nVidia Jetson TX2&lt;/a&gt;. The result is &lt;a href=&quot;https://github.com/csvance/jetson_tensorrt&quot;&gt;jetson_tensorrt&lt;/a&gt;: a collection of optimized &lt;a href=&quot;https://developer.nvidia.com/tensorrt&quot;&gt;TensoRT&lt;/a&gt; based nodes and nodelets specifically tailored to the Jetson platform. To start out with, image detection and object detection are supported for &lt;a href=&quot;https://developer.nvidia.com/digits&quot;&gt;nVidia DIGITS&lt;/a&gt; ImageNet and DetectNets.&lt;/p&gt;
 
 &lt;p&gt;Here is some example output in rviz from a single class pedestrian detector using an Intel RealSense D435:
-&lt;img src=&quot;/assets/img/tensorrt_detect.jpg&quot; alt=&quot;detect_classify&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/img/tensorrt_detect.jpg&quot; alt=&quot;detect&quot; /&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot;&gt;
 &lt;b&gt;DetectNet Object Detection&lt;/b&gt;&lt;br /&gt;
 &lt;/p&gt;
 
-&lt;p&gt;Support is planned for SegNets as well as generic nodes for &lt;a href=&quot;https://www.tensorflow.org&quot;&gt;TensorFlow&lt;/a&gt;, &lt;a href=&quot;http://caffe.berkeleyvision.org&quot;&gt;Caffe&lt;/a&gt;, and &lt;a href=&quot;https://pytorch.org&quot;&gt;PyTorch&lt;/a&gt; (all running within TensorRT)&lt;/p&gt;
+&lt;p&gt;Support is planned for SegNets as well.&lt;/p&gt;
 
 &lt;p&gt;Check it out on &lt;a href=&quot;https://github.com/csvance/jetson_tensorrt&quot;&gt;Github&lt;/a&gt;!&lt;/p&gt;
 
