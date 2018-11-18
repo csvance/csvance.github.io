@@ -12,7 +12,7 @@ var index = lunr(function () {
     index.add({
       title: "TensorRT ROS Nodes for nVidia Jetson",
       category: null,
-      content: "During the past few months I have been working towards making high performance deep learning inferences much more accessible in ROS on the nVidia Jetson TX2. The result is jetson_tensorrt: a collection of optimized TensoRT based nodes and nodelets specifically tailored to the Jetson platform. To start out with, image detection and object detection are supported for nVidia DIGITS ImageNet and DetectNets.\n\nHere is some example output in rviz from a single class pedestrian detector using an Intel RealSense D435:\n\n\nDetectNet Object Detection\n\n\nSupport is planned for SegNets as well.\n\nCheck it out on Github!\n\n",
+      content: "During the past few months I have been working towards making high performance deep learning inferences much more accessible in ROS on the nVidia Jetson TX2. The result is jetson_tensorrt: a collection of optimized TensoRT based nodes and nodelets specifically tailored to the Jetson platform. To start out with, classification and object detection are supported for nVidia DIGITS ImageNet and DetectNets.\n\nHere is some example output in rviz from a single class pedestrian detector using an Intel RealSense D435:\n\n\nDetectNet Object Detection\n\n\nSupport is planned for SegNets as well.\n\nCheck it out on Github!\n\n",
       tags: [],
       id: 0
     });

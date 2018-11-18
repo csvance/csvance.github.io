@@ -5,13 +5,13 @@
     <description>I'm an undergrad student interested in embedded systems, computer vision, and artificial intelligence. In my spare time I enjoy camping, cooking, writing music and hiking.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 18 Nov 2018 10:38:27 -0600</pubDate>
-    <lastBuildDate>Sun, 18 Nov 2018 10:38:27 -0600</lastBuildDate>
+    <pubDate>Sun, 18 Nov 2018 13:46:32 -0600</pubDate>
+    <lastBuildDate>Sun, 18 Nov 2018 13:46:32 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
         <title>TensorRT ROS Nodes for nVidia Jetson</title>
-        <description>&lt;p&gt;During the past few months I have been working towards making high performance deep learning inferences much more accessible in &lt;a href=&quot;http://www.ros.org&quot;&gt;ROS&lt;/a&gt; on the &lt;a href=&quot;https://www.nvidia.com/en-us/autonomous-machines/embedded-systems-dev-kits-modules/&quot;&gt;nVidia Jetson TX2&lt;/a&gt;. The result is &lt;a href=&quot;https://github.com/csvance/jetson_tensorrt&quot;&gt;jetson_tensorrt&lt;/a&gt;: a collection of optimized &lt;a href=&quot;https://developer.nvidia.com/tensorrt&quot;&gt;TensoRT&lt;/a&gt; based nodes and nodelets specifically tailored to the Jetson platform. To start out with, image detection and object detection are supported for &lt;a href=&quot;https://developer.nvidia.com/digits&quot;&gt;nVidia DIGITS&lt;/a&gt; ImageNet and DetectNets.&lt;/p&gt;
+        <description>&lt;p&gt;During the past few months I have been working towards making high performance deep learning inferences much more accessible in &lt;a href=&quot;http://www.ros.org&quot;&gt;ROS&lt;/a&gt; on the &lt;a href=&quot;https://www.nvidia.com/en-us/autonomous-machines/embedded-systems-dev-kits-modules/&quot;&gt;nVidia Jetson TX2&lt;/a&gt;. The result is &lt;a href=&quot;https://github.com/csvance/jetson_tensorrt&quot;&gt;jetson_tensorrt&lt;/a&gt;: a collection of optimized &lt;a href=&quot;https://developer.nvidia.com/tensorrt&quot;&gt;TensoRT&lt;/a&gt; based nodes and nodelets specifically tailored to the Jetson platform. To start out with, classification and object detection are supported for &lt;a href=&quot;https://developer.nvidia.com/digits&quot;&gt;nVidia DIGITS&lt;/a&gt; ImageNet and DetectNets.&lt;/p&gt;
 
 &lt;p&gt;Here is some example output in rviz from a single class pedestrian detector using an Intel RealSense D435:
 &lt;img src=&quot;/assets/img/tensorrt_detect.jpg&quot; alt=&quot;detect&quot; /&gt;&lt;/p&gt;
