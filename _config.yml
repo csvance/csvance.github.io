@@ -2,11 +2,11 @@
 name: Carroll Vance
 job_title: CS Undergrad @ UH
 email: csvance@uh.edu
-description: I'm an undergrad student interested in robotics, real-time systems, and artificial intelligence.
+description: I'm an undergrad student interested in embedded systems, computer vision, and artificial intelligence.
   In my spare time I enjoy camping, cooking, writing music and hiking.
 avatar: https://csvance.github.io/assets/img/avatar.jpeg
 favicon: /favicon.ico
-twitter_handler: 
+twitter_handler:
 analytics_code: UA-80232145-1
 disqus: csvance-blog
 

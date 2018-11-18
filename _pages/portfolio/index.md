@@ -6,22 +6,63 @@ menu: main
 ---
 
 ## Jetson TensorRT ROS Nodes (Current)
-- TensorRT ROS nodes for Jetson TX1/TX2
+- TensorRT ROS nodes for Jetson TX1/TX2 for accelerated embedded deep learning inferences
 - nVidia DIGITS Nodes (detection, classification, and segmentation)
 - [Github][jetson-tensorrt]
+
+![detect]({{ "/assets/img/tensorrt_detect.jpg" | absolute_url }})
+<p align="center">
+<b>Jetson TensorRT Detection + Ranging with an Intel RealSense D435</b><br>
+</p>
+
+## CarRoBot (Current)
+- Autonomous robot powered by a Raspberry Pi and ROS
+- Uses explore_lite, gmapping, and move_base to map out an area
+- [Github][armchair-expert]
+
+![CarRoBot]({{ "/assets/img/carrobot.jpg" | absolute_url }})
+<p align="center">
+<b>CarRoBot</b><br>
+</p>
+
+![CarRoBot Mapping]({{ "/assets/img/carrobot_mapping.jpg" | absolute_url }})
+<p align="center">
+<b>CarRoBot running gmapping with a Neato XV11 2D LIDAR</b><br>
+</p>
+
+## PeliCannon (Current)
+- Computer vision powered Nerf Turret
+- Uses an nVidia Jetson TX2 and Intel RealSense camera to track different things and shoot them with a nerf gun
+- Final version plans to use deep learning based approach for object detection using my Jetson TensorRT nodes
+- [Github][pelicannon]
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7Tb6nidiBTE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+![detect]({{ "/assets/img/realsense_follower.jpg" | absolute_url }})
+<p align="center">
+<b>Pelicannon Object Tracking Test Setup</b><br>
+<br>
+</p>
+
+
+## armchair-expert (Finished)
+- Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
+- Learns new words like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
+- [Github][armchair-expert]
+
+![LilTrumpyAI]({{ "/assets/img/armchair_expert.jpg" | absolute_url }})
+<p align="center">
+<b>armchair-expert trained with all of 45's tweets</b><br>
+</p>
 
 ## deep-connect-four (Finished)
 - Deep Reinforcement Learning agent for the game "Connect Four" powered by a Deep Q-Network
 - [Github][deep-connect-four]
 
-## armchair-expert (Finished)
-- Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
-- Learns new words in realtime like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
-- [Github][armchair-expert]
-
-## EduBot (Current)
-- Raspberry Pi powered autonomous robot powered by ROS
-- Designed to teach robotics to newcomers by abstracting complexities with a simple python programming interface.
+![Deep Connect Four]({{ "/assets/img/deep_connect_four.jpg" | absolute_url }})
+<p align="center">
+<b>Game length as an indicator of performance during training</b><br>
+</p>
 
 ## Machine Learning Models
 ### Sentence Structure and Style Model
@@ -40,6 +81,8 @@ menu: main
 [deep-hammy]: https://github.com/csvance/deep-hammy
 [deep-connect-four]: https://github.com/csvance/deep-connect-four
 [jetson-tensorrt]: https://github.com/csvance/jetson_tensorrt
+[carrobot]: https://github.com/csvance/carrobot/tree/master/launch
+[pelicannon]: https://github.com/csvance/pelicannon
 
 [aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/models/reaction.py
 [neighbor-markov-chain]: https://github.com/csvance/armchair-expert/blob/legacy-sql/markov.py
