@@ -50,19 +50,9 @@ menu: main
 - Learns new words like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
 - [Github][armchair-expert]
 
-![LilTrumpyAI]({{ "/assets/img/armchair_expert.jpg" | absolute_url }})
-<p align="center">
-<b>armchair-expert trained with all of 45's tweets</b><br>
-</p>
-
 ## deep-connect-four (Finished)
 - Deep Reinforcement Learning agent for the game "Connect Four" powered by a Deep Q-Network
 - [Github][deep-connect-four]
-
-![Deep Connect Four]({{ "/assets/img/deep_connect_four.jpg" | absolute_url }})
-<p align="center">
-<b>Game length as an indicator of performance during training</b><br>
-</p>
 
 ## Machine Learning Models
 ### Sentence Structure and Style Model
