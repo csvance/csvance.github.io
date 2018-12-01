@@ -54,6 +54,7 @@ menu: main
 - Deep Reinforcement Learning agent for the game "Connect Four" powered by a Deep Q-Network
 - [Github][deep-connect-four]
 
+
 ## Machine Learning Models
 ### Sentence Structure and Style Model
 - [Recurrent Neural Network][rnn] with learns sentence structure and capitalization style
