@@ -55,18 +55,6 @@ menu: main
 - [Github][deep-connect-four]
 
 
-## Machine Learning Models
-### Sentence Structure and Style Model
-- [Recurrent Neural Network][rnn] with learns sentence structure and capitalization style
-- Multiple Classification
-- Can be used to generate a structure without being seeded with an initial sequence
-- Implemented in [Keras][keras]
-- [Github][structure-model]
-### Positional Vector Markov Chain
-- Custom Markov Chain database which stores positional frequencies of word bi-grams
-- Each generated word is effected by n words around it, where n is the window size
-- [Github][markov-chain-ng]
-
 [structure-model]: https://github.com/csvance/armchair-expert/blob/master/models/structure.py
 [armchair-expert]: https://github.com/csvance/armchair-expert
 [deep-hammy]: https://github.com/csvance/deep-hammy
