@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title></title>
-    <description>I'm an undergrad student interested in embedded systems and artificial intelligence.</description>
+    <description>I'm an undergrad student interested in embedded systems and machine learning.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 01 Dec 2018 12:10:11 -0600</pubDate>
-    <lastBuildDate>Sat, 01 Dec 2018 12:10:11 -0600</lastBuildDate>
+    <pubDate>Sun, 06 Jan 2019 20:31:02 -0600</pubDate>
+    <lastBuildDate>Sun, 06 Jan 2019 20:31:02 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -194,8 +194,8 @@ python convert_to_uff.py tensorflow -o /path/to/graph.uff --input-file /path/to/
 
 </description>
         <pubDate>Fri, 29 Dec 2017 12:04:00 -0600</pubDate>
-        <link>https://csvance.github.io/blog/rnn-seed-problem.html</link>
-        <guid isPermaLink="true">https://csvance.github.io/blog/rnn-seed-problem.html</guid>
+        <link>https://csvance.github.io/blog/RNN-seed-problem.html</link>
+        <guid isPermaLink="true">https://csvance.github.io/blog/RNN-seed-problem.html</guid>
         
         
         <category>blog</category>

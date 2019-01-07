@@ -25,7 +25,7 @@ menu: main
 <b>CarRoBot</b><br>
 </p>
 
-![CarRoBot Mapping]({{ "/assets/img/carrobot_mapping.jpg" | absolute_url }})
+![CarRoBot Mapping]({{ "/assets/img/carrobot_map.jpg" | absolute_url }})
 <p align="center">
 <b>CarRoBot running gmapping with a Neato XV11 2D LIDAR</b><br>
 </p>

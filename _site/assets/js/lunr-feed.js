@@ -78,7 +78,7 @@ var store = [{
     "excerpt": "Background At this point, one would have to be living under a rock to have not heard of DeepMind’s success..."
 },{
     "title": "The RNN Sequence Prediction Seed Problem and How To Solve It",
-    "link": "/blog/rnn-seed-problem.html",
+    "link": "/blog/RNN-seed-problem.html",
     "image": null,
     "date": "December 29, 2017",
     "category": null,
