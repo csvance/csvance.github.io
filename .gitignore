@@ -1,2 +1,4 @@
 .sass-cache
 .jekyll-metadata
+*.pages
+.DS_Store
