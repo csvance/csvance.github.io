@@ -194,7 +194,7 @@
 
 <h2 id="what-are-covariance-matrices-used-for-anyway">What are covariance matrices used for anyway?</h2>
 
-<p>In robotics, a common problem is how to estimate the robot’s pose in three dimensional space. We need to know where the robot (starting with base_link) is in order to understand where the sensor readings take place. In ROS most things are relative to base_link so we if we don’t know where base_link is we don’t know where laser_scanner, camera, or any of our other sensors are! If we don’t know where the sensor is, we don’t know where the readings apply to in space. Covariance matrices help us with localization problems in two different ways here:</p>
+<p>In robotics, a common problem is how to estimate the robot’s pose in three dimensional space. We need to know where the robot (starting with base_link) is in order to understand where the sensor readings take place. In ROS most things are relative to base_link so we if we don’t know where base_link is we don’t know where laser_scanner, camera, or any of our other sensors are! If we don’t know where the sensor is, we don’t know where the readings apply to in space. Covariance matrices help us with robotic state estimation problems in two different ways here:</p>
 
 <ul>
   <li>The diagonal of a covariance matrix is simply the variance of one of our sensor readings. By knowing the variance, we know how its potential error increases over time. So we have an estimate of how wrong our various sensor readings are, which is important to know for using them to estimate other things.</li>
@@ -209,7 +209,7 @@
 
 <p>Let’s start by looking at the variance of acceleration. In this particular case we found it to be (x=0.001, y=0.002). This means it has a standard deviation of (x=0.0316, y=0.0447) by taking the square root of the variance. Because the covariance matrix is calculated using individual samples, we need to multiply the standard deviation of X by the number of samples during the delta T to understand how wrong we potentially are. Say we sample the IMU at 10Hz, so +/- 10 * 0.0316 = +/- 0.316 and +/- 10 * 0.0447 = +/- 0.447, so we know that our velocity is between (x=0.684, y=0.553) and (x=1.316, y=1.447). Consequentially, our position is in between (x=0.342, y=0.2765) and (x=0.658, y=0.7235). Knowing the confidence of these reading effects how much weight a state estimation algorithm will put on that particular parameters accuracy in its estimation of other things.</p>
 
-<p>The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as extended Kalman Filters use this information in order to increase the confidence of the readings to make better predictions about the state.</p>
+<p>The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as <a href="https://en.wikipedia.org/wiki/Extended_Kalman_filter">Extended Kalman Filters</a> use this information in order to increase the confidence of the readings to make better predictions about the state.</p>
 
 <h2 id="how-to-calculate-a-sampling-covariance-matrix">How to calculate a (sampling) covariance matrix?</h2>
 
