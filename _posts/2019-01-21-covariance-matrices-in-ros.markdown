@@ -18,7 +18,7 @@ A common issue learning [ROS][ros] for those without a background in mathematics
 
 In robotics, a common problem is how to estimate the robot's pose in three dimensional space. We need to know where the robot (starting with base_link) is in order to understand where the sensor readings take place. In ROS most things are relative to base_link so we if we don't know where base_link is we don't know where laser_scanner, camera, or any of our other sensors are! If we don't know where the sensor is, we don't know where the readings apply to in space. Covariance matrices help us with robotic state estimation problems in two different ways here:
 
-- The diagonal of a covariance matrix is simply the variance of one of our sensor readings. By knowing the variance, we know how its potential error increases over time. So we have an estimate of how wrong our various sensor readings are, which is important to know for using them to estimate other things.
+- The diagonal of a covariance matrix is simply the variance of one of our sensor readings. By knowing the variance, we know how the upper and low bounds of error scale over time. This is important to know for using these readings to estimate other things.
 - State estimation algorithms can use the non diagonal entries (covariance) of the covariance matrix to reduce error in readings by understanding how things vary with other things. A positive covariance tells us that when one reading is high, the other one is likely to be as well. A negative covariance tells us the opposite.
 
 ## Something Practical
