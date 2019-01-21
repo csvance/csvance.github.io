@@ -6,8 +6,8 @@ description: I'm an undergrad student interested in embedded systems and machine
 avatar: https://csvance.github.io/assets/img/avatar.jpeg
 favicon: /favicon.ico
 twitter_handler:
-analytics_code: UA-80232145-1
-disqus: csvance-blog
+# analytics_code: UA-80232145-1
+# disqus: csvance-blog
 
 # Social Accounts
 social_networks:
