@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in embedded systems and machine learning.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 21 Jan 2019 10:22:54 -0600</pubDate>
-    <lastBuildDate>Mon, 21 Jan 2019 10:22:54 -0600</lastBuildDate>
+    <pubDate>Mon, 21 Jan 2019 10:52:28 -0600</pubDate>
+    <lastBuildDate>Mon, 21 Jan 2019 10:52:28 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -39,7 +39,7 @@
 
 &lt;h2 id=&quot;how-to-calculate-a-sampling-covariance-matrix&quot;&gt;How to calculate a (sampling) covariance matrix?&lt;/h2&gt;
 
-&lt;p&gt;Lets consider the case again of an IMU sensor. We want to measure the sampling noise of the linear acceleration when it is completely still. We create a matrix A containing 3 rows (x, y, z) and 100 columns (individual readings). Next, we calculate the row mean of x, y, and z. We subtract each rows row mean from itself. This gives us a matrix B. Next, we matrix multiply B*B^T. Finally we divide the resulting matrix by n, the number of samples we recorded.&lt;/p&gt;
+&lt;p&gt;Let’s consider the case of an IMU sensor again. We want to measure the sampling noise of the linear acceleration when it is completely still. We create a matrix A containing 3 rows (x, y, z) and 100 columns (individual readings). Next, we calculate the row mean of x, y, and z. We subtract each rows row mean from itself. This gives us a matrix B. Next, we matrix multiply B*B^T. Finally we divide the resulting matrix by n, the number of samples we recorded.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/img/covariance_calculation.png&quot; alt=&quot;Covariance Calculation&quot; /&gt;&lt;/p&gt;
 
