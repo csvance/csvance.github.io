@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in embedded systems and machine learning.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 21 Jan 2019 10:22:29 -0600</pubDate>
-    <lastBuildDate>Mon, 21 Jan 2019 10:22:29 -0600</lastBuildDate>
+    <pubDate>Mon, 21 Jan 2019 10:22:54 -0600</pubDate>
+    <lastBuildDate>Mon, 21 Jan 2019 10:22:54 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -23,7 +23,7 @@
 &lt;p&gt;In robotics, a common problem is how to estimate the robot’s pose in three dimensional space. We need to know where the robot (starting with base_link) is in order to understand where the sensor readings take place. In ROS most things are relative to base_link so we if we don’t know where base_link is we don’t know where laser_scanner, camera, or any of our other sensors are! If we don’t know where the sensor is, we don’t know where the readings apply to in space. Covariance matrices help us with robotic state estimation problems in two different ways here:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;The diagonal of a covariance matrix is simply the variance of one of our sensor readings. By knowing the variance, we know how the upper and low bounds of error scale over time. This is important to know for using these readings to estimate other things.&lt;/li&gt;
+  &lt;li&gt;The diagonal of a covariance matrix is simply the variance of one of our sensor readings. By knowing the variance, we know how the upper and low bounds of error scales over time. This is important to know for using these readings to estimate other things.&lt;/li&gt;
   &lt;li&gt;State estimation algorithms can use the non diagonal entries (covariance) of the covariance matrix to reduce error in readings by understanding how things vary with other things. A positive covariance tells us that when one reading is high, the other one is likely to be as well. A negative covariance tells us the opposite.&lt;/li&gt;
 &lt;/ul&gt;
 
