@@ -30,6 +30,16 @@ menu: main
 <b>CarRoBot running gmapping with a Neato XV11 LIDAR</b><br>
 </p>
 
+## Tails (Current)
+- Autonomous indoor drone powered by a Raspberry Pi and Intel RealSense
+- Finite state machine based flight control code with multiple failover behaviors
+- [Github][tails]
+
+![Tails]({{ "/assets/img/tails.jpg" | absolute_url }})
+<p align="center">
+<b>Tails</b><br>
+</p>
+
 ## PeliCannon (Current)
 - Computer vision powered Nerf Turret
 - Uses an nVidia Jetson TX2 and Intel RealSense camera to track different things and shoot them with a nerf gun
@@ -62,6 +72,7 @@ menu: main
 [jetson-tensorrt]: https://github.com/csvance/jetson_tensorrt
 [carrobot]: https://github.com/csvance/carrobot/tree/master/launch
 [pelicannon]: https://github.com/csvance/pelicannon
+[tails]: https://github.com/csvance/tails
 
 [aol-reaction-model]: https://github.com/csvance/armchair-expert/blob/master/models/reaction.py
 [neighbor-markov-chain]: https://github.com/csvance/armchair-expert/blob/legacy-sql/markov.py
