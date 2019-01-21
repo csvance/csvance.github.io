@@ -178,6 +178,76 @@
 <article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
     <header class="post-header">
         <ul class="clear">
+            <li><time datetime="2019-01-21T06:00:00-06:00" itemprop="datePublished">21 Jan, 2019</time></li>
+            
+        </ul>
+        <h2 itemprop="name headline"><a href="https://csvance.github.io/blog/covariance-matrices-in-ros.html">Covariance Matrices in ROS</a></h2>
+    </header>
+
+    <div class="post-content">
+        <p>A common issue learning <a href="http://www.ros.org">ROS</a> for those without a background in mathematics (specifically Statistics and Linear Algebra) is how to generate a covariance matrix for various message types, and why one needs to generate such a thing in the first place. Today I will attempt to explain both!</p>
+
+<p><img src="/assets/img/covariance_matrix.png" alt="Covariance Matrix" /></p>
+<p align="center">
+<b>Covariance Matrix</b><br />
+</p>
+
+<h2 id="what-are-covariance-matrices-used-for-anyway">What are covariance matrices used for anyway?</h2>
+
+<p>In robotics, a common problem is how to estimate the robot’s pose in three dimensional space. We need to know where the robot (starting with base_link) is in order to understand where the sensor readings take place. In ROS most things are relative to base_link so we if we don’t know where base_link is we don’t know where laser_scanner, camera, or any of our other sensors are! If we don’t know where the sensor is, we don’t know where the readings apply to in space. Covariance matrices help us with localization problems in two different ways here:</p>
+
+<ul>
+  <li>The diagonal of a covariance matrix is simply the variance of one of our sensor readings. By knowing the variance, we know how its potential error increases over time. So we have an estimate of how wrong our various sensor readings are, which is important to know for using them to estimate other things.</li>
+  <li>State estimation algorithms can use the non diagonal entries (covariance) of the covariance matrix to reduce error in readings by understanding how things vary with other things. A positive covariance tells us that when one reading is high, the other one is likely to be as well. A negative covariance tells us the opposite.</li>
+</ul>
+
+<h2 id="something-practical">Something Practical</h2>
+
+<p>A practical example of a covariance matrix is using an IMU sensor to improve our estimation of our current position and heading. An IMU can help with this by letting the robot know how much it is accelerating and how fast it is rotating. Knowing this information lets the robot have an easier time estimating its future position based on its current.</p>
+
+<p>Lets look at the simplest case possible, a robot that only lives in the X and Y dimension. At T=0s, the robot is at (x=0, y=0), and our acceleromter is telling us we are accelerating at (x=1, y=0) m/s^2. At T=1s we see our acceleration remains constant, and want to know how far the robot moved and how fast it is going. Newton taught us that velocity is the derivative of position, and acceleration the derivative of velocity. So we need to apply the inverse operation of the derivative, the integral. However, because we are only working with numerical sensor readings, we need to use a numerical integration method. Ideally we would use Simpson’s rule or the trapezoid rule, but because our acceleration is constant it forms a rectangle shape, so we can just multiply our delta T (1s - 0s) by our acceleration (1 m/s^2). Our speed is increases from 0 to 1 m/s over 1 second. We can either integrate or calculate the area of the triangle 1/2 base*height. This gives us a position of (x=0.5, y=0) m. Now consider how the covariance matrix plays into this estimation.</p>
+
+<p>Let’s start by looking at the variance of acceleration. In this particular case we found it to be (x=0.001, y=0.002). This means it has a standard deviation of (x=0.0316, y=0.0447) by taking the square root of the variance. Because the covariance matrix is calculated using individual samples, we need to multiply the standard deviation of X by the number of samples during the delta T to understand how wrong we potentially are. Say we sample the IMU at 10Hz, so +/- 10 * 0.0316 = +/- 0.316 and +/- 10 * 0.0447 = +/- 0.447, so we know that our velocity is between (x=0.684, y=0.553) and (x=1.316, y=1.447). Consequentially, our position is in between (x=0.342, y=0.2765) and (x=0.658, y=0.7235). Knowing the confidence of these reading effects how much weight a state estimation algorithm will put on that particular parameters accuracy in its estimation of other things.</p>
+
+<p>The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as extended Kalman Filters use this information in order to increase the confidence of the readings to make better predictions about the state.</p>
+
+<h2 id="how-to-calculate-a-sampling-covariance-matrix">How to calculate a (sampling) covariance matrix?</h2>
+
+<p>Lets consider the case again of an IMU sensor. We want to measure the sampling noise of the linear acceleration when it is completely still. We create a matrix A containing 3 rows (x, y, z) and 100 columns (individual readings). Next, we calculate the row mean of x, y, and z. We subtract each rows row mean from itself. This gives us a matrix B. Next, we matrix multiply B*B^T. Finally we divide the resulting matrix by n, the number of samples we recorded.</p>
+
+<p><img src="/assets/img/covariance_calculation.png" alt="Covariance Calculation" /></p>
+
+<p>When we multiply two matrices together, the result has the dimensions of their outside dimensions. So 3 x 100 * 100 x 3 = 3 x 3. So we now have a 3 x 3 covariance matrix, and we need to add it to our ROS IMU messages. The <a href="http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html">IMU message</a> in ROS contains an array called linear_acceleration_covariance which has 9 floating point values. We can simply reshape our matrix to a 9 element array, and store the values in linear_acceleration_covariance. In our covariance array, indexes 0, 3, and 6 (the diagonals) will contain variances, and the rest of the indexes contain covariances between variables.</p>
+
+<p>Keep in mind that this process is only taking into account sampling noise from the sensor, rather than inherent inaccuracies that may be present.</p>
+
+<p>For an example of calculating a covariance matrix with a real sensor and data within a ROS node, see my <a href="https://github.com/csvance/lsm9ds0/blob/master/src/lsm9ds0_node.py">LSM9DS0 IMU ROS node</a>.</p>
+
+
+
+        
+    </div>
+
+    <footer class="post-footer">
+        <div class="share">Share
+            <ul class="social-networks">
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Covariance Matrices in ROS&p[summary]=A common issue learning ROS for those without a background in mathematics (specifically Statistics and Linear Algebra) is how to generate...&p[url]=https://csvance.github.io/blog/covariance-matrices-in-ros.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/blog/covariance-matrices-in-ros.html&text=A common issue learning ROS for those without a background in mathematics (specifically Statistics and Linear Algebra) is how to generate...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
+            </ul>
+        </div>
+        
+        <div class="tags">
+            <ul>
+                
+            </ul>
+        </div>
+        
+    </footer>
+</article>
+
+<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+    <header class="post-header">
+        <ul class="clear">
             <li><time datetime="2018-10-11T07:00:00-05:00" itemprop="datePublished">11 Oct, 2018</time></li>
             
         </ul>
