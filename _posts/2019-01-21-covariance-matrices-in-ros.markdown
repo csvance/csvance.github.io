@@ -29,7 +29,7 @@ Lets look at the simplest case possible, a robot that only lives in the X and Y 
 
 Let's start by looking at the variance of acceleration. In this particular case we found it to be (x=0.001, y=0.002). This means it has a standard deviation of (x=0.0316, y=0.0447) by taking the square root of the variance. Because the covariance matrix is calculated using individual samples, we need to multiply the standard deviation of X by the number of samples during the delta T to understand how wrong we potentially are. Say we sample the IMU at 10Hz, so +/- 10 * 0.0316 = +/- 0.316 and +/- 10 * 0.0447 = +/- 0.447, so we know that our velocity is between (x=0.684, y=0.553) and (x=1.316, y=1.447). Consequentially, our position is in between (x=0.342, y=0.2765) and (x=0.658, y=0.7235). We can look at the intersections of our different estimations, and calculate the maximum likely value of a variable we are trying to estimate. So say we also had an estimation of our X and Y from odometry and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection.
 
-The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as [Extended Kalman Filters][ekf] use this information in order to increase the confidence of the readings to make better predictions about the state.
+The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as [Extended Kalman Filters][ekf] use this information to make better predictions about the state.
 
 ## How to calculate a (sampling) covariance matrix?
 
