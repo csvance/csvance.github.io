@@ -39,7 +39,7 @@ The concept for covariance is similar, but the details are far more complicated.
 
 ## How to calculate a (sampling) covariance matrix?
 
-Let's consider the case of an IMU sensor again. We want to measure the sampling noise of the linear acceleration when it is completely still. We create a matrix A containing 3 rows (x, y, z) and 100 columns (individual readings). Next, we calculate the row mean of x, y, and z. We subtract each rows row mean from itself. This gives us a matrix B. Next, we matrix multiply B*B^T. Finally we divide the resulting matrix by n, the number of samples we recorded.
+Let's consider the case of an IMU sensor again. We want to measure the sampling noise of the linear acceleration when it is completely still. We create a matrix A containing 3 rows (x, y, z) and 100 columns (individual readings). Next, we calculate the row mean of x, y, and z. We subtract each rows row mean from itself. This gives us a matrix B. Next, we matrix multiply B*B^T. Finally we divide the resulting matrix by n, the number of samples we recorded. This gives us a covariance matrix C.
 
 ![Covariance Calculation]({{ "/assets/img/covariance_calculation.png" | absolute_url }})
 
