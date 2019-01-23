@@ -215,9 +215,7 @@
 
 <p><img src="/assets/img/covariance_example.png" alt="Covariance Example" /></p>
 
-<p>We have now calculated a possible range of estimates for velocity V and position P for our IMU. The real magic starts when we consider using a second sensor and combining the results together: our state estimator will look at the intersections of our different sensors estimation of velocity V and position P, and calculate the maximum likely value for X and Y. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges. Remember Bayes’ Theorem?</p>
-
-<p><img src="/assets/img/bayes.png" alt="Bayes' Theorem" /></p>
+<p>We have now calculated a possible range of estimates for velocity V and position P for our IMU. The real magic starts when we consider using a second sensor and combining the results together: our state estimator will look at the intersections of our different sensors estimation of velocity V and position P, and calculate the maximum likely value for X and Y. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges.</p>
 
 <p>The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as <a href="https://en.wikipedia.org/wiki/Extended_Kalman_filter">Extended Kalman Filters</a> use this information to make better predictions about the state.</p>
 

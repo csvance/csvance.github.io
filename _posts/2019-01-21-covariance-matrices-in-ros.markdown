@@ -33,9 +33,7 @@ Now we repeat the process of numerical integration with both our high and low es
 
 ![Covariance Example]({{ "/assets/img/covariance_example.png" | absolute_url }})
 
-We have now calculated a possible range of estimates for velocity V and position P for our IMU. The real magic starts when we consider using a second sensor and combining the results together: our state estimator will look at the intersections of our different sensors estimation of velocity V and position P, and calculate the maximum likely value for X and Y. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges. Remember Bayes' Theorem?
-
-![Bayes' Theorem]({{ "/assets/img/bayes.png" | absolute_url }})
+We have now calculated a possible range of estimates for velocity V and position P for our IMU. The real magic starts when we consider using a second sensor and combining the results together: our state estimator will look at the intersections of our different sensors estimation of velocity V and position P, and calculate the maximum likely value for X and Y. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges. 
 
 The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as [Extended Kalman Filters][ekf] use this information to make better predictions about the state.
 

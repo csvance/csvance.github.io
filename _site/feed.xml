@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in embedded systems and machine learning.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 22 Jan 2019 18:41:55 -0600</pubDate>
-    <lastBuildDate>Tue, 22 Jan 2019 18:41:55 -0600</lastBuildDate>
+    <pubDate>Tue, 22 Jan 2019 18:53:51 -0600</pubDate>
+    <lastBuildDate>Tue, 22 Jan 2019 18:53:51 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -39,9 +39,7 @@
 
 &lt;p&gt;&lt;img src=&quot;/assets/img/covariance_example.png&quot; alt=&quot;Covariance Example&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;We have now calculated a possible range of estimates for velocity V and position P for our IMU. The real magic starts when we consider using a second sensor and combining the results together: our state estimator will look at the intersections of our different sensors estimation of velocity V and position P, and calculate the maximum likely value for X and Y. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges. Remember Bayes’ Theorem?&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/img/bayes.png&quot; alt=&quot;Bayes' Theorem&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;We have now calculated a possible range of estimates for velocity V and position P for our IMU. The real magic starts when we consider using a second sensor and combining the results together: our state estimator will look at the intersections of our different sensors estimation of velocity V and position P, and calculate the maximum likely value for X and Y. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges.&lt;/p&gt;
 
 &lt;p&gt;The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Extended_Kalman_filter&quot;&gt;Extended Kalman Filters&lt;/a&gt; use this information to make better predictions about the state.&lt;/p&gt;
 
