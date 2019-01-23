@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in embedded systems and machine learning.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 22 Jan 2019 14:11:06 -0600</pubDate>
-    <lastBuildDate>Tue, 22 Jan 2019 14:11:06 -0600</lastBuildDate>
+    <pubDate>Tue, 22 Jan 2019 18:27:43 -0600</pubDate>
+    <lastBuildDate>Tue, 22 Jan 2019 18:27:43 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -31,15 +31,15 @@
 
 &lt;p&gt;A practical example of a covariance matrix is using an IMU sensor to improve our estimation of our current position and heading. An IMU can help with this by letting the robot know how much it is accelerating and how fast it is rotating. Knowing this information lets the robot have an easier time estimating its future position based on its current.&lt;/p&gt;
 
-&lt;p&gt;Let’s look at the simplest possible case: a robot that lives in the X and Y dimensions. At T=0s, the robot is at (x=0, y=0), and our accelerometer is telling us we are accelerating at (x=1, y=0) m/s^2. At T=1s we see our acceleration remains constant, and want to know how far the robot moved and how fast it is going. Newton taught us that velocity is the derivative of position, and acceleration the derivative of velocity. So we need to apply the inverse operation of the derivative, the integral. However, because we are only working with numerical sensor readings, we need to use a numerical integration method. Ideally we would use Simpson’s rule or the trapezoid rule, but because our acceleration is constant it forms a rectangle shape, so we can just multiply our delta T (1s - 0s) by our acceleration (1 m/s^2). Our speed is increases from 0 to 1 m/s over 1 second. We can either integrate or calculate the area of the triangle 1/2 base*height. This gives us a position of (x=0.5, y=0) m. Now consider how the covariance matrix plays into this estimation.&lt;/p&gt;
+&lt;p&gt;Let’s look at the simplest possible case: a robot that lives in the X and Y dimensions. At T=0s, the robot is at (x=0, y=0), and our accelerometer is telling us we are accelerating at (x=1, y=0) m/s^2. At T=1s we see our acceleration remains constant, and want to know how far the robot moved and how fast it is going. Newton taught us that velocity is the derivative of position, and acceleration the derivative of velocity. Since we are working with numbers, we will need to use numerical integration techniques to determine our velocity V and position P. Because our acceleration is constant it forms a rectangle shape, so we can just multiply our ΔT (1s - 0s) by our acceleration (1 m/s^2). We find that our velocity V increases linearly by 1 m/s over 1 second. To get to position P We can calculate the area of the triangle under the linear velocity curve (1/2 base*height). This gives us a final position P of (x=0.5, y=0) m. Now consider how the covariance matrix can help us understand the error in this process.&lt;/p&gt;
 
-&lt;p&gt;Let’s start by looking at the variance of acceleration. In this particular case we found it to be (x=0.001, y=0.002). This means it has a standard deviation of (x=0.0316, y=0.0447) by taking the square root of the variance. We then add and subtract 1/2 the standard deviation from our linear accelerometer readings.&lt;/p&gt;
+&lt;p&gt;Let’s start by looking at the variance of acceleration. In this particular case we found it to be (x=0.001, y=0.002). This means it has a standard deviation of (x=0.0316, y=0.0447) by taking the square root of the variance. We then add and subtract 1/2 the standard deviation from our linear accelerometer readings. This gives us a reasonable estimation of the real range of the acceleration A.&lt;/p&gt;
 
-&lt;p&gt;Because acceleration is constant, multiplying by our delta T = 1s gives us a linear velocity curve starting at 0 and ending at the same place as acceleration for both x and y. To calculate the possible range of our position we integrate again, this time recognizing that because velocity is linear, we can calculate p_x and p_y as the area of a right triangle.&lt;/p&gt;
+&lt;p&gt;Now we repeat the process of numerical integration with both our high and low estimates.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/img/covariance_example.png&quot; alt=&quot;Covariance Example&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Now our state estimator can look at the intersections of our different estimations, and calculate the maximum likely value of a variable we are trying to estimate. So say we also had an estimation of our X and Y from odometry and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection.&lt;/p&gt;
+&lt;p&gt;We have now calculated a possible range of estimates for velocity V and position P for our IMU. The real magic starts when we consider using a second sensor and combining fusing the results together: our state estimator will look at the intersections of our different sensors estimation of velocity V and position P, and calculate the maximum likely value for X and Y. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges.&lt;/p&gt;
 
 &lt;p&gt;The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Extended_Kalman_filter&quot;&gt;Extended Kalman Filters&lt;/a&gt; use this information to make better predictions about the state.&lt;/p&gt;
 
