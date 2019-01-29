@@ -18,7 +18,7 @@ menu: main
 ## CarRoBot (Current)
 - Autonomous robot powered by a Raspberry Pi and ROS
 - Uses explore_lite, gmapping, and move_base to map out an area
-- [Github][armchair-expert]
+- [Github][carrobot]
 
 ![CarRoBot]({{ "/assets/img/carrobot.jpg" | absolute_url }})
 <p align="center">
