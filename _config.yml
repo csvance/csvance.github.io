@@ -15,7 +15,7 @@ social_networks:
 -  { name: twitter, url: '' }
 -  { name: instagram, url: '' }
 -  { name: google-plus, url: '' }
--  { name: linkedin, url: 'https://www.linkedin.com/in/carroll-vance-3566a117a/' }
+-  { name: linkedin, url: 'www.linkedin.com/in/cs-vance' }
 -  { name: skype, url: '' }
 -  { name: github, url: 'https://github.com/csvance' }
 -  { name: codepen, url: '' }
@@ -41,7 +41,7 @@ show_categories: 1
 show_tags: 1
 show_email: 1
 show_rss: 1
-show_comments: 1
+show_comments: 0
 show_menu: 1
 fixed_sidebar: 1
 
