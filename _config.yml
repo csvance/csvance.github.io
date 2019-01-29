@@ -3,7 +3,7 @@ name: Carroll Vance
 job_title: CS Undergrad @ UH
 email: csvance@uh.edu
 description: I'm an undergrad student interested in embedded systems and machine learning.
-avatar: https://csvance.github.io/assets/img/avatar.jpeg
+avatar: assets/img/avatar.jpeg
 favicon: /favicon.ico
 twitter_handler:
 # analytics_code: UA-80232145-1
@@ -56,6 +56,7 @@ defaults:
 
 # Serving
 url: "https://csvance.github.io"
+#url: "http://localhost:4000"
 #url: ""
 baseurl: ""
 
