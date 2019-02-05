@@ -4,8 +4,8 @@ title: Resume
 permalink: /resume/
 menu: main
 ---
+<script>location='/assets/pdf/csvance_resume.pdf'</script>
 
-[Resume - 2019][resume]
 
 ## Leadership
 [IEEE Makerspace Officer Page][ieee]
