@@ -23,7 +23,7 @@ In robotics, a common problem is how to estimate the robot's pose in three dimen
 
 ## Something Practical
 
-A practical example of a covariance matrix is using an IMU sensor to improve our estimation of our current position and heading. An IMU can help with this by letting the robot know how much it is accelerating and how fast it is rotating. 
+A practical example of a covariance matrix is using an IMU sensor to improve our estimation of our current position and heading. An IMU can help with this by letting the robot know how much it is accelerating and how fast it is rotating.
 
 Let's look at the simplest possible case: a robot that lives in the X and Y dimensions. At T=0s, the robot is at (x=0, y=0), and our accelerometer is telling us we are accelerating at (x=1, y=0) m/s^2. At T=1s we see our acceleration remains constant, and want to know how far the robot moved and how fast it is going. Newton taught us that velocity is the derivative of position, and acceleration the derivative of velocity. Since we are working with numbers, we will need to use numerical integration techniques to determine our velocity V and position P from acceleration A. Because our acceleration is constant it forms a rectangle shape, so we can just multiply our ΔT by our acceleration (1 m/s^2). We find that our velocity V increases linearly by 1 m/s over 1 second. To get to position P We can calculate the area of the triangle under the linear velocity curve (1/2 base*height). This gives us a final position P of (x=0.5, y=0) m. Now consider how the covariance matrix can help us understand the error in this process, and eventually improve our estimation by combining the results from other sensors.
 
@@ -33,7 +33,9 @@ Now we repeat the process of numerical integration with both our high and low es
 
 ![Covariance Example]({{ "/assets/img/covariance_example.png" | absolute_url }})
 
-We have now calculated a possible range of estimates for velocity V and position P for our IMU. The real magic starts when we consider using a second sensor and combining the results together: our state estimator will look at the intersections of our different sensors estimation of velocity V and position P, and calculate the maximum likely value for X and Y. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges.
+We have now calculated a possible range of estimates for velocity V and position P for our IMU. However, we have only accounted for a single time step. Because we are uncertain about our starting state for the next time step, the possible range of values balloons quickly, especially when one starts considering the direction the robot is facing during all of this.
+
+To improve our estimation we can use a second sensor and combine the results together. Our state estimator will look at the intersections of our different sensors estimations, and calculate the maximum likely value for each state we are estimating. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges.
 
 The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as [Extended Kalman Filters][ekf] use this information to make better predictions about the state.
 
@@ -45,7 +47,7 @@ Let's consider the case of an IMU sensor again. We want to measure the sampling 
 
 When we multiply two matrices together, the result has the dimensions of their outside dimensions. So 3 x 100 * 100 x 3 = 3 x 3. So we now have a 3 x 3 covariance matrix, and we need to add it to our ROS IMU messages. The [IMU message][imu] in ROS contains an array called linear_acceleration_covariance which has 9 floating point values. We can simply reshape our matrix to a 9 element array, and store the values in linear_acceleration_covariance. In our covariance array, indexes 0, 4, and 8 (the diagonals) will contain variances, and the rest of the indexes contain covariances between variables.
 
-Keep in mind that this process is only taking into account sampling noise from the sensor, rather than inherent inaccuracies that may be present.
+Keep in mind that this process is only taking into account sampling noise from the sensor, rather than inherent inaccuracies that may be present. It would be prudent to pad the variance for certain sources such as odometry due to factors such as wheel slippage.
 
 For an example of calculating a covariance matrix with a real sensor and data within a ROS node, see my [LSM9DS0 IMU ROS node][example].
 

@@ -6,7 +6,6 @@ menu: main
 ---
 <script>location='/assets/pdf/csvance_resume.pdf'</script>
 
-
 ## Leadership
 [IEEE Makerspace Officer Page][ieee]
 

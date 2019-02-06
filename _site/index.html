@@ -217,7 +217,9 @@
 
 <p><img src="/assets/img/covariance_example.png" alt="Covariance Example" /></p>
 
-<p>We have now calculated a possible range of estimates for velocity V and position P for our IMU. The real magic starts when we consider using a second sensor and combining the results together: our state estimator will look at the intersections of our different sensors estimation of velocity V and position P, and calculate the maximum likely value for X and Y. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges.</p>
+<p>We have now calculated a possible range of estimates for velocity V and position P for our IMU. However, we have only accounted for a single time step. Because we are uncertain about our starting state for the next time step, the possible range of values balloons quickly, especially when one starts considering the direction the robot is facing during all of this.</p>
+
+<p>To improve our estimation we can use a second sensor and combine the results together. Our state estimator will look at the intersections of our different sensors estimations, and calculate the maximum likely value for each state we are estimating. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges.</p>
 
 <p>The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as <a href="https://en.wikipedia.org/wiki/Extended_Kalman_filter">Extended Kalman Filters</a> use this information to make better predictions about the state.</p>
 
@@ -229,7 +231,7 @@
 
 <p>When we multiply two matrices together, the result has the dimensions of their outside dimensions. So 3 x 100 * 100 x 3 = 3 x 3. So we now have a 3 x 3 covariance matrix, and we need to add it to our ROS IMU messages. The <a href="http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html">IMU message</a> in ROS contains an array called linear_acceleration_covariance which has 9 floating point values. We can simply reshape our matrix to a 9 element array, and store the values in linear_acceleration_covariance. In our covariance array, indexes 0, 4, and 8 (the diagonals) will contain variances, and the rest of the indexes contain covariances between variables.</p>
 
-<p>Keep in mind that this process is only taking into account sampling noise from the sensor, rather than inherent inaccuracies that may be present.</p>
+<p>Keep in mind that this process is only taking into account sampling noise from the sensor, rather than inherent inaccuracies that may be present. It would be prudent to pad the variance for certain sources such as odometry due to factors such as wheel slippage.</p>
 
 <p>For an example of calculating a covariance matrix with a real sensor and data within a ROS node, see my <a href="https://github.com/csvance/lsm9ds0/blob/master/src/lsm9ds0_node.py">LSM9DS0 IMU ROS node</a>.</p>
 

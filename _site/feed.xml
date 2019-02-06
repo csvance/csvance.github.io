@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in embedded systems and machine learning.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 05 Feb 2019 11:02:25 -0600</pubDate>
-    <lastBuildDate>Tue, 05 Feb 2019 11:02:25 -0600</lastBuildDate>
+    <pubDate>Tue, 05 Feb 2019 21:46:05 -0600</pubDate>
+    <lastBuildDate>Tue, 05 Feb 2019 21:46:05 -0600</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -39,7 +39,9 @@
 
 &lt;p&gt;&lt;img src=&quot;/assets/img/covariance_example.png&quot; alt=&quot;Covariance Example&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;We have now calculated a possible range of estimates for velocity V and position P for our IMU. The real magic starts when we consider using a second sensor and combining the results together: our state estimator will look at the intersections of our different sensors estimation of velocity V and position P, and calculate the maximum likely value for X and Y. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges.&lt;/p&gt;
+&lt;p&gt;We have now calculated a possible range of estimates for velocity V and position P for our IMU. However, we have only accounted for a single time step. Because we are uncertain about our starting state for the next time step, the possible range of values balloons quickly, especially when one starts considering the direction the robot is facing during all of this.&lt;/p&gt;
+
+&lt;p&gt;To improve our estimation we can use a second sensor and combine the results together. Our state estimator will look at the intersections of our different sensors estimations, and calculate the maximum likely value for each state we are estimating. So say we also had an estimation of our position from odometry, and there was some intersection between our IMU estimation. The true X and Y we are trying to estimate is most likely inside the intersection of these ranges.&lt;/p&gt;
 
 &lt;p&gt;The concept for covariance is similar, but the details are far more complicated. Just know that state estimation systems such as &lt;a href=&quot;https://en.wikipedia.org/wiki/Extended_Kalman_filter&quot;&gt;Extended Kalman Filters&lt;/a&gt; use this information to make better predictions about the state.&lt;/p&gt;
 
@@ -51,7 +53,7 @@
 
 &lt;p&gt;When we multiply two matrices together, the result has the dimensions of their outside dimensions. So 3 x 100 * 100 x 3 = 3 x 3. So we now have a 3 x 3 covariance matrix, and we need to add it to our ROS IMU messages. The &lt;a href=&quot;http://docs.ros.org/api/sensor_msgs/html/msg/Imu.html&quot;&gt;IMU message&lt;/a&gt; in ROS contains an array called linear_acceleration_covariance which has 9 floating point values. We can simply reshape our matrix to a 9 element array, and store the values in linear_acceleration_covariance. In our covariance array, indexes 0, 4, and 8 (the diagonals) will contain variances, and the rest of the indexes contain covariances between variables.&lt;/p&gt;
 
-&lt;p&gt;Keep in mind that this process is only taking into account sampling noise from the sensor, rather than inherent inaccuracies that may be present.&lt;/p&gt;
+&lt;p&gt;Keep in mind that this process is only taking into account sampling noise from the sensor, rather than inherent inaccuracies that may be present. It would be prudent to pad the variance for certain sources such as odometry due to factors such as wheel slippage.&lt;/p&gt;
 
 &lt;p&gt;For an example of calculating a covariance matrix with a real sensor and data within a ROS node, see my &lt;a href=&quot;https://github.com/csvance/lsm9ds0/blob/master/src/lsm9ds0_node.py&quot;&gt;LSM9DS0 IMU ROS node&lt;/a&gt;.&lt;/p&gt;
 
