@@ -5,9 +5,9 @@ permalink: /portfolio/
 menu: main
 ---
 
-## Jetson TensorRT ROS Nodes (Current)
+## Jetson TensorRT ROS Nodes (Finished)
 - TensorRT ROS nodes for Jetson TX1/TX2 for accelerated embedded deep learning inferences
-- nVidia DIGITS Nodes (detection, classification, and segmentation)
+- nVidia DIGITS Nodes (detection and classification)
 - [Github][jetson-tensorrt]
 
 ![detect]({{ "/assets/img/tensorrt_detect.jpg" | absolute_url }})
@@ -15,7 +15,7 @@ menu: main
 <b>Jetson TensorRT Detection + Ranging with an Intel RealSense D435</b><br>
 </p>
 
-## CarRoBot (Current)
+## CarRoBot (Finished)
 - Autonomous robot powered by a Raspberry Pi and ROS
 - Uses explore_lite, gmapping, and move_base to map out an area
 - [Github][carrobot]
