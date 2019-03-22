@@ -199,7 +199,7 @@ sudo udevadm control --reload-rules <span class="o">&amp;&amp;</span> sudo udeva
 <span class="c"># Reboot required for changes to take effect</span>
 sudo reboot</code></pre></figure>
 
-<p>Now we need to install Jetson.GPIO because by default neither Python 2.7 or Python3.6 can access it.</p>
+<p>Now we need to install Jetson.GPIO because by default neither Python 2.7 or Python3.6 can access it:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Python 2.7</span>
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python2.7/dist-packages/
@@ -209,7 +209,7 @@ sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python2.7/dist-
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python3.6/dist-packages/
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python3.6/dist-packages/</code></pre></figure>
 
-<p>We also have to remove the <strong>init</strong>.py file in order for the paths to work correctly for python 3.6 import</p>
+<p>We also have to remove the python init file in order for the paths to work correctly for python 3.6:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py</code></pre></figure>
 
