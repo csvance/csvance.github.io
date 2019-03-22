@@ -182,6 +182,85 @@
 <article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
     <header class="post-header">
         <ul class="clear">
+            <li><time datetime="2019-03-21T07:00:00-05:00" itemprop="datePublished">21 Mar, 2019</time></li>
+            
+        </ul>
+        <h2 itemprop="name headline"><a href="https://csvance.github.io/blog/jetpack-42-jetson-gpio.html">Using the new Jetson.GPIO python library in Jetpack 4.2</a></h2>
+    </header>
+
+    <div class="post-content">
+        <p>With the release of the new <a href="https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-nano/">Jetson Nano</a> also comes the <a href="https://developer.nvidia.com/embedded/jetpack">4.2 release of nVidia’s Jetpack BSP for the Jetson</a>. This included a new python library called Jetson.GPIO which provides a familiar interface for anyone who has used RPi.GPIO before. However, it doesn’t seem to be installed by default, so here are the instructions for getting it loaded into python!</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Setup groups/permissions
+sudo groupadd -f -r gpio
+sudo usermod -a -G gpio your_user_name
+sudo cp /opt/nvidia/jetson-gpio/etc/99-gpio.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules &amp;&amp; sudo udevadm trigger
+
+# Reboot required for changes to take effect
+udo reboot
+</code></pre>
+</div>
+
+<p>Now we need to install Jetson.GPIO because by default neither Python 2.7 or Python3.6 can access it.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Python 2.7
+sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python2.7/dist-packages/
+sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python2.7/dist-packages/
+
+# Python 3.7
+sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python3.6/dist-packages/
+sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python3.6/dist-packages/
+
+# We also have to remove the __init__.py file in order for the paths to work correctly for python 3.6 import
+sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py
+</code></pre>
+</div>
+
+<p>After this we should be able to import the library in both versions of python:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>nvidia@tx2:~$ python3
+Python 3.6.7 (default, Oct 22 2018, 11:32:17)
+[GCC 8.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; import Jetson.GPIO
+&gt;&gt;&gt;
+nvidia@tx2:~$ python
+Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)
+[GCC 7.3.0] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+&gt;&gt;&gt; import Jetson.GPIO
+&gt;&gt;&gt;
+</code></pre>
+</div>
+
+<p>Happy hacking!</p>
+
+
+
+        
+    </div>
+
+    <footer class="post-footer">
+        <div class="share">Share
+            <ul class="social-networks">
+                <li class="share-facebook"><a href="https://www.facebook.com/sharer.php?s=100&p[title]=Using the new Jetson.GPIO python library in Jetpack 4.2&p[summary]=With the release of the new Jetson Nano also comes the 4.2 release of nVidia’s Jetpack BSP for the Jetson. This included a new python lib...&p[url]=https://csvance.github.io/blog/jetpack-42-jetson-gpio.html" class="s_facebook" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#facebook-icon"></use></svg></a></a></li>
+                <li class="share-twitter"><a href="http://twitter.com/share?url=https://csvance.github.io/blog/jetpack-42-jetson-gpio.html&text=With the release of the new Jetson Nano also comes the 4.2 release of nVidia’s Jetpack BSP for the Jetson. This included a new python lib...&hashtags=" rel="noreferrer" target="_blank" onclick="window.open(this.href, '','width=700,height=300');return false;"><svg title="" width="16" height="16"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://csvance.github.io/assets/svg/social-icons.svg#twitter-icon"></use></svg></a></li>
+            </ul>
+        </div>
+        
+        <div class="tags">
+            <ul>
+                
+            </ul>
+        </div>
+        
+    </footer>
+</article>
+
+<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting">
+    <header class="post-header">
+        <ul class="clear">
             <li><time datetime="2019-01-21T06:00:00-06:00" itemprop="datePublished">21 Jan, 2019</time></li>
             
         </ul>
