@@ -193,50 +193,43 @@
     <div class="post-content">
         <p>With the release of the new <a href="https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-nano/">Jetson Nano</a> also comes the <a href="https://developer.nvidia.com/embedded/jetpack">4.2 release of nVidia’s Jetpack BSP for the Jetson</a>. This included a new python library called Jetson.GPIO which provides a familiar interface for anyone who has used RPi.GPIO before. However, it doesn’t seem to be installed by default, so here are the instructions for getting it loaded into python!</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># Setup groups/permissions
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Setup groups/permissions</span>
 sudo groupadd -f -r gpio
 sudo usermod -a -G gpio your_user_name
 sudo cp /opt/nvidia/jetson-gpio/etc/99-gpio.rules /etc/udev/rules.d/
-sudo udevadm control --reload-rules &amp;&amp; sudo udevadm trigger
+sudo udevadm control --reload-rules <span class="o">&amp;&amp;</span> sudo udevadm trigger
 
-# Reboot required for changes to take effect
-udo reboot
-</code></pre>
-</div>
+<span class="c"># Reboot required for changes to take effect</span>
+sudo reboot</code></pre></figure>
 
 <p>Now we need to install Jetson.GPIO because by default neither Python 2.7 or Python3.6 can access it.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># Python 2.7
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Python 2.7</span>
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python2.7/dist-packages/
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python2.7/dist-packages/
 
-# Python 3.6
+<span class="c"># Python 3.6</span>
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python3.6/dist-packages/
-sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python3.6/dist-packages/
-</code></pre>
-</div>
+sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python3.6/dist-packages/</code></pre></figure>
 
 <p>We also have to remove the <strong>init</strong>.py file in order for the paths to work correctly for python 3.6 import</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py
-</code></pre>
-</div>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py</code></pre></figure>
 
 <p>After this we should be able to import the library in both versions of python:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>nvidia@tx2:~$ python3
-Python 3.6.7 (default, Oct 22 2018, 11:32:17)
-[GCC 8.2.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; import Jetson.GPIO
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="gp">nvidia@tx2:~$ </span>python3
+Python 3.6.7 <span class="o">(</span>default, Oct 22 2018, 11:32:17<span class="o">)</span>
+<span class="o">[</span>GCC 8.2.0] on linux
+Type <span class="s2">"help"</span>, <span class="s2">"copyright"</span>, <span class="s2">"credits"</span> or <span class="s2">"license"</span> <span class="k">for </span>more information.
+<span class="gp">&gt;&gt;&gt; </span>import Jetson.GPIO
 &gt;&gt;&gt;
-nvidia@tx2:~$ python
-Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)
-[GCC 7.3.0] on linux2
-Type "help", "copyright", "credits" or "license" for more information.
-&gt;&gt;&gt; import Jetson.GPIO
-&gt;&gt;&gt;
-</code></pre>
-</div>
+<span class="gp">nvidia@tx2:~$ </span>python
+Python 2.7.15rc1 <span class="o">(</span>default, Nov 12 2018, 14:31:15<span class="o">)</span>
+<span class="o">[</span>GCC 7.3.0] on linux2
+Type <span class="s2">"help"</span>, <span class="s2">"copyright"</span>, <span class="s2">"credits"</span> or <span class="s2">"license"</span> <span class="k">for </span>more information.
+<span class="gp">&gt;&gt;&gt; </span>import Jetson.GPIO
+&gt;&gt;&gt;</code></pre></figure>
 
 <p>Happy hacking!</p>
 

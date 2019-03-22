@@ -5,58 +5,51 @@
     <description>I'm an undergrad student interested in machine learning and computer vision.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 21 Mar 2019 21:33:36 -0500</pubDate>
-    <lastBuildDate>Thu, 21 Mar 2019 21:33:36 -0500</lastBuildDate>
+    <pubDate>Thu, 21 Mar 2019 21:37:57 -0500</pubDate>
+    <lastBuildDate>Thu, 21 Mar 2019 21:37:57 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
         <title>Using the new Jetson.GPIO python library in Jetpack 4.2</title>
         <description>&lt;p&gt;With the release of the new &lt;a href=&quot;https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-nano/&quot;&gt;Jetson Nano&lt;/a&gt; also comes the &lt;a href=&quot;https://developer.nvidia.com/embedded/jetpack&quot;&gt;4.2 release of nVidia’s Jetpack BSP for the Jetson&lt;/a&gt;. This included a new python library called Jetson.GPIO which provides a familiar interface for anyone who has used RPi.GPIO before. However, it doesn’t seem to be installed by default, so here are the instructions for getting it loaded into python!&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Setup groups/permissions
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Setup groups/permissions&lt;/span&gt;
 sudo groupadd -f -r gpio
 sudo usermod -a -G gpio your_user_name
 sudo cp /opt/nvidia/jetson-gpio/etc/99-gpio.rules /etc/udev/rules.d/
-sudo udevadm control --reload-rules &amp;amp;&amp;amp; sudo udevadm trigger
+sudo udevadm control --reload-rules &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo udevadm trigger
 
-# Reboot required for changes to take effect
-udo reboot
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;span class=&quot;c&quot;&gt;# Reboot required for changes to take effect&lt;/span&gt;
+sudo reboot&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Now we need to install Jetson.GPIO because by default neither Python 2.7 or Python3.6 can access it.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Python 2.7
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Python 2.7&lt;/span&gt;
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python2.7/dist-packages/
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python2.7/dist-packages/
 
-# Python 3.6
+&lt;span class=&quot;c&quot;&gt;# Python 3.6&lt;/span&gt;
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python3.6/dist-packages/
-sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python3.6/dist-packages/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python3.6/dist-packages/&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;We also have to remove the &lt;strong&gt;init&lt;/strong&gt;.py file in order for the paths to work correctly for python 3.6 import&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;After this we should be able to import the library in both versions of python:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nvidia@tx2:~$ python3
-Python 3.6.7 (default, Oct 22 2018, 11:32:17)
-[GCC 8.2.0] on linux
-Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
-&amp;gt;&amp;gt;&amp;gt; import Jetson.GPIO
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;gp&quot;&gt;nvidia@tx2:~$ &lt;/span&gt;python3
+Python 3.6.7 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;default, Oct 22 2018, 11:32:17&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;GCC 8.2.0] on linux
+Type &lt;span class=&quot;s2&quot;&gt;&quot;help&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;copyright&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;credits&quot;&lt;/span&gt; or &lt;span class=&quot;s2&quot;&gt;&quot;license&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;more information.
+&lt;span class=&quot;gp&quot;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;import Jetson.GPIO
 &amp;gt;&amp;gt;&amp;gt;
-nvidia@tx2:~$ python
-Python 2.7.15rc1 (default, Nov 12 2018, 14:31:15)
-[GCC 7.3.0] on linux2
-Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
-&amp;gt;&amp;gt;&amp;gt; import Jetson.GPIO
-&amp;gt;&amp;gt;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;span class=&quot;gp&quot;&gt;nvidia@tx2:~$ &lt;/span&gt;python
+Python 2.7.15rc1 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;default, Nov 12 2018, 14:31:15&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;GCC 7.3.0] on linux2
+Type &lt;span class=&quot;s2&quot;&gt;&quot;help&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;copyright&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;credits&quot;&lt;/span&gt; or &lt;span class=&quot;s2&quot;&gt;&quot;license&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;more information.
+&lt;span class=&quot;gp&quot;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;/span&gt;import Jetson.GPIO
+&amp;gt;&amp;gt;&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Happy hacking!&lt;/p&gt;
 
