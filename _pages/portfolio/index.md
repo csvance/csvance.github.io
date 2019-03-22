@@ -30,31 +30,6 @@ menu: main
 <b>CarRoBot running gmapping with a Neato XV11 LIDAR</b><br>
 </p>
 
-## Tails (Current)
-- Autonomous indoor drone powered by a Raspberry Pi and Intel RealSense
-- Finite state machine based flight control code with multiple failover behaviors
-- [Github][tails]
-
-![Tails]({{ "/assets/img/tails.jpg" | absolute_url }})
-<p align="center">
-<b>Tails</b><br>
-</p>
-
-## PeliCannon (Current)
-- Computer vision powered Nerf Turret
-- Uses an nVidia Jetson TX2 and Intel RealSense camera to track different things and shoot them with a nerf gun
-- Final version plans to use deep learning based approach for object detection using my Jetson TensorRT nodes
-- [Github][pelicannon]
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/7Tb6nidiBTE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-![detect]({{ "/assets/img/realsense_follower.jpg" | absolute_url }})
-<p align="center">
-<b>Pelicannon Object Tracking Test Setup</b><br>
-<br>
-</p>
-
-
 ## armchair-expert (Finished)
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
 - Learns new words like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
