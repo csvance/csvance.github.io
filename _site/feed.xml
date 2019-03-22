@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in machine learning and computer vision.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 21 Mar 2019 21:32:23 -0500</pubDate>
-    <lastBuildDate>Thu, 21 Mar 2019 21:32:23 -0500</lastBuildDate>
+    <pubDate>Thu, 21 Mar 2019 21:33:36 -0500</pubDate>
+    <lastBuildDate>Thu, 21 Mar 2019 21:33:36 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -30,12 +30,14 @@ udo reboot
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python2.7/dist-packages/
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python2.7/dist-packages/
 
-# Python 3.7
+# Python 3.6
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python3.6/dist-packages/
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python3.6/dist-packages/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-# We also have to remove the __init__.py file in order for the paths to work correctly for python 3.6 import
-sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py
+&lt;p&gt;We also have to remove the &lt;strong&gt;init&lt;/strong&gt;.py file in order for the paths to work correctly for python 3.6 import&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 

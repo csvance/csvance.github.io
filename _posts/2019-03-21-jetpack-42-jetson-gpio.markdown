@@ -27,11 +27,13 @@ Now we need to install Jetson.GPIO because by default neither Python 2.7 or Pyth
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python2.7/dist-packages/
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python2.7/dist-packages/
 
-# Python 3.7
+# Python 3.6
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python3.6/dist-packages/
 sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python3.6/dist-packages/
+```
 
-# We also have to remove the __init__.py file in order for the paths to work correctly for python 3.6 import
+We also have to remove the __init__.py file in order for the paths to work correctly for python 3.6 import
+```
 sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py
 ```
 
