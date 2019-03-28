@@ -45,7 +45,7 @@ menu: main
 [deep-hammy]: https://github.com/csvance/deep-hammy
 [deep-connect-four]: https://github.com/csvance/deep-connect-four
 [jetson-tensorrt]: https://github.com/csvance/jetson_tensorrt
-[carrobot]: https://github.com/csvance/carrobot/tree/master/launch
+[carrobot]: https://github.com/csvance/carrobot
 [pelicannon]: https://github.com/csvance/pelicannon
 [tails]: https://github.com/csvance/tails
 
