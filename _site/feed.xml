@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in machine learning and computer vision.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 08 Apr 2019 13:36:50 -0500</pubDate>
-    <lastBuildDate>Mon, 08 Apr 2019 13:36:50 -0500</lastBuildDate>
+    <pubDate>Mon, 08 Apr 2019 13:54:38 -0500</pubDate>
+    <lastBuildDate>Mon, 08 Apr 2019 13:54:38 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -17,7 +17,7 @@
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo apt install python3-numpy python3-markdown python3-mock python3-termcolor python3-astor libhdf5-dev&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Now follow the instructions here to install tensorflow-gpu on Jetpack 4.2: &lt;a href=&quot;https://devtalk.nvidia.com/default/topic/1038957/jetson-tx2/tensorflow-for-jetson-tx2-/&quot;&gt;https://devtalk.nvidia.com/default/topic/1038957/jetson-tx2/tensorflow-for-jetson-tx2-&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Follow the instructions here to install tensorflow-gpu on Jetpack 4.2: &lt;a href=&quot;https://devtalk.nvidia.com/default/topic/1038957/jetson-tx2/tensorflow-for-jetson-tx2-/&quot;&gt;https://devtalk.nvidia.com/default/topic/1038957/jetson-tx2/tensorflow-for-jetson-tx2-&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Now that Tensorflow is installed on the Nano, lets load a pretrained MobileNet from Keras and take a look at its performance with and without TensorRT for binary image classification.&lt;/p&gt;
 

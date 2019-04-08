@@ -15,7 +15,7 @@ nVidia now provides a [prebuilt Tensorflow][prebuilt] for Jetson that we can ins
 sudo apt install python3-numpy python3-markdown python3-mock python3-termcolor python3-astor libhdf5-dev
 {% endhighlight %}
 
-Now follow the instructions here to install tensorflow-gpu on Jetpack 4.2: [https://devtalk.nvidia.com/default/topic/1038957/jetson-tx2/tensorflow-for-jetson-tx2-][prebuilt]
+Follow the instructions here to install tensorflow-gpu on Jetpack 4.2: [https://devtalk.nvidia.com/default/topic/1038957/jetson-tx2/tensorflow-for-jetson-tx2-][prebuilt]
 
 Now that Tensorflow is installed on the Nano, lets load a pretrained MobileNet from Keras and take a look at its performance with and without TensorRT for binary image classification.
 
