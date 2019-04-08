@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in machine learning and computer vision.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 08 Apr 2019 13:54:38 -0500</pubDate>
-    <lastBuildDate>Mon, 08 Apr 2019 13:54:38 -0500</lastBuildDate>
+    <pubDate>Mon, 08 Apr 2019 13:56:39 -0500</pubDate>
+    <lastBuildDate>Mon, 08 Apr 2019 13:56:39 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -38,12 +38,12 @@
 
 &lt;p&gt;You will need to install plac to run the script: &lt;code class=&quot;highlighter-rouge&quot;&gt;pip3 install --user plac&lt;/code&gt;&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;python3 tftrt_inference.py -T TF mobilenet.h5
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;python3 tftrt_inference.py -S 30 -T TF mobilenet.h5
 &lt;span class=&quot;c&quot;&gt;# Time = 4.19 s&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# Samples = 30&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# FPS = Samples / Time = 30 / 6.53 = 4.59 FPS&lt;/span&gt;
 
-python3 tftrt_inference.py -T FP32 mobilenet.h5
+python3 tftrt_inference.py -S 30 -T FP32 mobilenet.h5
 &lt;span class=&quot;c&quot;&gt;# Time = 0.96 s&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# Samples = 30&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# FPS = Samples / Time = 30 / 0.96 = 31.3 FPS&lt;/span&gt;
@@ -52,8 +52,6 @@ python3 tftrt_inference.py -S 30 -T FP16 mobilenet.h5
 &lt;span class=&quot;c&quot;&gt;# Time = 0.84 s&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# Samples = 30&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# FPS = Samples / Time = 30 / 0.84 = 35.8 FPS&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;For more options, see &lt;code class=&quot;highlighter-rouge&quot;&gt;python3 tftrt_inference.py --help&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;It looks like TensorRT makes a significant difference vs simply running the inference in Tensorflow! Stay tuned for my next steps on the Nano: implementing and optimizing MobileNet SSD object detection to run at 30+ FPS!&lt;/p&gt;
 

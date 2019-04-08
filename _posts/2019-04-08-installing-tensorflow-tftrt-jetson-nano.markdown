@@ -39,12 +39,12 @@ Next we can execute inferences with different settings using [this script][scrip
 You will need to install plac to run the script: `pip3 install --user plac`
 
 {% highlight bash %}
-python3 tftrt_inference.py -T TF mobilenet.h5
+python3 tftrt_inference.py -S 30 -T TF mobilenet.h5
 # Time = 4.19 s
 # Samples = 30
 # FPS = Samples / Time = 30 / 6.53 = 4.59 FPS
 
-python3 tftrt_inference.py -T FP32 mobilenet.h5
+python3 tftrt_inference.py -S 30 -T FP32 mobilenet.h5
 # Time = 0.96 s
 # Samples = 30
 # FPS = Samples / Time = 30 / 0.96 = 31.3 FPS
@@ -53,10 +53,8 @@ python3 tftrt_inference.py -S 30 -T FP16 mobilenet.h5
 # Time = 0.84 s
 # Samples = 30
 # FPS = Samples / Time = 30 / 0.84 = 35.8 FPS
-
 {% endhighlight %}
 
-For more options, see `python3 tftrt_inference.py --help`
 
 It looks like TensorRT makes a significant difference vs simply running the inference in Tensorflow! Stay tuned for my next steps on the Nano: implementing and optimizing MobileNet SSD object detection to run at 30+ FPS!
 
