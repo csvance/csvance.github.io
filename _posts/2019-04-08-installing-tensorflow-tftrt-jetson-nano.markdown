@@ -39,16 +39,19 @@ Next we can execute inferences with different settings using [this script][scrip
 You will need to install plac to run the script: `pip3 install --user plac`
 
 {% highlight bash %}
+# Tensorflow Standard Inference
 python3 tftrt_inference.py -S 30 -T TF mobilenet.h5
 # Time = 4.19 s
 # Samples = 30
 # FPS = Samples / Time = 30 / 6.53 = 4.59 FPS
 
+# TensorRT FP32 Inference
 python3 tftrt_inference.py -S 30 -T FP32 mobilenet.h5
 # Time = 0.96 s
 # Samples = 30
 # FPS = Samples / Time = 30 / 0.96 = 31.3 FPS
 
+# TensorRT FP16 Inference
 python3 tftrt_inference.py -S 30 -T FP16 mobilenet.h5
 # Time = 0.84 s
 # Samples = 30
