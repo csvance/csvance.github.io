@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in machine learning and computer vision.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 08 Apr 2019 19:32:51 -0500</pubDate>
-    <lastBuildDate>Mon, 08 Apr 2019 19:32:51 -0500</lastBuildDate>
+    <pubDate>Tue, 09 Apr 2019 08:30:15 -0500</pubDate>
+    <lastBuildDate>Tue, 09 Apr 2019 08:30:15 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -45,7 +45,7 @@
 python3 tftrt_inference.py -S 30 -T TF mobilenet.h5
 &lt;span class=&quot;c&quot;&gt;# Time = 4.19 s&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# Samples = 30&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# FPS = Samples / Time = 30 / 6.53 = 4.59 FPS&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# FPS = Samples / Time = 30 / 4.19 = 7.16 FPS&lt;/span&gt;
 
 &lt;span class=&quot;c&quot;&gt;# TensorRT FP32 Inference&lt;/span&gt;
 python3 tftrt_inference.py -S 30 -T FP32 mobilenet.h5
