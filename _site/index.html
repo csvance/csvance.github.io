@@ -210,6 +210,9 @@
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">mobilenet</span><span class="o">.</span><span class="nb">input</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">new_output</span><span class="p">)</span>
 <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+<span class="c"># TODO: Train your model</span>
+
 <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">'mobilenet.h5'</span><span class="p">)</span></code></pre></figure>
 
 <p>Next we can execute inferences with different settings using <a href="https://gist.github.com/csvance/47ec78d67894c0d454ca98029d4d323c">this script</a> (thanks to <a href="https://github.com/jeng1220">jeng1220</a> for the <a href="https://github.com/jeng1220/KerasToTensorRT">Keras to TF-TRT code</a>)</p>

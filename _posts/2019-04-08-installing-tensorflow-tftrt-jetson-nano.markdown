@@ -31,8 +31,12 @@ new_output = Dense(1, activation='softmax')(new_output)
 
 model = Model(inputs=mobilenet.input, outputs=new_output)
 model.summary()
+
+# TODO: Train your model
+
 model.save('mobilenet.h5')
 {% endhighlight %}
+
 
 Next we can execute inferences with different settings using [this script][script] (thanks to [jeng1220][jeng1220] for the [Keras to TF-TRT code][tftrt-keras])
 

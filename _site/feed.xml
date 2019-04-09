@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in machine learning and computer vision.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 08 Apr 2019 14:16:41 -0500</pubDate>
-    <lastBuildDate>Mon, 08 Apr 2019 14:16:41 -0500</lastBuildDate>
+    <pubDate>Mon, 08 Apr 2019 19:32:51 -0500</pubDate>
+    <lastBuildDate>Mon, 08 Apr 2019 19:32:51 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -32,6 +32,9 @@
 
 &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inputs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mobilenet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;outputs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;summary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# TODO: Train your model&lt;/span&gt;
+
 &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'mobilenet.h5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Next we can execute inferences with different settings using &lt;a href=&quot;https://gist.github.com/csvance/47ec78d67894c0d454ca98029d4d323c&quot;&gt;this script&lt;/a&gt; (thanks to &lt;a href=&quot;https://github.com/jeng1220&quot;&gt;jeng1220&lt;/a&gt; for the &lt;a href=&quot;https://github.com/jeng1220/KerasToTensorRT&quot;&gt;Keras to TF-TRT code&lt;/a&gt;)&lt;/p&gt;
