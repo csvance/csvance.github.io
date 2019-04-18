@@ -5,8 +5,8 @@
     <description>I'm an undergrad student interested in machine learning and computer vision.</description>
     <link>https://csvance.github.io/</link>
     <atom:link href="https://csvance.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 09 Apr 2019 08:30:15 -0500</pubDate>
-    <lastBuildDate>Tue, 09 Apr 2019 08:30:15 -0500</lastBuildDate>
+    <pubDate>Wed, 17 Apr 2019 20:43:40 -0500</pubDate>
+    <lastBuildDate>Wed, 17 Apr 2019 20:43:40 -0500</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
     
       <item>
@@ -84,19 +84,10 @@ sudo udevadm control --reload-rules &lt;span class=&quot;o&quot;&gt;&amp;amp;&am
 &lt;span class=&quot;c&quot;&gt;# Reboot required for changes to take effect&lt;/span&gt;
 sudo reboot&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Now we need to install Jetson.GPIO because by default neither Python 2.7 or Python3.6 can access it:&lt;/p&gt;
+&lt;p&gt;Now we need to install Jetson.GPIO:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Python 2.7&lt;/span&gt;
-sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python2.7/dist-packages/
-sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python2.7/dist-packages/
-
-&lt;span class=&quot;c&quot;&gt;# Python 3.6&lt;/span&gt;
-sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python3.6/dist-packages/
-sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python3.6/dist-packages/&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;We also have to remove the python init file in order for the paths to work correctly for python 3.6:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo pip3 install Jetson.GPIO
+sudo pip install Jetson.GPIO&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;After this we should be able to import the library in both versions of python:&lt;/p&gt;
 

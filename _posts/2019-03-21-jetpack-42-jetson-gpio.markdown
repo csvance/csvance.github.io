@@ -20,22 +20,11 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 sudo reboot
 {% endhighlight %}
 
-Now we need to install Jetson.GPIO because by default neither Python 2.7 or Python3.6 can access it:
+Now we need to install Jetson.GPIO:
 
 {% highlight bash %}
-# Python 2.7
-sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python2.7/dist-packages/
-sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python2.7/dist-packages/
-
-# Python 3.6
-sudo cp -r /opt/nvidia/jetson-gpio/lib/python/Jetson /usr/local/lib/python3.6/dist-packages/
-sudo cp -r /opt/nvidia/jetson-gpio/lib/python/RPi /usr/local/lib/python3.6/dist-packages/
-{% endhighlight %}
-
-
-We also have to remove the python init file in order for the paths to work correctly for python 3.6:
-{% highlight bash %}
-sudo rm /usr/local/lib/python3.6/dist-packages/Jetson/GPIO/__init__.py
+sudo pip3 install Jetson.GPIO
+sudo pip install Jetson.GPIO
 {% endhighlight %}
 
 After this we should be able to import the library in both versions of python:
