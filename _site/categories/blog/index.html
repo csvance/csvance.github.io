@@ -199,21 +199,23 @@
 
 <p>Follow the instructions here to install tensorflow-gpu on Jetpack 4.2: <a href="https://devtalk.nvidia.com/default/topic/1038957/jetson-tx2/tensorflow-for-jetson-tx2-/">https://devtalk.nvidia.com/default/topic/1038957/jetson-tx2/tensorflow-for-jetson-tx2-</a></p>
 
-<p>Now that Tensorflow is installed on the Nano, lets load a pretrained MobileNet from Keras and take a look at its performance with and without TensorRT for binary image classification.</p>
+<p>Now that Tensorflow is installed on the Nano, lets load a pretrained MobileNet from Keras and take a look at its performance with and without TensorRT for binary classification.</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">tensorflow.keras</span> <span class="kn">as</span> <span class="nn">keras</span>
 <span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
-<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Flatten</span>
 
-<span class="n">mobilenet</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">mobilenet</span><span class="o">.</span><span class="n">MobileNet</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">weights</span><span class="o">=</span><span class="s">'imagenet'</span><span class="p">,</span> <span class="n">pooling</span><span class="o">=</span><span class="s">'max'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">mobilenet</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">applications</span><span class="o">.</span><span class="n">mobilenet</span><span class="o">.</span><span class="n">MobileNet</span><span class="p">(</span><span class="n">include_top</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">weights</span><span class="o">=</span><span class="s">'imagenet'</span><span class="p">,</span> <span class="n">pooling</span><span class="o">=</span><span class="s">'average'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">mobilenet</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 
-<span class="n">new_output</span> <span class="o">=</span> <span class="n">mobilenet</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s">'global_average_pooling2d'</span><span class="p">)</span><span class="o">.</span><span class="n">output</span>
-<span class="n">new_output</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'softmax'</span><span class="p">)(</span><span class="n">new_output</span><span class="p">)</span>
+<span class="n">new_output</span> <span class="o">=</span> <span class="n">mobilenet</span><span class="o">.</span><span class="n">get_layer</span><span class="p">(</span><span class="s">'conv_pw_13_relu'</span><span class="p">)</span><span class="o">.</span><span class="n">output</span>
+<span class="n">new_output</span> <span class="o">=</span> <span class="n">Flatten</span><span class="p">()(</span><span class="n">new_output</span><span class="p">)</span>
+<span class="n">new_output</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'sigmoid'</span><span class="p">)(</span><span class="n">new_output</span><span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">mobilenet</span><span class="o">.</span><span class="nb">input</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">new_output</span><span class="p">)</span>
 <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
 
-<span class="c"># TODO: Train your model</span>
+<span class="c"># TODO: Train your model for binary classification task</span>
 
 <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">'mobilenet.h5'</span><span class="p">)</span></code></pre></figure>
 

@@ -17,24 +17,27 @@ sudo apt install python3-numpy python3-markdown python3-mock python3-termcolor p
 
 Follow the instructions here to install tensorflow-gpu on Jetpack 4.2: [https://devtalk.nvidia.com/default/topic/1038957/jetson-tx2/tensorflow-for-jetson-tx2-][prebuilt]
 
-Now that Tensorflow is installed on the Nano, lets load a pretrained MobileNet from Keras and take a look at its performance with and without TensorRT for binary image classification.
+Now that Tensorflow is installed on the Nano, lets load a pretrained MobileNet from Keras and take a look at its performance with and without TensorRT for binary classification.
 
 {% highlight python %}
 import tensorflow.keras as keras
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, Flatten
 
-mobilenet = keras.applications.mobilenet.MobileNet(input_shape=(224, 224, 3), weights='imagenet', pooling='max', alpha=0.25)
+mobilenet = keras.applications.mobilenet.MobileNet(include_top=False, input_shape=(224, 224, 3), weights='imagenet', pooling='average', alpha=0.25)
+mobilenet.summary()
 
-new_output = mobilenet.get_layer('global_average_pooling2d').output
-new_output = Dense(1, activation='softmax')(new_output)
+new_output = mobilenet.get_layer('conv_pw_13_relu').output
+new_output = Flatten()(new_output)
+new_output = Dense(1, activation='sigmoid')(new_output)
 
 model = Model(inputs=mobilenet.input, outputs=new_output)
 model.summary()
 
-# TODO: Train your model
+# TODO: Train your model for binary classification task
 
 model.save('mobilenet.h5')
+
 {% endhighlight %}
 
 
