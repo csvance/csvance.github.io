@@ -24,7 +24,7 @@ import tensorflow.keras as keras
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, Flatten
 
-mobilenet = keras.applications.mobilenet.MobileNet(include_top=False, input_shape=(224, 224, 3), weights='imagenet', pooling='average', alpha=0.25)
+mobilenet = keras.applications.mobilenet.MobileNet(include_top=False, input_shape=(224, 224, 3), weights='imagenet', alpha=0.25)
 mobilenet.summary()
 
 new_output = mobilenet.get_layer('conv_pw_13_relu').output
