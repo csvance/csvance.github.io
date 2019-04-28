@@ -10,7 +10,7 @@ MobileDetectNet is an object detector which uses [MobileNet][mobilenet] feature 
 
 ![MobileDetectNet]({{ "/assets/img/mobiledetectnet.png" | absolute_url }})
 
-Feature Overview:
+#### Feature Overview
 - Online data augmentation with fit_generator multiprocessing
 - Runs at 60 FPS on [Jetson Nano][jetson] using TensorRT FP16 mode
 - [Github][mobiledetectnet]
