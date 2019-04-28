@@ -27,9 +27,8 @@ from tensorflow.keras.layers import Dense, Flatten
 mobilenet = keras.applications.mobilenet.MobileNet(include_top=False, input_shape=(224, 224, 3), weights='imagenet', alpha=0.25)
 mobilenet.summary()
 
-new_output = mobilenet.get_layer('conv_pw_13_relu').output
-new_output = Flatten()(new_output)
-new_output = Dense(1, activation='sigmoid')(new_output)
+x = Flatten()(mobilenet.output)
+new_output = Dense(1, activation='sigmoid')(x)
 
 model = Model(inputs=mobilenet.input, outputs=new_output)
 model.summary()
