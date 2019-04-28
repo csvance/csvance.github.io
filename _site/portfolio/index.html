@@ -184,14 +184,26 @@
     </header>
 
     <div class="post-content">
-        <h2 id="jetson-tensorrt-ros-nodes-finished">Jetson TensorRT ROS Nodes (Finished)</h2>
+        <h2 id="keras-mobiledetectnet">Keras MobileDetectNet</h2>
+<p>MobileDetectNet is an object detector which uses <a href="https://arxiv.org/abs/1704.04861">MobileNet</a> feature extractor to predict bounding boxes. It was designed to be computationally efficient for deployment on embedded systems and easy to train with limited data. It was inspired by the simple yet effective design of <a href="https://devblogs.nvidia.com/detectnet-deep-neural-network-object-detection-digits/">DetectNet</a> and enhanced with the anchor system from <a href="https://arxiv.org/abs/1506.01497">Faster R-CNN</a>.</p>
+
+<p><img src="/assets/img/mobiledetectnet.png" alt="MobileDetectNet" /></p>
+
+<p>Feature Overview:</p>
 <ul>
-  <li>TensorRT ROS nodes for Jetson TX1/TX2 for accelerated embedded deep learning inferences</li>
+  <li>Online data augmentation with fit_generator multiprocessing</li>
+  <li>Runs at 60 FPS on <a href="https://developer.nvidia.com/embedded/buy/jetson-nano-devkit">Jetson Nano</a> using TensorRT FP16 mode</li>
+  <li><a href="https://github.com/csvance/keras-mobile-detectnet">Github</a></li>
+</ul>
+
+<h2 id="jetson-tensorrt-ros-nodes-finished">Jetson TensorRT ROS Nodes (Finished)</h2>
+<ul>
+  <li>TensorRT ROS nodes for Jetson TX1/TX2/Nano/Xavier for accelerated embedded deep learning inferences</li>
   <li>nVidia DIGITS Nodes (detection and classification)</li>
   <li><a href="https://github.com/csvance/jetson_tensorrt">Github</a></li>
 </ul>
 
-<p><img src="/assets/img/tensorrt_detect.jpg" alt="detect" /></p>
+<p><img src="/assets/img/tensorrt_detect.jpg" alt="Jetson TensorRT" /></p>
 <p align="center">
 <b>Jetson TensorRT Detection + Ranging with an Intel RealSense D435</b><br />
 </p>

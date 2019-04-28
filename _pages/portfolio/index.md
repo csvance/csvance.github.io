@@ -5,12 +5,22 @@ permalink: /portfolio/
 menu: main
 ---
 
+## Keras MobileDetectNet
+MobileDetectNet is an object detector which uses [MobileNet][mobilenet] feature extractor to predict bounding boxes. It was designed to be computationally efficient for deployment on embedded systems and easy to train with limited data. It was inspired by the simple yet effective design of [DetectNet][detectnet] and enhanced with the anchor system from [Faster R-CNN][faster-r-cnn].
+
+![MobileDetectNet]({{ "/assets/img/mobiledetectnet.png" | absolute_url }})
+
+Feature Overview:
+- Online data augmentation with fit_generator multiprocessing
+- Runs at 60 FPS on [Jetson Nano][jetson] using TensorRT FP16 mode
+- [Github][mobiledetectnet]
+
 ## Jetson TensorRT ROS Nodes (Finished)
-- TensorRT ROS nodes for Jetson TX1/TX2 for accelerated embedded deep learning inferences
+- TensorRT ROS nodes for Jetson TX1/TX2/Nano/Xavier for accelerated embedded deep learning inferences
 - nVidia DIGITS Nodes (detection and classification)
 - [Github][jetson-tensorrt]
 
-![detect]({{ "/assets/img/tensorrt_detect.jpg" | absolute_url }})
+![Jetson TensorRT]({{ "/assets/img/tensorrt_detect.jpg" | absolute_url }})
 <p align="center">
 <b>Jetson TensorRT Detection + Ranging with an Intel RealSense D435</b><br>
 </p>
@@ -62,3 +72,8 @@ menu: main
 [liltrumpy]: https://twitter.com/LilTrumpyAI
 [twitter]: https://twitter.com
 [rnn]: https://en.wikipedia.org/wiki/Recurrent_neural_network
+[mobiledetectnet]: https://github.com/csvance/keras-mobile-detectnet
+[detectnet]: https://devblogs.nvidia.com/detectnet-deep-neural-network-object-detection-digits/
+[faster-r-cnn]: https://arxiv.org/abs/1506.01497
+[jetson]: https://developer.nvidia.com/embedded/buy/jetson-nano-devkit
+[mobilenet]: https://arxiv.org/abs/1704.04861
