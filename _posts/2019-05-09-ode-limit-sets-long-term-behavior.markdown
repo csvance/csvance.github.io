@@ -74,7 +74,7 @@ $$
  For any other
 initial condition, it can observed that $y(t)$ will grow without bounds:
 
-![](assets/img/figures/d1.png)
+![](/assets/img/figures/d1.png)
 
 Because $y\prime = y$ is a one dimensional system, its phase plane only
 has a single dimension $y(t)$. The limit set includes all points in this
@@ -114,9 +114,9 @@ the phase plane converge to a single point as the damping term overtakes
 the rest of the system. Consequentially, the limit set of the system
 contains the point of convergence for all solutions as $t\to\infty$.
 
-![](assets/img/figures/d2_a_p.png)
-![](assets/img/figures/d2_a_v.png)
-![](assets/img/figures/d2_a_ph.png)
+![](/assets/img/figures/d2_a_p.png)
+![](/assets/img/figures/d2_a_v.png)
+![](/assets/img/figures/d2_a_ph.png)
 
 Plotting the solution curves displays behavior typical of a spiral sink,
 and the trace determinant plane confirms it: $D(A) = 4,T(A) = -2$. Due
@@ -150,9 +150,9 @@ like shape in the phase plane. Consequentially, the limit set of the
 system should contain as many members as there are solutions to initial
 value problems. A plot confirms these suspicions:
 
-![](assets/img/figures/d2_b_p.png)
-![](assets/img/figures/d2_b_v.png)
-![](assets/img/figures/d2_b_ph.png)
+![](/assets/img/figures/d2_b_p.png)
+![](/assets/img/figures/d2_b_v.png)
+![](/assets/img/figures/d2_b_ph.png)
 
 This system clearly exhibits a center behavior, which is confirmed by
 the trace determinant plane: $D(A) = 4,T(A) = 0$. It follows that the
@@ -223,9 +223,9 @@ conditions $p_0$ to consider.
 The plots above confirm the predicted behavior of solutions. The limit
 set can be broken down into three different cases:
 
-![](assets/img/figures/d2_c_p.png)
-![](assets/img/figures/d2_c_v.png)
-![](assets/img/figures/d2_c_ph.png)
+![](/assets/img/figures/d2_c_p.png)
+![](/assets/img/figures/d2_c_v.png)
+![](/assets/img/figures/d2_c_ph.png)
 
 1.  Solutions where $\omega$ contains positive and negative values
     behave as a center around some point
@@ -269,9 +269,9 @@ in the cases that resulted in endless oscillation. On the phase plane,
 these cases should converge to
 $(\theta_0 = 2n\pi | n\in\mathbb{Z}, \omega_0 = 0)$ instead.
 
-![](assets/img/figures/d2_d_p.png)
-![](assets/img/figures/d2_d_v.png)
-![](assets/img/figures/d2_d_ph.png)
+![](/assets/img/figures/d2_d_p.png)
+![](/assets/img/figures/d2_d_v.png)
+![](/assets/img/figures/d2_d_ph.png)
 
 Based on analysis of the system and observed behavior of the numerical
 plot, a limit set can be constructed:
@@ -383,11 +383,11 @@ can be observed:
     which has a root $\frac{4}{7}$. Examining the trace determinant of
     this point it clearly falls into the region of saddle points.
 
-![](assets/img/figures/d2_e_ph.png)
-![](assets/img/figures/d2_e_1_1.png)
-![](assets/img/figures/d2_e_1_0.png)
-![](assets/img/figures/d2_e_0_1.png)
-![](assets/img/figures/d2_e_0_0.png)
+![](/assets/img/figures/d2_e_ph.png)
+![](/assets/img/figures/d2_e_1_1.png)
+![](/assets/img/figures/d2_e_1_0.png)
+![](/assets/img/figures/d2_e_0_1.png)
+![](/assets/img/figures/d2_e_0_0.png)
 
 Considering the above, the limit set contains individual points on the
 phase plane:
@@ -450,7 +450,7 @@ $$
 eigenvalues and $T^2 = 4D$. Plotting the phase plane reveals atypical
 behavior:
 
-![](assets/img/figures/d2_f_ph.png)
+![](/assets/img/figures/d2_f_ph.png)
 
 There are two clear behaviors here, both of which are clearly members of
 the limit set:
@@ -466,7 +466,7 @@ the limit set:
 Setting the initial condition to a part of the closed loop yields the
 following result:
 
-![](assets/img/figures/d2_f_loop.png)
+![](/assets/img/figures/d2_f_loop.png)
 
 Extra Work
 ==========
@@ -479,7 +479,7 @@ are the steps I took to approximate a curve. First, we apply a rotation
 using a linear transformation with $\theta=\frac{\pi}{16}$ (Matrix $A$
 is the output of ODE45)
 
-![](assets/img/figures/fit_rotate.png)
+![](/assets/img/figures/fit_rotate.png)
 
 $$
 
@@ -495,7 +495,7 @@ $$
 
  Next a shear transform is applied with $k = 0.03$:
 
-![](assets/img/figures/fit_shear.png)
+![](/assets/img/figures/fit_shear.png)
 
 $$
 
@@ -509,16 +509,16 @@ X = XK
 
 $$
 
-![](assets/img/figures/fit_pretrans.png)
+![](/assets/img/figures/fit_pretrans.png)
 
 A polynomial fit is found with $n = 26$. Next we apply the inverse of
 the linear transformations previously applied.
 
-![](assets/img/figures/fit_pretest.png)
+![](/assets/img/figures/fit_pretest.png)
 
 The moment of truth:
 
-![](assets/img/figures/fit_test.png)
+![](/assets/img/figures/fit_test.png)
 
 While the fit may not be anywhere near perfect, it is a good first
 attempt and perhaps worthy of more exploration at a later time.
