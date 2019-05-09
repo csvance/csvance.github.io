@@ -88,7 +88,7 @@ $$
 $$
 
  It directly
-follows that the limit set for the ODE $y\prime = y$ is $\{(0)\}$.
+follows that the limit set for the ODE $y\prime = y$ is $\\{(0)\\}$.
 
 Dimension D = 2
 ===============
@@ -122,7 +122,7 @@ Plotting the solution curves displays behavior typical of a spiral sink,
 and the trace determinant plane confirms it: $D(A) = 4,T(A) = -2$. Due
 to this behavior, all sollution curves in the phase plane converge to a
 single two dimensional equilibrium point $(0, 0)$ as $t\to\infty$. It
-follows that the limit set for this ODE is $\{(0, 0)\}$. While this
+follows that the limit set for this ODE is $\\{(0, 0)\\}$. While this
 limit set resembles the limit set of the one dimensional case, it should
 be noted that the ODE in the one dimensional case only had a non
 infinite solution as $t\to\infty$ with a single IVP, where as every IVP
@@ -198,25 +198,25 @@ $$
 $\theta\prime\prime = -sin(\theta)$. There are quite a few initial
 conditions $p_0$ to consider.
 
-1.  For $p_0\in\{ (\theta = 2n\pi, \omega_0 = 0)| n\in\mathbb{Z} \}$,
+1.  For $p_0\in\\{ (\theta = 2n\pi, \omega_0 = 0)| n\in\mathbb{Z} \\}$,
     the phase plane solution should be a single point $p_0$ as the
     pendulum has no energy.
 
-2.  For $p_0\in\{\theta_0 \ne 0, \omega_0 = 0\}$ the phase plane
+2.  For $p_0\in\\{\theta_0 \ne 0, \omega_0 = 0\\}$ the phase plane
     solution should look like a center around a point
-    $p_c \in \{ (\theta = 2n\pi, \omega)| n\in\mathbb{Z} \}$ as the
+    $p_c \in \\{ (\theta = 2n\pi, \omega)| n\in\mathbb{Z} \\}$ as the
     pendulum converts potential energy to velocity, back to potential
     energy, and finally changing directions to repeat the process.
 
-3.  For $p_0\in\{(\theta_0=0,\mid\omega_0\mid \lessapprox 2.00027)\}$ ,
+3.  For $p_0\in\\{(\theta_0=0,\mid\omega_0\mid \lessapprox 2.00027)\\}$ ,
     the pendulum should behave like case two.
 
-4.  For $p_0\in\{(\theta_0=0,\mid\omega_0\mid \gtrapprox 2.00027)\}$,
+4.  For $p_0\in\\{(\theta_0=0,\mid\omega_0\mid \gtrapprox 2.00027)\\}$,
     the pendulum no longer changes direction and
     $\lim_{t\to\infty} \theta(t) = \pm\infty$
 
 5.  For
-    $p_0\in\{ (\theta_0 = \pi + 2n\pi, \omega_0 = 0)| n\in\mathbb{Z} \}$,
+    $p_0\in\\{ (\theta_0 = \pi + 2n\pi, \omega_0 = 0)| n\in\mathbb{Z} \\}$,
     the phase plane solution should be a single point $p_0$ as the
     pendulum needs a nudge in either direction to start moving.
 
@@ -229,15 +229,15 @@ set can be broken down into three different cases:
 
 1.  Solutions where $\omega$ contains positive and negative values
     behave as a center around some point
-    $p_c \in \{(\theta_0 = 2n\pi, \omega_0 = 0) | n\in\mathbb{Z} \}$.
+    $p_c \in \\{(\theta_0 = 2n\pi, \omega_0 = 0) | n\in\mathbb{Z} \\}$.
     This is confirmed by looking at the trace determinant plane for the
     center equilibrium: $D(J)=1, T(J)=0$.
 
-2.  $p_0 \in \{(\theta_0 = 2n\pi, \omega_0 = 0) | n\in\mathbb{Z} \}$:
+2.  $p_0 \in \\{(\theta_0 = 2n\pi, \omega_0 = 0) | n\in\mathbb{Z} \\}$:
     Solutions to this IVP stay at the angle they started at as
     $t\to\infty$. These equilibrium points are shared with case one.
 
-3.  $\{ (\theta_0 = \pi + 2n\pi, \omega_0 = 0) | n\in\mathbb{Z} \}$:
+3.  $\\{ (\theta_0 = \pi + 2n\pi, \omega_0 = 0) | n\in\mathbb{Z} \\}$:
     Solutions to this IVP stay at the angle they started at as
     $t\to\infty$. These equilibrium points are saddle points in the
     trace determinant plane: $D(J)=-1, T(J)=0$.
@@ -276,14 +276,14 @@ $(\theta_0 = 2n\pi | n\in\mathbb{Z}, \omega_0 = 0)$ instead.
 Based on analysis of the system and observed behavior of the numerical
 plot, a limit set can be constructed:
 
-1.  When $\{(\theta_0 = \pi + 2n\pi, \omega_0=0)| n\in\mathbb{Z}\}$,
+1.  When $\\{(\theta_0 = \pi + 2n\pi, \omega_0=0)| n\in\mathbb{Z}\\}$,
     solutions remain where they started. This can be verified because
     these values are in the set of equilibrium points. The trace
     determinant shows saddle point behavior for the set of initial
     conditions: $D(J)=1, T(J)=-\frac{1}{2}$
 
 2.  All solutions not included in case one converge to a spiral sinks in
-    the set of $\{(\theta = 2n\pi, \omega = 0)| n\in\mathbb{Z}\}$
+    the set of $\\{(\theta = 2n\pi, \omega = 0)| n\in\mathbb{Z}\\}$
     depending on initial conditions. This can be confirmed by
     recognizing that equilibrium points which follow the same pattern
     are all in the spiral sink region of the trace determinant plane:
@@ -318,7 +318,7 @@ $$
 
  Solving for the x-nullcline, y-nullcline, and nullcline
 provides the set
-$\{(0, 0), (1, 0), (0, \frac{4}{7}), ({\frac{3}{5}, \frac{2}{5}})\}$
+$\\{(0, 0), (1, 0), (0, \frac{4}{7}), ({\frac{3}{5}, \frac{2}{5}})\\}$
 Next, the system is linearized by computing the Jacobian:
 
 
@@ -391,7 +391,7 @@ can be observed:
 
 Considering the above, the limit set contains individual points on the
 phase plane:
-$\{(0, 0), (1, 0), (0, \frac{4}{7}), ({\frac{3}{5}, \frac{2}{5}})\}$.
+$\\{(0, 0), (1, 0), (0, \frac{4}{7}), ({\frac{3}{5}, \frac{2}{5}})\\}$.
 This system contains more non periodic individual points in its limit
 set than any previously examined system while containing no center
 curves.
@@ -418,7 +418,7 @@ $$
 \begin{array}{lcl}
 2x-y-x^3 = 0\\
 x = 0\\
-S = \{(0, 0)\}\\
+S = \\{(0, 0)\\}\\
 \end{array}
 
 $$
