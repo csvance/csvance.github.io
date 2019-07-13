@@ -15,7 +15,7 @@ MobileDetectNet is an object detector which uses [MobileNet][mobilenet] feature 
 - Runs at 60 FPS on [Jetson Nano][jetson] using TensorRT FP16 mode
 - [Github][mobiledetectnet]
 
-## Jetson TensorRT ROS Nodes (Finished)
+## Jetson TensorRT ROS Nodes
 - TensorRT ROS nodes for Jetson TX1/TX2/Nano/Xavier for accelerated embedded deep learning inferences
 - nVidia DIGITS Nodes (detection and classification)
 - [Github][jetson-tensorrt]
@@ -25,7 +25,7 @@ MobileDetectNet is an object detector which uses [MobileNet][mobilenet] feature 
 <b>Jetson TensorRT Detection + Ranging with an Intel RealSense D435</b><br>
 </p>
 
-## CarRoBot (Finished)
+## CarRoBot
 - Autonomous robot powered by a Raspberry Pi and ROS
 - Uses explore_lite, gmapping, and move_base to map out an area
 - [Github][carrobot]
@@ -40,12 +40,12 @@ MobileDetectNet is an object detector which uses [MobileNet][mobilenet] feature 
 <b>CarRoBot running gmapping with a Neato XV11 LIDAR</b><br>
 </p>
 
-## armchair-expert (Finished)
+## armchair-expert
 - Chatbot which uses several different types of machine learning to generate hilarious and surprisingly relevant responses to queries
 - Learns new words like a typical [Markov chain][markov-chain], but uses an [RNN][rnn] to structure and capitalize the output
 - [Github][armchair-expert]
 
-## deep-connect-four (Finished)
+## deep-connect-four
 - Deep Reinforcement Learning agent for the game "Connect Four" powered by a Deep Q-Network
 - [Github][deep-connect-four]
 
