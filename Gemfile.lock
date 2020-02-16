@@ -2,8 +2,8 @@ GEM
   remote: https://rubygems.org/
   specs:
     colorator (1.1.0)
-    ffi (1.9.18)
-    ffi (1.9.18-x64-mingw32)
+    ffi (1.12.2)
+    ffi (1.12.2-x64-mingw32)
     forwardable-extended (2.6.0)
     jekyll (3.2.1)
       colorator (~> 1.0)
