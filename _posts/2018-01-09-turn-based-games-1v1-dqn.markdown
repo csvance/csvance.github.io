@@ -5,6 +5,7 @@ date:   2018-01-09 12:04:00 -0600
 author: Carroll Vance
 comments: true
 categories: blog
+thumbnail: connectfour.jpg
 ---
 ## Background
 At this point, one would have to be living under a rock to have not heard of [DeepMind's][deepmind] success at teaching itself to play Go by playing itself without any feature engineering. However, most available tutorials online about [Deep Q Networks][dqn] are coming from an entirely different angle: learning how to play various single player games in the [OpenAI Gym][openai-gym]. If one simply applies these examples to turn based games in which the AI learns by playing itself, a world of hurt is in store for several reasons:
@@ -15,11 +16,11 @@ At this point, one would have to be living under a rock to have not heard of [De
 ## State and Perspective
 First of all, in a game where an agent plays itself from multiple perspectives, we must be careful the correct perspective is provided when making predictions or training discounted future rewards. For example, let us consider the game [Connect Four][connect-four]. Instead of viewing the game as a battle between a red agent and a black agent, we could consider it from the perspective the agents viewpoint at the state being considered. For example, when the agent who takes the second turn blocks the agent who went first, the following next state is generated:
 
-![perspective]({{ "/assets/img/perspective_a.png" | absolute_url }})
+![perspective]({{ "/assets/img/posts/perspective_a.png" | absolute_url }}){:class="img-fluid"}
 
 However, this next state wouldn't be used by the agent who went second to take an action. It is going to be used by the agent who went first, but it needs to be inverted to their perspective before it can be used:
 
-![perspective]({{ "/assets/img/perspective_b.png" | absolute_url }})
+![perspective]({{ "/assets/img/posts/perspective_b.png" | absolute_url }}){:class="img-fluid"}
 
 However, this is not the only tweak needed to get DQN working with a dueling turn based game. Let us recall how the discounted future reward is calculated:
 * `future_reward = reward + gamma * amax(predict(next_state))`

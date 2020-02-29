@@ -1,0 +1,15 @@
+body{
+    background-color: #111;
+}
+blockquote {
+    margin: 2rem 1rem 1rem;
+    padding: 3px;
+    background: whitesmoke;
+    border: 1px solid;
+}
+
+.col-md-4{
+    margin: auto;
+}
+
+

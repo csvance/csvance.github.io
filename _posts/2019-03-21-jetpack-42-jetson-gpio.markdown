@@ -5,6 +5,7 @@ date:   2019-03-21 6:00:00 -0600
 author: Carroll Vance
 comments: true
 categories: blog
+thumbnail: jetsonnano.jpg
 ---
 
 With the release of the new [Jetson Nano][nano] also comes the [4.2 release of nVidia's Jetpack BSP for the Jetson][jetpack]. This included a new python library called Jetson.GPIO which provides a familiar interface for anyone who has used RPi.GPIO before. However, it doesn't seem to be installed by default, so here are the instructions for getting it loaded into python!

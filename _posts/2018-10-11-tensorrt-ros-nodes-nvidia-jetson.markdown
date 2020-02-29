@@ -5,12 +5,13 @@ date:   2018-10-11 6:00:00 -0600
 author: Carroll Vance
 comments: true
 categories: blog
+thumbnail: tensorrt.png
 ---
 
 During the past few months I have been working towards making high performance deep learning inferences much more accessible in [ROS][ros] on the [nVidia Jetson TX2][jetson]. The result is [jetson_tensorrt][jetson_tensorrt]: a collection of optimized [TensoRT][tensorrt] based nodes and nodelets specifically tailored to the Jetson platform. To start out with, classification and object detection are supported for [nVidia DIGITS][digits] ImageNet and DetectNets.
 
 Here is some example output in rviz from a single class pedestrian detector using an Intel RealSense D435:
-![detect]({{ "/assets/img/tensorrt_detect.jpg" | absolute_url }})
+![detect]({{ "/assets/img/posts/tensorrt_detect.jpg" | absolute_url }}){:class="img-fluid"}
 <p align="center">
 <b>DetectNet Object Detection</b><br>
 </p>

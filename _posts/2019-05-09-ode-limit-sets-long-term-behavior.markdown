@@ -5,13 +5,8 @@ date:   2019-05-09 6:00:00 -0600
 author: Carroll Vance
 comments: true
 categories: blog
-author:
-- |
-    Carroll Vance\
-    Computer Science Undergraduate\
-    University of Houston\
-abstract: |
-
+author: Carroll Vance
+thumbnail: d2_f_ph.png
 ---
 
 I wrote my Ordinary Differential Equations term project in [LaTeX][latex] and thought it would be fun to see if I could convert it to markdown and post it here. Apparently [MathJax][mathjax] makes this easy, so here it is!
@@ -74,7 +69,7 @@ $$
  For any other
 initial condition, it can observed that $y(t)$ will grow without bounds:
 
-![](/assets/img/figures/d1.png)
+![](/assets/img/posts/d1.png){:class="img-fluid"}
 
 Because $y\prime = y$ is a one dimensional system, its phase plane only
 has a single dimension $y(t)$. The limit set includes all points in this
@@ -114,9 +109,9 @@ the phase plane converge to a single point as the damping term overtakes
 the rest of the system. Consequentially, the limit set of the system
 contains the point of convergence for all solutions as $t\to\infty$.
 
-![](/assets/img/figures/d2_a_p.png)
-![](/assets/img/figures/d2_a_v.png)
-![](/assets/img/figures/d2_a_ph.png)
+![](/assets/img/posts/d2_a_p.png){:class="img-fluid"}
+![](/assets/img/posts/d2_a_v.png){:class="img-fluid"}
+![](/assets/img/posts/d2_a_ph.png){:class="img-fluid"}
 
 Plotting the solution curves displays behavior typical of a spiral sink,
 and the trace determinant plane confirms it: $D(A) = 4,T(A) = -2$. Due
@@ -150,9 +145,9 @@ like shape in the phase plane. Consequentially, the limit set of the
 system should contain as many members as there are solutions to initial
 value problems. A plot confirms these suspicions:
 
-![](/assets/img/figures/d2_b_p.png)
-![](/assets/img/figures/d2_b_v.png)
-![](/assets/img/figures/d2_b_ph.png)
+![](/assets/img/posts/d2_b_p.png){:class="img-fluid"}
+![](/assets/img/posts/d2_b_v.png){:class="img-fluid"}
+![](/assets/img/posts/d2_b_ph.png){:class="img-fluid"}
 
 This system clearly exhibits a center behavior, which is confirmed by
 the trace determinant plane: $D(A) = 4,T(A) = 0$. It follows that the
@@ -223,9 +218,9 @@ conditions $p_0$ to consider.
 The plots above confirm the predicted behavior of solutions. The limit
 set can be broken down into three different cases:
 
-![](/assets/img/figures/d2_c_p.png)
-![](/assets/img/figures/d2_c_v.png)
-![](/assets/img/figures/d2_c_ph.png)
+![](/assets/img/posts/d2_c_p.png){:class="img-fluid"}
+![](/assets/img/posts/d2_c_v.png){:class="img-fluid"}
+![](/assets/img/posts/d2_c_ph.png){:class="img-fluid"}
 
 1.  Solutions where $\omega$ contains positive and negative values
     behave as a center around some point
@@ -269,9 +264,9 @@ in the cases that resulted in endless oscillation. On the phase plane,
 these cases should converge to
 $(\theta_0 = 2n\pi | n\in\mathbb{Z}, \omega_0 = 0)$ instead.
 
-![](/assets/img/figures/d2_d_p.png)
-![](/assets/img/figures/d2_d_v.png)
-![](/assets/img/figures/d2_d_ph.png)
+![](/assets/img/posts/d2_d_p.png){:class="img-fluid"}
+![](/assets/img/posts/d2_d_v.png){:class="img-fluid"}
+![](/assets/img/posts/d2_d_ph.png){:class="img-fluid"}
 
 Based on analysis of the system and observed behavior of the numerical
 plot, a limit set can be constructed:
@@ -383,11 +378,11 @@ can be observed:
     which has a root $\frac{4}{7}$. Examining the trace determinant of
     this point it clearly falls into the region of saddle points.
 
-![](/assets/img/figures/d2_e_ph.png)
-![](/assets/img/figures/d2_e_1_1.png)
-![](/assets/img/figures/d2_e_1_0.png)
-![](/assets/img/figures/d2_e_0_1.png)
-![](/assets/img/figures/d2_e_0_0.png)
+![](/assets/img/posts/d2_e_ph.png){:class="img-fluid"}
+![](/assets/img/posts/d2_e_1_1.png){:class="img-fluid"}
+![](/assets/img/posts/d2_e_1_0.png){:class="img-fluid"}
+![](/assets/img/posts/d2_e_0_1.png){:class="img-fluid"}
+![](/assets/img/posts/d2_e_0_0.png){:class="img-fluid"}
 
 Considering the above, the limit set contains individual points on the
 phase plane:
@@ -450,7 +445,7 @@ $$
 eigenvalues and $T^2 = 4D$. Plotting the phase plane reveals atypical
 behavior:
 
-![](/assets/img/figures/d2_f_ph.png)
+![](/assets/img/posts/d2_f_ph.png){:class="img-fluid"}
 
 There are two clear behaviors here, both of which are clearly members of
 the limit set:
@@ -466,7 +461,7 @@ the limit set:
 Setting the initial condition to a part of the closed loop yields the
 following result:
 
-![](/assets/img/figures/d2_f_loop.png)
+![](/assets/img/posts/d2_f_loop.png){:class="img-fluid"}
 
 Extra Work
 ==========
@@ -479,7 +474,7 @@ are the steps I took to approximate a curve. First, we apply a rotation
 using a linear transformation with $\theta=\frac{\pi}{16}$ (Matrix $A$
 is the output of ODE45)
 
-![](/assets/img/figures/fit_rotate.png)
+![](/assets/img/posts/fit_rotate.png){:class="img-fluid"}
 
 $$
 
@@ -495,7 +490,7 @@ $$
 
  Next a shear transform is applied with $k = 0.03$:
 
-![](/assets/img/figures/fit_shear.png)
+![](/assets/img/posts/fit_shear.png){:class="img-fluid"}
 
 $$
 
@@ -509,16 +504,16 @@ X = XK
 
 $$
 
-![](/assets/img/figures/fit_pretrans.png)
+![](/assets/img/posts/fit_pretrans.png){:class="img-fluid"}
 
 A polynomial fit is found with $n = 26$. Next we apply the inverse of
 the linear transformations previously applied.
 
-![](/assets/img/figures/fit_pretest.png)
+![](/assets/img/posts/fit_pretest.png){:class="img-fluid"}
 
 The moment of truth:
 
-![](/assets/img/figures/fit_test.png)
+![](/assets/img/posts/fit_test.png){:class="img-fluid"}
 
 While the fit may not be anywhere near perfect, it is a good first
 attempt and perhaps worthy of more exploration at a later time.

@@ -5,6 +5,7 @@ date:   2017-12-29 12:04:00 -0600
 author: Carroll Vance
 comments: true
 categories: blog
+thumbnail: lstm.png
 ---
 ## The Problem
 There are many [tutorials][mlm] on how to create [Recurrent Neural Networks][rnn] and use them for sequence generation. However, most of these tutorials show an example where an initial seed value must be used to start the generation process. This is highly impractical for a query response generation scheme. Luckily, there is a fairly easy way to solve this involving how we format our training data.

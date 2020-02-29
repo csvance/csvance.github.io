@@ -5,6 +5,7 @@ date:   2019-04-08 6:00:00 -0600
 author: Carroll Vance
 comments: true
 categories: blog
+thumbnail: tensorflow.png
 ---
 
 One of the great things to release alongside the [Jetson Nano][nano] is [Jetpack 4.2][jetpack], which includes support for [TensorRT][tensorrt] in python. One of the easiest ways to get started with TensorRT is using the [TF-TRT interface][tftrt], which lets us seamlessly integrate TensorRT with a [Tensorflow][tensorflow] graph even if some layers are not supported. Of course this means we can easily accelerate [Keras][keras] models as well!

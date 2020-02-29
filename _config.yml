@@ -1,80 +1,163 @@
-# General Settings
-name: Carroll Vance
-job_title: Data Scientist Intern @ Medical Metrics<br>IEEE UH Makers Codirector
-email: cs.vance@icloud.com
-description: I'm an undergrad student with a passion for data science.
-avatar: https://csvance.github.io/assets/img/avatar.jpeg
-favicon: /favicon.ico
-twitter_handler:
-# analytics_code: UA-80232145-1
-# disqus: csvance-blog
+title: Carroll Vance
+subtitle: 
+description: >- # this means to ignore newlines until "baseurl:"
+  
 
-# Social Accounts
-social_networks:
--  { name: facebook, url: '' }
--  { name: twitter, url: '' }
--  { name: instagram, url: '' }
--  { name: google-plus, url: '' }
--  { name: linkedin, url: 'https://www.linkedin.com/in/cs-vance' }
--  { name: skype, url: '' }
--  { name: github, url: 'https://github.com/csvance' }
--  { name: codepen, url: '' }
--  { name: stack-overflow, url: '' }
--  { name: dribbble, url: '' }
--  { name: behance, url: '' }
--  { name: pinterest, url: '' }
--  { name: tumblr, url: '' }
--  { name: youtube, url: 'https://www.youtube.com/channel/UCEtdgGtdWeQ1CV6ckyA26jw' }
--  { name: vimeo, url: '' }
--  { name: vine, url: '' }
--  { name: 500px, url: '' }
--  { name: flickr, url: '' }
--  { name: spotify, url: '' }
--  { name: steam, url: '' }
--  { name: wordpress, url: '' }
--  { name: xing, url: '' }
--  { name: bitcoin, url: '' }
--  { name: pocket, url: '' }
+url: "https://csvance.github.io" # the base hostname & protocol for your site, e.g. https://example.github.io
+baseurl: "" # the subpath of your site, e.g. /blog
 
-# Modules Settings
-show_categories: 1
-show_tags: 1
-show_email: 1
-show_rss: 1
-show_comments: 0
-show_menu: 1
-fixed_sidebar: 1
+urls:
+    - text: About Me
+      url: /
+    - text: Blog
+      url: /blog
 
-# Defaults
-defaults:
-  -
-    scope:
-      path: ""
-      type: "posts"
-    values:
-      comments: "true"
+# Edit these details
 
-# Serving
-url: "https://csvance.github.io"
-#url: "http://localhost:4000"
-baseurl: ""
+author_logo: profile.jpeg
+author: Carroll Vance
+author_bio: I do applied machine learning research in bioinformatics and professionally apply computer vision to medical imaging. In my spare time I run IEEE UH Makers which is focused on helping students develop skills and create projects with electronics, programming, and machine learning. 
+author_email: "cs.vance@icloud.com"
+author_location: Houston, Texas
+# author_website_url: "http://johndoe.com"
 
-# Includes
-include: ["_pages"]
+author_work_experiences:
+            - company_name: Medical Metrics, Inc.
+              company_logo: mmi.png
+              company_url: https://medicalmetrics.com/
+              designation: Data Scientist Intern<br>(2019-Current)
+              description: End-to-end computer vision model creation, training, testing, refinement, and deployment for medical imaging. Fully integrated AI workflow with continuous integration, containerization, and deployment.
+              visibility: true
 
-# Outputting
-permalink: /:categories/:title.html
-category_dir: categories
+author_education_details:
+              - college_logo: uh.svg
+                college_name: University of Houston
+                college_url: https://uh.edu
+                college_degree: B.S. Computer Science<br>Minor Mathematics<br>(2018-Current)
+                description: Expected graduation Fall 2020.
+                visibility: true
 
-# Pagination
-paginate: 10
-paginate_path: "/page:num/"
+author_project_details:
+              - project_thumbnail: deep_sudep_detection.png
+                project_title: "Research: Deep Onset Detection"
+                project_description: <a href="https://sbmi.uth.edu">UTHealth School of Biomedical Informatics</a> hosted a <a href="https://sbmi.uth.edu/hackathon/archive/sept19.htm">Machine Learning Hackathon</a> in Sepetember 2019 for the purposes of using machine learning to identify predictive markers of sudden death in epilepsy (SUDEP). I placed third in the competition, and was invited to publish my method in a peer reviewed journal. I developed a framework to apply deep learning to the detection of the onset of slow activity after a generalized tonic-clonic seizure, as well as other EEG signal detection problems exhibiting data paucity. The prepublication is available <a href="https://www.dropbox.com/s/g324nx1sup5x7db/BMC_carroll.pdf?dl=0">here</a>.
+                project_url: https://github.com/csvance/deep-onset-detection
+                visibility: true
+              - project_thumbnail: mobiledetectnet.png
+                project_title: "Project: Keras MobileDetectNet"
+                project_description: MobileDetectNet is an object detector which uses MobileNet feature extractor to predict bounding boxes. It was designed to be computationally efficient for deployment on embedded systems and easy to train with limited data. It was inspired by the simple yet effective design of <a href="https://devblogs.nvidia.com/detectnet-deep-neural-network-object-detection-digits/">DetectNet</a> and enhanced with the anchor system from <a href="https://arxiv.org/abs/1506.01497">Faster R-CNN</a>.
+                project_url: https://github.com/csvance/keras-mobile-detectnet
+                visibility: true
 
-# Conversion
+# social links
+# twitter_username: johndoe
+github_username:  csvance
+# facebook_username: johndoe
+linkedin_username: cs-vance
+# behance_username: johndoe
+# instagram_username: johndoe
+# medium_username: johndoe
+# telegram_username: johndoe
+# dribbble_username: johndoe
+# flickr_username: johndoe
+
+#for comments using disqus
+# disqus_shortname: sujay-kundu
+
+# wakatime username (coding activity)
+# wakatime_username: sujaykundu777
+
+# mailchimp embedded form url (newsletter):
+# mailchimp_form_url:
+
+# formspree (contact form)
+# formspree_email: johndoe@gmail.com
+
+# syntax highlighter
 markdown: kramdown
-excerpt_separator: <!--more-->
+highlighter: rouge
+permalink: pretty
 
-# Assets Settings
-sass:
-  sass_dir: assets/partials
-  style: compressed
+# google analytics
+# google_analytics: UA-46783401-10
+
+# Choose what to show ( can be true or false)
+show_author_work_experiences: true
+show_author_education_details: true
+show_author_project_details: true
+
+# algolia search
+# algolia:
+#  application_id: D9WA1YKTRQ
+#  index_name: blog_posts # You can replace that with whatever name you want
+#  files_to_exclude: []
+#  nodes_to_index: 'article'
+#  search_only_api_key: 58ffdd7cd6c45ec1577a7fcd789b1b9a
+
+# pagination of posts
+paginate: 20
+per_page: 20
+paginate_path: "/blog/page/:num/"
+
+# minify
+# compress_html:
+#   clippings: all
+#   comments: ["<!-- ", " -->"]
+#   endings: all
+#   ignore:
+#     envs: ['development']
+
+# Archives
+# jekyll-archives:
+#   enabled:
+#     - categories
+#   layout: archive
+#   permalinks:
+#     category: '/category/:name/'
+
+# Shop
+# collections:
+# - products
+
+# Gallery
+# defaults:
+#  -
+#    scope:
+#      path: "gallery"
+#    values:
+#      permalink: /:path/:basename:output_ext
+
+# Build settings
+
+theme: devlopr
+plugins:
+  - jekyll-feed
+  - jekyll-paginate
+  - jekyll-gist
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-algolia
+  - jekyll-menus
+
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Excluded items can be processed by explicitly listing the directories or
+# their entries' file path in the `include:` list.
+#
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+destination: ./build
