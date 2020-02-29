@@ -1,5 +1,5 @@
 title: Carroll Vance
-subtitle: 
+subtitle: Data Scientist
 description: >- # this means to ignore newlines until "baseurl:"
   
 
@@ -12,6 +12,8 @@ urls:
       url: /
     - text: Blog
       url: /blog
+    - text: Resume
+      url: /resume
 
 # Edit these details
 
@@ -25,7 +27,7 @@ author_location: Houston, Texas
 author_work_experiences:
             - company_name: Medical Metrics, Inc.
               company_logo: mmi.png
-              company_url: https://medicalmetrics.com/
+              company_url: https://medicalmetrics.com
               designation: Data Scientist Intern<br>(2019-Current)
               description: End-to-end computer vision model creation, training, testing, refinement, and deployment for medical imaging. Fully integrated AI workflow with continuous integration, containerization, and deployment.
               visibility: true
