@@ -36,8 +36,8 @@ author_education_details:
               - college_logo: uh.svg
                 college_name: University of Houston
                 college_url: https://uh.edu
-                college_degree: B.S. Computer Science<br>Minor Mathematics<br>(2018-Current)
-                description: Expected graduation Fall 2020.
+                college_degree: B.S. Computer Science<br>(2018-Current)
+                description: Expected graduation Fall 2020 with minor in mathematics. 
                 visibility: true
 
 author_project_details:
