@@ -41,15 +41,15 @@ author_education_details:
                 visibility: true
 
 author_project_details:
-              - project_thumbnail: mobiledetectnet.png
-                project_title: "Project: Keras MobileDetectNet"
-                project_description: MobileDetectNet is an object detector which uses MobileNet feature extractor to predict bounding boxes. It was designed to be computationally efficient for deployment on embedded systems and easy to train with limited data. It was inspired by the simple yet effective design of <a href="https://devblogs.nvidia.com/detectnet-deep-neural-network-object-detection-digits/">DetectNet</a> and enhanced with the anchor system from <a href="https://arxiv.org/abs/1506.01497">Faster R-CNN</a>.
-                project_url: https://github.com/csvance/keras-mobile-detectnet
-                visibility: true
               - project_thumbnail: deep_sudep_detection.png
                 project_title: "Research: Deep Onset Detection"
                 project_description: <a href="https://sbmi.uth.edu">UTHealth School of Biomedical Informatics</a> hosted a <a href="https://sbmi.uth.edu/hackathon/archive/sept19.htm">Machine Learning Hackathon</a> in Sepetember 2019 for the purposes of using machine learning to identify predictive markers of sudden death in epilepsy (SUDEP). I placed third in the competition, and was invited to publish my method in a peer reviewed journal. I developed a framework to apply deep learning to the detection of the onset of slow activity after a generalized tonic-clonic seizure, as well as other EEG signal detection problems exhibiting data paucity. The prepublication is available <a href="https://www.dropbox.com/s/g324nx1sup5x7db/BMC_carroll.pdf?dl=0">here</a>.
                 project_url: https://github.com/csvance/deep-onset-detection
+                visibility: true
+              - project_thumbnail: mobiledetectnet.png
+                project_title: "Project: Keras MobileDetectNet"
+                project_description: MobileDetectNet is an object detector which uses MobileNet feature extractor to predict bounding boxes. It was designed to be computationally efficient for deployment on embedded systems and easy to train with limited data. It was inspired by the simple yet effective design of <a href="https://devblogs.nvidia.com/detectnet-deep-neural-network-object-detection-digits/">DetectNet</a> and enhanced with the anchor system from <a href="https://arxiv.org/abs/1506.01497">Faster R-CNN</a>.
+                project_url: https://github.com/csvance/keras-mobile-detectnet
                 visibility: true
 
 
