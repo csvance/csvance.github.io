@@ -11,7 +11,7 @@ about:
 ---
 
 ::: {.about-meta}
-[Machine Learning Engineer III]{.role} [at]{.sep} [Medical Metrics Inc.]{.company}
+[Machine Learning Engineer III]{.role} [@]{.sep} [Medical Metrics Inc.]{.company}
 
 []{.bi .bi-geo-alt} Texas Medical Center, Houston, Texas
 :::
