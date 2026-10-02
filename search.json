@@ -4,14 +4,14 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "I’m Carroll Vance, a Machine Learning Engineer III at Medical Metrics Inc., based in Houston’s Texas Medical Center. I write mostly about Julia: machine learning with Lux and Reactant, performance, and building production services."
+    "text": "I’m Carroll Vance, a Machine Learning Engineer III at Medical Metrics Inc., based in Houston’s Texas Medical Center. I write mostly about Julia: machine learning with Reactant and Enzyme, performance, and building production services."
   },
   {
     "objectID": "about.html#projects",
     "href": "about.html#projects",
     "title": "About",
     "section": "Projects",
-    "text": "Projects\n\nEnzymeAD/ReactantNitro.jl: Reactant-first training for Lux models\nEnzymeAD/ReactantServer.jl: production inference server for Reactant-compiled models over gRPC\nJuliaIO/gRPCClient.jl: Julia gRPC client\nJuliaIO/gRPCServer.jl: Julia gRPC server\nLuximm.jl: Lux.jl image models\nDocumenterLandingPage.jl: VitePress-style landing page for Documenter.jl"
+    "text": "Projects\n\n\n\nEnzymeAD\nReactantNitro.jl\nReactant-first training for Lux models\n\n\nEnzymeAD\nReactantServer.jl\nProduction inference server for Reactant-compiled models over gRPC\n\n\nJuliaIO\ngRPCClient.jl\nJulia gRPC client\n\n\nJuliaIO\ngRPCServer.jl\nJulia gRPC server\n\n\ncsvance\nLuximm.jl\nLux.jl image models\n\n\ncsvance\nDocumenterLandingPage.jl\nVitePress-style landing page for Documenter.jl"
   },
   {
     "objectID": "index.html",
