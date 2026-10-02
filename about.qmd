@@ -13,7 +13,7 @@ about:
 ::: {.about-meta}
 [Machine Learning Engineer III]{.role} [@]{.sep} [Medical Metrics Inc.]{.company}
 
-[]{.bi .bi-geo-alt} Texas Medical Center, Houston, Texas
+[]{.bi .bi-geo-alt} Houston, Texas
 :::
 
 ::: {.about-bio}
