@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I’m Carroll Vance, a Machine Learning Engineer III at Medical Metrics Inc., based in Houston’s Texas Medical Center. I write mostly about Julia: machine learning with Lux and Reactant, performance, and building production services."
+  },
+  {
+    "objectID": "about.html#projects",
+    "href": "about.html#projects",
+    "title": "About",
+    "section": "Projects",
+    "text": "Projects\n\nEnzymeAD/ReactantNitro.jl: Reactant-first training for Lux models\nEnzymeAD/ReactantServer.jl: production inference server for Reactant-compiled models over gRPC\nJuliaIO/gRPCClient.jl: Julia gRPC client\nJuliaIO/gRPCServer.jl: Julia gRPC server\nLuximm.jl: Lux.jl image models\nDocumenterLandingPage.jl: VitePress-style landing page for Documenter.jl"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Carroll Vance",
+    "section": "",
+    "text": "No matching items"
+  }
+]
