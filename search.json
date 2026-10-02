@@ -2,14 +2,14 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "Carroll Vance",
     "section": "",
-    "text": "I’m Carroll Vance, a Machine Learning Engineer III at Medical Metrics Inc., based in Houston’s Texas Medical Center. I write mostly about Julia: machine learning with Reactant and Enzyme, performance, and building production services."
+    "text": "Machine Learning Engineer III at Medical Metrics Inc.\n Texas Medical Center, Houston, Texas"
   },
   {
     "objectID": "about.html#projects",
     "href": "about.html#projects",
-    "title": "About",
+    "title": "Carroll Vance",
     "section": "Projects",
     "text": "Projects\n\n\n\nEnzymeAD\nReactantNitro.jl\nReactant-first training for Lux models\n\n\nEnzymeAD\nReactantServer.jl\nProduction inference server for Reactant-compiled models over gRPC\n\n\nJuliaIO\ngRPCClient.jl\nJulia gRPC client\n\n\nJuliaIO\ngRPCServer.jl\nJulia gRPC server\n\n\ncsvance\nLuximm.jl\nLux.jl image models\n\n\ncsvance\nDocumenterLandingPage.jl\nVitePress-style landing page for Documenter.jl"
   },
