@@ -11,7 +11,8 @@ website:
   open-graph: true         # link previews on Hacker News, Slack, etc.
   navbar:
     right:
-      - about.qmd
+      - text: About
+        href: about.qmd
       - icon: github
         href: https://github.com/csvance
       - icon: rss

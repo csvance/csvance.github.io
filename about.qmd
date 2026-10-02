@@ -1,5 +1,6 @@
 ---
-title: "About"
+title: "Carroll Vance"         # shown as the page heading
+pagetitle: "About"            # browser tab and link previews
 image: profile.jpg
 about:
   template: jolla
@@ -9,9 +10,16 @@ about:
       href: https://github.com/csvance
 ---
 
-I'm Carroll Vance, a Machine Learning Engineer III at Medical Metrics Inc.,
-based in Houston's Texas Medical Center. I write mostly about Julia: machine
-learning with Reactant and Enzyme, performance, and building production services.
+::: {.about-meta}
+[Machine Learning Engineer III]{.role} [at]{.sep} [Medical Metrics Inc.]{.company}
+
+[]{.bi .bi-geo-alt} Texas Medical Center, Houston, Texas
+:::
+
+::: {.about-bio}
+I write mostly about Julia: machine learning with Reactant and Enzyme,
+performance, and building production services.
+:::
 
 ## Projects
 
