@@ -1,3 +1,68 @@
 /* Comfortable reading width and code size */
 main.content { max-width: 46rem; }
 pre code, code { font-size: 0.9em; }
+
+/* Project cards. Colors come from Bootstrap variables, so they follow the
+   light/dark theme without separate rules. The whole card is the link
+   (Bootstrap's .stretched-link), which needs no JavaScript. */
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  margin: 1rem 0 2rem;
+}
+/* Medium: two columns, so each row is one group */
+@media (min-width: 36rem) {
+  .project-grid { grid-template-columns: repeat(2, 1fr); }
+}
+/* Wide: three columns filled top to bottom, so each column is one group */
+@media (min-width: 52rem) {
+  .project-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+  }
+}
+.project-card {
+  position: relative;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 12px;
+  text-align: left;            /* the jolla About template centers everything */
+  background: color-mix(in srgb, var(--bs-body-color) 2.5%, var(--bs-body-bg));
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.project-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--bs-link-color);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+.project-card p { margin: 0; }
+.project-card .org {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+}
+/* Accent dot per project group, in the Julia logo colors */
+.project-card .org::before {
+  content: "";
+  display: inline-block;
+  width: 0.5rem; height: 0.5rem;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  vertical-align: 0.05rem;
+  background: #9558b2;
+}
+.project-card.grpc .org::before { background: #389826; }
+.project-card.misc .org::before { background: #cb3c33; }
+.project-card .stretched-link {
+  display: inline-block;
+  margin: 0.15rem 0 0.35rem;
+  font-weight: 650;
+  font-size: 1.05rem;
+  text-decoration: none;
+  overflow-wrap: break-word;   /* add <wbr> in long names to choose the break */
+}
+.project-card .desc { font-size: 0.9rem; color: var(--bs-secondary-color); line-height: 1.45; }

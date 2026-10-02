@@ -11,13 +11,61 @@ about:
 
 I'm Carroll Vance, a Machine Learning Engineer III at Medical Metrics Inc.,
 based in Houston's Texas Medical Center. I write mostly about Julia: machine
-learning with Lux and Reactant, performance, and building production services.
+learning with Reactant and Enzyme, performance, and building production services.
 
 ## Projects
 
-- [EnzymeAD/ReactantNitro.jl](https://github.com/EnzymeAD/ReactantNitro.jl): Reactant-first training for Lux models
-- [EnzymeAD/ReactantServer.jl](https://github.com/EnzymeAD/ReactantServer.jl): production inference server for Reactant-compiled models over gRPC
-- [JuliaIO/gRPCClient.jl](https://github.com/JuliaIO/gRPCClient.jl): Julia gRPC client
-- [JuliaIO/gRPCServer.jl](https://github.com/JuliaIO/gRPCServer.jl): Julia gRPC server
-- [Luximm.jl](https://github.com/csvance/Luximm.jl): Lux.jl image models
-- [DocumenterLandingPage.jl](https://github.com/csvance/DocumenterLandingPage.jl): VitePress-style landing page for Documenter.jl
+<!-- One card per project: org, linked name, short description.
+     Wide screens show one column per group (reactant, grpc, misc), so keep
+     each group to two cards in this order, or adjust .project-grid rows. -->
+:::: {.project-grid}
+
+::: {.project-card .reactant}
+[EnzymeAD]{.org}
+
+[ReactantNitro.jl](https://github.com/EnzymeAD/ReactantNitro.jl){.stretched-link}
+
+[Reactant-first training for Lux models]{.desc}
+:::
+
+::: {.project-card .reactant}
+[EnzymeAD]{.org}
+
+[ReactantServer.jl](https://github.com/EnzymeAD/ReactantServer.jl){.stretched-link}
+
+[Production inference server for Reactant-compiled models over gRPC]{.desc}
+:::
+
+::: {.project-card .grpc}
+[JuliaIO]{.org}
+
+[gRPCClient.jl](https://github.com/JuliaIO/gRPCClient.jl){.stretched-link}
+
+[Julia gRPC client]{.desc}
+:::
+
+::: {.project-card .grpc}
+[JuliaIO]{.org}
+
+[gRPCServer.jl](https://github.com/JuliaIO/gRPCServer.jl){.stretched-link}
+
+[Julia gRPC server]{.desc}
+:::
+
+::: {.project-card .misc}
+[csvance]{.org}
+
+[Luximm.jl](https://github.com/csvance/Luximm.jl){.stretched-link}
+
+[Lux.jl image models]{.desc}
+:::
+
+::: {.project-card .misc}
+[csvance]{.org}
+
+[Documenter<wbr>LandingPage.jl](https://github.com/csvance/DocumenterLandingPage.jl){.stretched-link}
+
+[VitePress-style landing page for Documenter.jl]{.desc}
+:::
+
+::::

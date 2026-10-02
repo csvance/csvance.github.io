@@ -16,12 +16,17 @@ website:
         href: https://github.com/csvance
       - icon: rss
         href: index.xml
+  page-footer:
+    center: "© 2026 Carroll Vance · [MIT License](https://github.com/csvance/csvance.github.io/blob/main/LICENSE)"
 
 format:
   html:
-    theme: cosmo
+    theme:                    # light/dark pair; colors live in the .scss files
+      light: [cosmo, theme-light.scss]
+      dark: [cosmo, theme-dark.scss]
+    respect-user-color-scheme: true   # follow the OS setting; navbar toggle overrides
     css: styles.css
-    highlight-style: github   # Pandoc highlighting, no JavaScript
+    syntax-highlighting: github   # Pandoc highlighting, no JavaScript; adapts to dark
     code-copy: false          # removes the clipboard script
     anchor-sections: false    # removes the anchor link script
     smooth-scroll: false

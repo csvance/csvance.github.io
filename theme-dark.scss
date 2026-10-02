@@ -1,0 +1,21 @@
+/*-- scss:defaults --*/
+// Same structure as theme-light.scss with a dark palette.
+$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+$headings-font-weight: 650;
+
+$body-bg: #0f1115;
+$body-color: #d7dae0;
+$link-color: #8ba4ff;
+$primary: #8ba4ff;
+$navbar-bg: $body-bg;
+$navbar-fg: #9aa3ae;
+$navbar-hl: #ffffff;
+$footer-bg: $body-bg;
+$code-color: #d2a8ff;
+$code-block-bg: #161b22;
+$pre-color: $body-color;     // cell output text (cosmo default is near black)
+$border-color: #2a2f38;       // softer card and rule borders
+
+/*-- scss:rules --*/
+.navbar { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }

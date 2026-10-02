@@ -1,0 +1,21 @@
+/*-- scss:defaults --*/
+// Shared look: system fonts (no web font downloads), quiet navbar, Julia-blue links.
+$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+$headings-font-weight: 650;
+
+$body-bg: #ffffff;
+$body-color: #1f2328;
+$link-color: #4063d8;        // Julia logo blue
+$primary: #4063d8;
+$navbar-bg: $body-bg;
+$navbar-fg: #57606a;
+$navbar-hl: $body-color;
+$footer-bg: $body-bg;
+$code-color: #9558b2;        // Julia logo purple for inline code
+$code-block-bg: #f6f8fa;
+$pre-color: $body-color;
+$border-color: #e1e4e8;
+
+/*-- scss:rules --*/
+.navbar { border-bottom: 1px solid rgba(0, 0, 0, 0.08); }
