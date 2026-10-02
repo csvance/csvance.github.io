@@ -1,0 +1,49 @@
+---
+title: "Why Your Julia Loop Is Slow"
+description: "Type stability, in one example"
+date: 2026-10-02
+categories: [julia, performance]
+engine: julia
+draft: true
+---
+
+A common surprise for new Julia users is that a loop can be fast or slow
+depending on whether the compiler can infer types.
+
+```{julia}
+function sum_unstable(xs)
+    total = 0          # starts as an Int
+    for x in xs
+        total += x     # becomes a Float64 if xs holds floats
+    end
+    return total
+end
+
+function sum_stable(xs)
+    total = zero(eltype(xs))
+    for x in xs
+        total += x
+    end
+    return total
+end
+
+xs = rand(10^6)
+sum_stable(xs) ≈ sum_unstable(xs)
+```
+
+```{julia}
+#| output: false
+using BenchmarkTools
+```
+
+```{julia}
+@btime sum_unstable($xs)
+@btime sum_stable($xs)
+```
+
+A static REPL excerpt, shown but not executed:
+
+```julia
+julia> @code_warntype sum_unstable(xs)
+  total::Union{Float64, Int64}
+```

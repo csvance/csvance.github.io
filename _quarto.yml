@@ -1,0 +1,28 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Carroll Vance"
+  description: "Notes on Julia and machine learning engineering"
+  site-url: https://csvance.github.io
+  repo-url: https://github.com/csvance/csvance.github.io
+  search: false            # removes the search script and index
+  open-graph: true         # link previews on Hacker News, Slack, etc.
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/csvance
+      - icon: rss
+        href: index.xml
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    highlight-style: github   # Pandoc highlighting, no JavaScript
+    code-copy: false          # removes the clipboard script
+    anchor-sections: false    # removes the anchor link script
+    smooth-scroll: false
+    link-external-icon: false

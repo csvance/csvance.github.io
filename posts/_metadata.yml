@@ -1,0 +1,6 @@
+julia:
+  exeflags: ["--project=@."]   # use the root Project.toml
+execute:
+  freeze: auto                  # rerun a post only when its source changes
+title-block-banner: false
+author: "Carroll Vance"

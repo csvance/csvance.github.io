@@ -1,0 +1,12 @@
+{
+  "hash": "a8d0df3c46267e3d4e00b0cef106cae1",
+  "result": {
+    "engine": "julia",
+    "markdown": "---\ntitle: \"Why Your Julia Loop Is Slow\"\ndescription: \"Type stability, in one example\"\ndate: 2026-10-02\ncategories: [julia, performance]\nengine: julia\ndraft: true\n---\n\nA common surprise for new Julia users is that a loop can be fast or slow\ndepending on whether the compiler can infer types.\n\n::: {#2 .cell execution_count=1}\n``` {.julia .cell-code}\nfunction sum_unstable(xs)\n    total = 0          # starts as an Int\n    for x in xs\n        total += x     # becomes a Float64 if xs holds floats\n    end\n    return total\nend\n\nfunction sum_stable(xs)\n    total = zero(eltype(xs))\n    for x in xs\n        total += x\n    end\n    return total\nend\n\nxs = rand(10^6)\nsum_stable(xs) ≈ sum_unstable(xs)\n```\n\n::: {.cell-output .cell-output-display execution_count=1}\n```\ntrue\n```\n:::\n:::\n\n\n\n::: {#4 .cell execution_count=1}\n``` {.julia .cell-code}\nusing BenchmarkTools\n```\n:::\n\n\n\n::: {#6 .cell execution_count=1}\n``` {.julia .cell-code}\n@btime sum_unstable($xs)\n@btime sum_stable($xs)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n  925.768 μs (0 allocations: 0 bytes)\n  925.427 μs (0 allocations: 0 bytes)\n```\n:::\n\n::: {.cell-output .cell-output-display execution_count=1}\n```\n499797.5293231015\n```\n:::\n:::\n\n\n\nA static REPL excerpt, shown but not executed:\n\n```julia\njulia> @code_warntype sum_unstable(xs)\n  total::Union{Float64, Int64}\n```\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

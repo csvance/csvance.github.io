@@ -1,6 +1,3 @@
-.sass-cache/
-.jekyll-metadata/
-.jekyll-cache/
-.idea/
-.DS_Store
-build/
+/.quarto/
+/_site/
+**/*.quarto_ipynb

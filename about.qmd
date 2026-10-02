@@ -1,0 +1,23 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/csvance
+---
+
+I'm Carroll Vance, a Machine Learning Engineer III at Medical Metrics Inc.,
+based in Houston's Texas Medical Center. I write mostly about Julia: machine
+learning with Lux and Reactant, performance, and building production services.
+
+## Projects
+
+- [EnzymeAD/ReactantNitro.jl](https://github.com/EnzymeAD/ReactantNitro.jl): Reactant-first training for Lux models
+- [EnzymeAD/ReactantServer.jl](https://github.com/EnzymeAD/ReactantServer.jl): production inference server for Reactant-compiled models over gRPC
+- [JuliaIO/gRPCClient.jl](https://github.com/JuliaIO/gRPCClient.jl): Julia gRPC client
+- [JuliaIO/gRPCServer.jl](https://github.com/JuliaIO/gRPCServer.jl): Julia gRPC server
+- [Luximm.jl](https://github.com/csvance/Luximm.jl): Lux.jl image models
+- [DocumenterLandingPage.jl](https://github.com/csvance/DocumenterLandingPage.jl): VitePress-style landing page for Documenter.jl

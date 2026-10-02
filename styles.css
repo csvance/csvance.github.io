@@ -1,0 +1,3 @@
+/* Comfortable reading width and code size */
+main.content { max-width: 46rem; }
+pre code, code { font-size: 0.9em; }
