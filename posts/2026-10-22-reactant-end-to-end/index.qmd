@@ -117,7 +117,7 @@ Neither of these got built overnight. Three smaller projects came first, and Rea
 
 ## Reactant.jl end-to-end: Training, exporting, and serving a PathMNIST CNN and NeuralODE classifier with ReactantNitro and ReactantServer
 
-What would a good blog post be without actually showing how you can train and serve your own models end-to-end with the Reactant stack? Yes, it's a real thing, you can do it today if you want. Since we are dealing with Julia, there must be a reason to add a NeuralODE somewhere. Honestly, I don't need one: I still find these models fascinating, especially the functions and representations they learn. Let's start with how the full stack fits together.
+What would a good blog post be without actually showing how you can train and serve your own models end-to-end with the Reactant stack? Yes, it's a real thing, you can do it today if you want. All of the code is in the [companion repo](https://github.com/csvance/PathMNISTReactant.jl), so you can follow along or run it yourself. Since we are dealing with Julia, there must be a reason to add a NeuralODE somewhere. Honestly, I don't need one: I still find these models fascinating, especially the functions and representations they learn. Let's start with how the full stack fits together.
 
 ```{=html}
 <svg class="diagram" font-family="system-ui, sans-serif" viewBox="0 0 720 412" role="img" aria-labelledby="stack-title stack-desc" xmlns="http://www.w3.org/2000/svg">
