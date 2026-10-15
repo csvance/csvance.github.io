@@ -1,0 +1,13 @@
+<script>
+// Collapsed info boxes are optional detail. Mark each one as supplementary content, so browser
+// reading modes that build their view from the live page leave them out: role="complementary"
+// is the landmark for asides, and Firefox's Readability drops elements with a "supplemental"
+// class. The normal page is unchanged.
+document.querySelectorAll(".callout").forEach((box) => {
+  if (!box.querySelector(".callout-btn-toggle")) return;   // only the collapsed ones
+  box.classList.add("supplemental");
+  box.setAttribute("role", "complementary");
+  const title = box.getAttribute("title");
+  if (title) box.setAttribute("aria-label", title.replace(/`/g, ""));
+});
+</script>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project slideshow example</title>
+<link rel="stylesheet" href="slideshow.css">
+<style>body { font-family: system-ui, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 16px; background: #fff; }</style>
+</head>
+<body>
+<div class="projects" aria-label="The projects in this post">
+  <a class="project-slide" href="#reactantnitro" style="--accent: #FF9A15">
+    <img src="example/reactantnitro.svg" alt="">
+    <span class="project-name">ReactantNitro.jl</span>
+    <span class="project-tag">A training framework for Reactant, built around the REPL and Revise</span>
+  </a>
+  <a class="project-slide" href="#reactantserver" style="--accent: #E8A33D">
+    <img src="example/reactantserver.svg" alt="">
+    <span class="project-name">ReactantServer.jl</span>
+    <span class="project-tag">Serves Reactant-compiled models over KServe V2, with pre and post processing in plain Julia</span>
+  </a>
+  <a class="project-slide" href="#stepping-stones" style="--accent: #9558B2">
+    <img src="example/luximm.svg" alt="">
+    <span class="project-name">Luximm.jl</span>
+    <span class="project-tag">Pretrained vision backbones for Lux.jl, in the spirit of timm</span>
+  </a>
+  <a class="project-slide" href="#stepping-stones" style="--accent: #389826">
+    <img class="only-light" src="example/grpcserver.svg" alt="">
+    <img class="only-dark" src="example/grpcserver-dark.svg" alt="">
+    <span class="project-name">gRPCServer.jl</span>
+    <span class="project-tag">A native Julia gRPC server</span>
+  </a>
+</div>
+<script src="slideshow.js" defer></script>
+</body>
+</html>

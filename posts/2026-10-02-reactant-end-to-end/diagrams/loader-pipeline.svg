@@ -1,0 +1,79 @@
+<!-- Loader pipeline diagram, removed from the post in favor of the comparison table.
+     To restore: paste inside a ```{=html} block; styled by the .diagram rules in styles.css. -->
+<svg class="diagram" viewBox="0 0 720 676" role="img" aria-labelledby="pipeline-title pipeline-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="pipeline-title">How ReactantNitro drives the PathMNIST DataLoader</title>
+  <desc id="pipeline-desc">build_data returns a DataLoader per split. Each epoch, begin_epoch! shuffles and plans batches. A coordinator hands batch indices to N tasks, scheduled across all cores, which build host batches through getobs. A reorder buffer emits them in order to one transfer task, which stages them on the device for the training loop. A credit window of host_batches bounds how many host batches exist. Everything runs inside one Julia process.</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+    <marker id="arr-credit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head credit" d="M0,0 L10,5 L0,10 z"/></marker>
+  </defs>
+
+  <!-- process boundary: everything below is one Julia process -->
+  <rect class="process" x="4" y="2" width="712" height="638" rx="14"/>
+  <text class="note" x="360" y="664" text-anchor="middle">one Julia process: shared memory; tasks run in parallel on every core of the default thread pool</text>
+
+  <!-- 1. build_data -->
+  <rect class="box" x="170" y="18" width="380" height="52" rx="10"/>
+  <text class="code" x="360" y="40" text-anchor="middle">build_data(e, dist)</text>
+  <text class="sub" x="360" y="58" text-anchor="middle">ensure_dataset_mmapable, then one DataLoader per split</text>
+  <path class="arrow" d="M360,70 V86" marker-end="url(#arr)"/>
+
+  <!-- 2. begin_epoch! -->
+  <rect class="box" x="170" y="90" width="380" height="52" rx="10"/>
+  <text class="code" x="360" y="112" text-anchor="middle">begin_epoch!(dl)</text>
+  <text class="sub" x="360" y="130" text-anchor="middle">shuffle with the loader's rng, plan batches; nothing read yet</text>
+  <path class="arrow" d="M360,142 V166" marker-end="url(#arr)"/>
+
+  <!-- 3. coordinator -->
+  <rect class="box" x="170" y="170" width="380" height="52" rx="10"/>
+  <text class="title" x="360" y="192" text-anchor="middle">coordinator</text>
+  <text class="sub" x="360" y="210" text-anchor="middle">hands out batch indices 1:n, one credit each</text>
+
+  <!-- fan out -->
+  <path class="arrow" d="M300,222 L130,266" marker-end="url(#arr)"/>
+  <path class="arrow" d="M360,222 V266" marker-end="url(#arr)"/>
+  <path class="arrow" d="M420,222 L590,266" marker-end="url(#arr)"/>
+
+  <!-- 4. tasks -->
+  <rect class="box" x="30" y="270" width="200" height="70" rx="10"/>
+  <text class="title" x="130" y="292" text-anchor="middle">task 1</text>
+  <text class="code" x="130" y="311" text-anchor="middle" style="font-size:12px">getobs(split, idxs)</text>
+  <text class="sub" x="130" y="329" text-anchor="middle">mmap read · permute · augment</text>
+  <rect class="box" x="260" y="270" width="200" height="70" rx="10"/>
+  <text class="title" x="360" y="292" text-anchor="middle">task 2</text>
+  <text class="code" x="360" y="311" text-anchor="middle" style="font-size:12px">getobs(split, idxs)</text>
+  <text class="sub" x="360" y="329" text-anchor="middle">mmap read · permute · augment</text>
+  <rect class="box" x="490" y="270" width="200" height="70" rx="10"/>
+  <text class="title" x="590" y="292" text-anchor="middle">task N</text>
+  <text class="code" x="590" y="311" text-anchor="middle" style="font-size:12px">getobs(split, idxs)</text>
+  <text class="sub" x="590" y="329" text-anchor="middle">mmap read · permute · augment</text>
+  <text class="sub" x="475" y="309" text-anchor="middle">⋯</text>
+
+  <!-- fan in -->
+  <path class="arrow" d="M130,340 L300,384" marker-end="url(#arr)"/>
+  <path class="arrow" d="M360,340 V384" marker-end="url(#arr)"/>
+  <path class="arrow" d="M590,340 L420,384" marker-end="url(#arr)"/>
+
+  <!-- 5. reorder buffer -->
+  <rect class="box" x="170" y="388" width="380" height="52" rx="10"/>
+  <text class="title" x="360" y="410" text-anchor="middle">reorder buffer</text>
+  <text class="sub" x="360" y="428" text-anchor="middle">emits in source order (ordered = true); returns the credit</text>
+  <path class="arrow" d="M360,440 V464" marker-end="url(#arr)"/>
+
+  <!-- credit loop -->
+  <path class="arrow credit" d="M550,414 H700 V196 H554" marker-end="url(#arr-credit)"/>
+  <text class="note" x="694" y="372" text-anchor="end">credits:</text>
+  <text class="note" x="694" y="388" text-anchor="end">host_batches = 2N</text>
+
+  <!-- 6. transfer -->
+  <rect class="box" x="170" y="468" width="380" height="52" rx="10"/>
+  <text class="title" x="360" y="490" text-anchor="middle">transfer task (one)</text>
+  <text class="sub" x="360" y="508" text-anchor="middle">copies img and label to the device, still UInt8</text>
+  <path class="arrow" d="M360,520 V570" marker-end="url(#arr)"/>
+  <text class="note" x="372" y="549">device_batches = 1 staged</text>
+
+  <!-- 7. training loop -->
+  <rect class="box accent" x="170" y="574" width="380" height="52" rx="10"/>
+  <text class="title" x="360" y="596" text-anchor="middle">training loop</text>
+  <text class="sub" x="360" y="614" text-anchor="middle">compiled gradient and optimizer programs</text>
+</svg>

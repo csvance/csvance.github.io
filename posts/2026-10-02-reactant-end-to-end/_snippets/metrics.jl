@@ -1,0 +1,37 @@
+const ECE_BINS = 15    # confidence bins for the expected calibration error
+
+function ReactantNitro.metrics(e::PathMNIST, out; label)
+    n = length(label)
+    probs = softmax(out.logits; dims = 1)
+    confusion = zeros(Int, e.num_classes, e.num_classes)       # rows true, columns predicted
+    samples, conf, correct = zeros(ECE_BINS), zeros(ECE_BINS), zeros(ECE_BINS)
+    for (p, l) in zip(eachcol(probs), label)
+        c, pred = findmax(p)
+        confusion[l, pred] += 1
+        b = clamp(ceil(Int, c * ECE_BINS), 1, ECE_BINS)
+        samples[b] += 1
+        conf[b] += c
+        correct[b] += pred == l
+    end
+    return (;
+        val_loss = cross_entropy(e, out.logits, label) * n => n,
+        confusion = confusion => :sum,
+        calib = (; samples, conf, correct) => :sum,
+        kinetic = sum(out.energy) => n,
+        motion = sum(out.motion) => n,
+    )
+end
+
+function ReactantNitro.finalize_metrics(e::PathMNIST, acc, split)
+    c = acc.confusion
+    recall = [c[k, k] / sum(c[k, :]) for k in axes(c, 1) if sum(c[k, :]) > 0]
+    (; samples, conf, correct) = acc.calib
+    return (;
+        acc.val_loss,
+        macro_acc = sum(recall) / length(recall),            # mean per-class recall
+        acc = sum(c[k, k] for k in axes(c, 1)) / sum(c),
+        ece = sum(abs.(conf .- correct)) / sum(samples),
+        acc.motion,
+        acc.kinetic,
+    )
+end

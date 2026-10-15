@@ -1,0 +1,58 @@
+/* Project slideshow (slideshow.js). Without the script the
+   slides are a row of cards; with it they stack into one stage. Follows the site theme. */
+.projects { --surface: #ffffff; --ink: #1f2328; --muted: #57606a; --frame: #d0d7de; margin: 1.5rem 0 2rem; }
+body.quarto-dark .projects { --surface: #161b22; --ink: #d7dae0; --muted: #9aa3ae; --frame: #2a2f38; }
+.projects .only-dark { display: none; }
+body.quarto-dark .projects .only-dark { display: block; }
+body.quarto-dark .projects .only-light { display: none; }
+.projects:not(.is-live) { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0.75rem; }
+.project-slide {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem;
+  padding: 1.25rem 1rem; border: 1px solid var(--frame); border-radius: 14px; background: var(--surface);
+  color: var(--ink); text-decoration: none; text-align: center;
+}
+.project-slide img { height: 72px; width: auto; max-width: 100%; }
+.project-name { font-family: var(--bs-font-monospace); font-weight: 700; font-size: 1.05rem; }
+.project-tag { color: var(--muted); font-size: 0.9rem; max-width: 30rem; line-height: 1.35; }
+.project-slide:hover .project-name { text-decoration: underline; }
+
+/* Live: one stage, slides swing through it. */
+.projects.is-live .projects-stage {
+  position: relative; height: 15.5rem; overflow: hidden; border: 1px solid var(--frame); border-radius: 16px;
+  background: var(--surface); perspective: 900px;
+}
+.projects.is-live .project-slide {
+  position: absolute; inset: 0; border: 0; border-radius: 0; background: transparent;
+  opacity: 0; pointer-events: none; transform: rotateY(38deg) translateX(18%) scale(0.75); filter: blur(8px);
+  transition: opacity 0.6s ease, transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.6s ease;
+}
+.projects.is-live .project-slide.is-leaving { transform: rotateY(-38deg) translateX(-18%) scale(0.75); }
+.projects.is-live .project-slide.is-active { opacity: 1; pointer-events: auto; transform: none; filter: none; }
+.projects.is-live .project-slide img { height: 96px; position: relative; z-index: 1; }
+/* A soft rotating halo in the project's own colour, behind the logo. */
+.projects.is-live .project-slide::before {
+  content: ""; position: absolute; top: 50%; left: 50%; width: 15rem; height: 15rem; margin: -7.5rem 0 0 -7.5rem;
+  border-radius: 50%; opacity: 0.22; filter: blur(28px);
+  background: conic-gradient(from 0deg, var(--accent), transparent 35%, var(--accent) 60%, transparent 85%, var(--accent));
+  animation: projects-spin 9s linear infinite;
+}
+.projects.is-live .project-slide > * { position: relative; z-index: 1; }
+@keyframes projects-spin { to { transform: rotate(360deg); } }
+.projects-controls { display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 0.6rem; }
+.projects-dot {
+  width: 0.7rem; height: 0.7rem; padding: 0; border-radius: 999px; border: 1px solid var(--muted);
+  background: transparent; cursor: pointer; transition: width 0.3s ease, background 0.3s ease;
+}
+.projects-dot[aria-current="true"] { width: 1.6rem; background: var(--ink); border-color: var(--ink); }
+.projects-pause {
+  width: 2rem; height: 2rem; margin-right: 0.35rem; border-radius: 999px; border: 1px solid var(--frame);
+  background: var(--surface); color: var(--ink); font-size: 0.7rem; cursor: pointer;
+}
+.projects-progress { height: 2px; margin: 0.5rem auto 0; max-width: 12rem; background: var(--frame); border-radius: 2px; overflow: hidden; }
+.projects-progress::after { content: ""; display: block; height: 100%; width: 100%; background: var(--ink); transform-origin: left; transform: scaleX(0); }
+.projects-progress.is-filling::after { animation: projects-fill var(--interval) linear forwards; }
+@keyframes projects-fill { to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .projects.is-live .project-slide { transition: none; transform: none !important; filter: none; }
+  .projects.is-live .project-slide::before { animation: none; }
+}

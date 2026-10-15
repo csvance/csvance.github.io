@@ -17,8 +17,8 @@ about:
 :::
 
 ::: {.about-bio}
-I write mostly about Julia: machine learning with Reactant and Enzyme,
-performance, and building production services.
+I build scientific machine learning models and production services in a
+regulated medical device setting.
 :::
 
 ## Projects
@@ -71,9 +71,9 @@ performance, and building production services.
 ::: {.project-card .misc}
 [csvance]{.org}
 
-[Documenter<wbr>LandingPage.jl](https://github.com/csvance/DocumenterLandingPage.jl){.stretched-link}
+[julia_depot](https://github.com/csvance/julia_depot){.stretched-link}
 
-[VitePress-style landing page for Documenter.jl]{.desc}
+[Depot-centric Bazel rules for Julia]{.desc}
 :::
 
 ::::

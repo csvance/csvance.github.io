@@ -1,5 +1,5 @@
 ---
-title: "Carroll Vance"
+title: "∇ Selected Gradient Works"
 listing:
   contents: posts
   sort: "date desc"

@@ -4,3 +4,4 @@ execute:
   freeze: auto                  # rerun a post only when its source changes
 title-block-banner: false
 author: "Carroll Vance"
+link-citations: true            # [@key] in prose links to its reference entry

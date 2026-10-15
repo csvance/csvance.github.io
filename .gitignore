@@ -1,3 +1,62 @@
+# Quarto build output and caches. Do NOT ignore _freeze/: CI publishes from
+# the stored execution results and never runs Julia.
 /.quarto/
 /_site/
 **/*.quarto_ipynb
+/posts/**/*_files/
+
+# Julia: Project.toml and Manifest.toml are committed; preferences are per machine
+LocalPreferences.toml
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+
+# Datasets, checkpoints, and model bundles from post experiments. Keep these
+# out of the blog repo; commit only the figures and numbers a post shows.
+data/
+checkpoints/
+bundles/
+runs/
+*.npz
+*.npy
+*.h5
+*.hdf5
+*.jld2
+*.bson
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.tif
+*.tiff
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Training logs
+*.log
+events.out.tfevents.*
+.cometml-runs/
+
+# Credentials and local config
+.env
+.env.*
+.comet.config
+.netrc
+*.pem
+*.key
+
+# Editors and OS
+.DS_Store
+Thumbs.db
+*~
+\#*\#
+.#*
+*.swp
+.vscode/
+.idea/
+
+# Agent handoff notes
+/HANDOFF.md

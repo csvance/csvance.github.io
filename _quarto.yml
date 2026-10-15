@@ -1,11 +1,12 @@
 project:
   type: website
   output-dir: _site
+  pre-render: scripts/snippets.py   # copy marked code regions from companion repos
 
 website:
-  title: "Carroll Vance"
+  title: "∇ Selected Gradient Works"
   description: "Notes on Julia and machine learning engineering"
-  site-url: https://csvance.github.io
+  site-url: https://csvance.dev
   repo-url: https://github.com/csvance/csvance.github.io
   search: false            # removes the search script and index
   open-graph: true         # link previews on Hacker News, Slack, etc.
