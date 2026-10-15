@@ -82,3 +82,146 @@ pre code, code { font-size: 0.9em; }
   overflow-wrap: break-word;   /* add <wbr> in long names to choose the break */
 }
 .project-card .desc { font-size: 0.9rem; color: var(--bs-secondary-color); line-height: 1.45; }
+
+/* References list (Pandoc citeproc): room between entries, quieter links */
+#refs { font-size: 0.92rem; line-height: 1.55; }
+#refs .csl-entry { margin-bottom: 0.85rem; }
+#refs .csl-entry a {
+  color: var(--bs-secondary-color);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+#refs .csl-entry a:hover { color: var(--bs-link-color); text-decoration: underline; }
+
+/* Inline SVG diagrams: colors come from the theme, so they follow dark mode */
+.diagram { display: block; width: 100%; height: auto; margin: 1.25rem 0; }
+.diagram .box { fill: color-mix(in srgb, var(--bs-body-color) 3%, var(--bs-body-bg)); stroke: var(--bs-border-color); stroke-width: 1.25; }
+.diagram .box.accent { stroke: var(--bs-link-color); }
+.diagram text { fill: var(--bs-body-color); font-family: inherit; }
+.diagram .title { font-size: 14px; font-weight: 600; }
+.diagram .code { font-family: var(--bs-font-monospace); font-size: 13px; font-weight: 600; }
+.diagram .sub { fill: var(--bs-secondary-color); font-size: 12px; }
+.diagram .note { fill: var(--bs-link-color); font-size: 12px; }
+.diagram .arrow { stroke: var(--bs-secondary-color); stroke-width: 1.25; fill: none; }
+.diagram .arrow.credit { stroke: var(--bs-link-color); stroke-dasharray: 4 4; }
+.diagram .head { fill: var(--bs-secondary-color); }
+.diagram .head.credit { fill: var(--bs-link-color); }
+.diagram .process { fill: none; stroke: var(--bs-border-color); stroke-width: 1.5; stroke-dasharray: 6 4; }
+
+/* Inline code in headings, table headers, code-fold summaries and callout titles: the theme
+   gives it a fixed light background that glares in dark mode. A tint of the text colour works
+   in both. */
+:is(h1, h2, h3, h4, h5, h6, th, summary, .callout-title-container) code {
+  background-color: color-mix(in srgb, var(--bs-body-color) 8%, transparent);
+}
+.callout-title-container code { color: inherit; }   /* the theme's pink is faint on a callout header */
+
+/* Interactive NeuralODE trajectory player (posts/.../figures/trajectory-player.js).
+   Colours are roles: the reference categorical palette for the nine classes (a neutral gray
+   for "background"), each stepped for its surface; the dark set follows the site's toggle. */
+.traj-player {
+  --surface: #ffffff; --ink: #1f2328; --muted: #57606a; --frame: #d0d7de; --tip-bg: #ffffff;
+  --c0: #2a78d6; --c1: #8c959f; --c2: #eb6834; --c3: #1baf7a; --c4: #eda100;
+  --c5: #e87ba4; --c6: #008300; --c7: #4a3aa7; --c8: #e34948;
+  margin: 1.5rem 0; color: var(--ink); position: relative;
+}
+body.quarto-dark .traj-player {
+  --surface: #0f1115; --ink: #d7dae0; --muted: #9aa3ae; --frame: #2a2f38; --tip-bg: #161b22;
+  --c0: #3987e5; --c1: #6e7681; --c2: #d95926; --c3: #199e70; --c4: #c98500;
+  --c5: #d55181; --c6: #008300; --c7: #9085e9; --c8: #e66767;
+}
+.traj-svg { display: block; width: 100%; max-width: 640px; margin: 0 auto; touch-action: manipulation; }
+.traj-frame { fill: none; stroke: var(--frame); stroke-width: 0.008; }
+.traj-label { fill: var(--ink); font-size: 0.075px; }
+.traj-trail { fill: none; stroke-width: 0.006; stroke-linecap: round; opacity: 0.35; }
+.traj-dot { stroke-width: 0.008; }
+.traj-wrong { stroke-width: 0.012; }
+.traj-hot { stroke: var(--ink) !important; stroke-width: 0.014; }
+.traj-controls { display: flex; align-items: center; gap: 0.75rem; max-width: 640px; margin: 0.5rem auto 0; }
+.traj-play {
+  min-width: 2.75rem; min-height: 2.75rem; border-radius: 0.5rem; border: 1px solid var(--frame);
+  background: var(--surface); color: var(--ink); font-size: 1rem; cursor: pointer;
+}
+.traj-slider { flex: 1; accent-color: var(--c0); min-height: 2.75rem; }
+.traj-t { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 4.5rem; text-align: right; }
+.traj-legend { display: flex; flex-wrap: wrap; gap: 0.35rem 0.5rem; max-width: 640px; margin: 0.5rem auto 0; font-size: 0.85rem; }
+.traj-key {
+  display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.25rem 0.55rem; min-height: 2rem;
+  border: 1px solid var(--frame); border-radius: 999px; background: var(--surface); color: var(--ink); cursor: pointer;
+}
+.traj-key[aria-pressed="true"] { border-color: var(--ink); font-weight: 600; }
+.traj-swatch { width: 0.7rem; height: 0.7rem; border-radius: 50%; display: inline-block; }
+.traj-note { flex-basis: 100%; color: var(--muted); font-size: 0.8rem; }
+.traj-tip {
+  max-width: 640px; margin: 0.6rem auto 0; padding: 0.6rem 0.75rem; font-size: 0.8rem;
+  background: var(--tip-bg); border: 1px solid var(--frame); border-radius: 0.5rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); column-gap: 1.25rem; align-content: start;
+}
+.traj-tip[hidden] { display: none; }
+.traj-tip-head { font-weight: 600; margin-bottom: 0.35rem; grid-column: 1 / -1; }
+.traj-row { display: grid; grid-template-columns: 6.3rem 1fr 2.4rem; align-items: center; gap: 0.4rem; line-height: 1.5; }
+.traj-row-name { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.traj-bar { height: 0.5rem; background: var(--frame); border-radius: 999px; overflow: hidden; }
+.traj-fill { display: block; height: 100%; border-radius: 999px; }
+.traj-row-val { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* Interactive confusion matrix (posts/.../figures/confusion-matrix.js). Cell colours come from
+   the script, which reads the site's theme; these are the chrome roles around them. */
+.cm-player {
+  --surface: #ffffff; --ink: #1f2328; --muted: #57606a; --frame: #d0d7de; --empty: #f3f5f7; --tip-bg: #ffffff;
+  margin: 1.5rem 0; color: var(--ink); position: relative;
+}
+body.quarto-dark .cm-player {
+  --surface: #0f1115; --ink: #d7dae0; --muted: #9aa3ae; --frame: #2a2f38; --empty: #161a20; --tip-bg: #161b22;
+}
+.cm-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin-bottom: 0.75rem; }
+.cm-view {
+  padding: 0.3rem 0.8rem; min-height: 2.25rem; border: 1px solid var(--frame); border-radius: 999px;
+  background: var(--surface); color: var(--ink); font-size: 0.85rem; cursor: pointer;
+}
+.cm-view[aria-pressed="true"] { border-color: var(--ink); font-weight: 600; }
+.cm-host { width: 100%; max-width: 720px; margin: 0 auto; }
+.cm-svg { display: block; margin: 0 auto; max-width: 100%; height: auto; touch-action: manipulation; }
+.cm-axis, .cm-title { fill: var(--ink); }
+.cm-title { fill: var(--muted); }
+.cm-axis-hot { font-weight: 700; }
+.cm-empty { fill: var(--empty); }
+.cm-num { font-variant-numeric: tabular-nums; pointer-events: none; }
+.cm-hot { stroke: var(--ink); stroke-width: 2.5; }
+.cm-hit { cursor: pointer; }
+.cm-legend {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 2rem; max-width: 720px;
+  margin: 0.5rem auto 0; font-size: 0.8rem;
+}
+.cm-key { width: 13rem; }
+.cm-key-name { font-weight: 600; margin-bottom: 0.2rem; }
+.cm-ramp { height: 0.6rem; border-radius: 999px; }
+.cm-ends { display: flex; justify-content: space-between; color: var(--muted); font-variant-numeric: tabular-nums; margin-top: 0.15rem; }
+.cm-key-note { font-style: italic; }
+.cm-legend-note { flex-basis: 100%; text-align: center; color: var(--muted); }
+.cm-tip {
+  max-width: 720px; margin: 0.6rem auto 0; padding: 0.6rem 0.75rem; font-size: 0.85rem;
+  background: var(--tip-bg); border: 1px solid var(--frame); border-radius: 0.5rem; font-variant-numeric: tabular-nums;
+}
+.cm-tip[hidden] { display: none; }
+.cm-tip-head { font-weight: 600; margin-bottom: 0.2rem; }
+.cm-sr {
+  position: absolute !important; left: 0; top: 0; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* Animated banner at the top of a post (posts/.../figures/hero.js). Always dark: it is a
+   designed surface, not page chrome, so it does not follow the theme. */
+.hero {
+  position: relative; width: 100%; aspect-ratio: 16 / 7; margin: 0 0 1.75rem;
+  border-radius: 12px; overflow: hidden; background: #06090f;
+  box-shadow: 0 0 0 1px rgba(62, 230, 255, 0.18), 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+@media (max-width: 600px) { .hero { aspect-ratio: 4 / 3; } }
+.hero canvas { display: block; width: 100%; height: 100%; }
+.hero-pause {
+  position: absolute; right: 10px; bottom: 10px; width: 2.25rem; height: 2.25rem;
+  border-radius: 999px; border: 1px solid rgba(62, 230, 255, 0.45); background: rgba(6, 9, 15, 0.7);
+  color: #d7e3ff; font-size: 0.8rem; cursor: pointer;
+}
+.hero-pause:focus-visible { outline: 2px solid #3ee6ff; outline-offset: 2px; }

@@ -5,11 +5,11 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/" 
       version="2.0">
 <channel>
-<title>Carroll Vance</title>
-<link>https://csvance.github.io/</link>
-<atom:link href="https://csvance.github.io/index.xml" rel="self" type="application/rss+xml"/>
+<title>∇ Selected Gradient Works</title>
+<link>https://csvance.dev/</link>
+<atom:link href="https://csvance.dev/index.xml" rel="self" type="application/rss+xml"/>
 <description>Notes on Julia and machine learning engineering</description>
-<generator>quarto-1.10.18</generator>
-<lastBuildDate>Fri, 02 Oct 2026 16:52:04 GMT</lastBuildDate>
+<generator>quarto-1.10.19</generator>
+<lastBuildDate>Thu, 15 Oct 2026 14:58:05 GMT</lastBuildDate>
 </channel>
 </rss>

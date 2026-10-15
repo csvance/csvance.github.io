@@ -11,12 +11,12 @@
     "href": "about.html#projects",
     "title": "Carroll Vance",
     "section": "Projects",
-    "text": "Projects\n\n\n\nEnzymeAD\nReactantNitro.jl\nReactant-first training for Lux models\n\n\nEnzymeAD\nReactantServer.jl\nProduction inference server for Reactant-compiled models over gRPC\n\n\nJuliaIO\ngRPCClient.jl\nJulia gRPC client\n\n\nJuliaIO\ngRPCServer.jl\nJulia gRPC server\n\n\ncsvance\nLuximm.jl\nLux.jl image models\n\n\ncsvance\nDocumenterLandingPage.jl\nVitePress-style landing page for Documenter.jl"
+    "text": "Projects\n\n\n\nEnzymeAD\nReactantNitro.jl\nReactant-first training for Lux models\n\n\nEnzymeAD\nReactantServer.jl\nProduction inference server for Reactant-compiled models over gRPC\n\n\nJuliaIO\ngRPCClient.jl\nJulia gRPC client\n\n\nJuliaIO\ngRPCServer.jl\nJulia gRPC server\n\n\ncsvance\nLuximm.jl\nLux.jl image models\n\n\ncsvance\njulia_depot\nDepot-centric Bazel rules for Julia"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Carroll Vance",
+    "title": "∇ Selected Gradient Works",
     "section": "",
     "text": "No matching items"
   }
