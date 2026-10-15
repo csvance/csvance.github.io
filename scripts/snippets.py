@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 SOURCES = [
     {
-        "post": "posts/2026-10-02-reactant-end-to-end",
+        "post": "posts/2026-10-22-reactant-end-to-end",
         "repo": os.environ.get("PATHMNIST_REPO", "~/Git/PathMNISTReactant.jl"),
         "ref": "796717a",   # pushed to origin/main
         "files": ["src/*.jl", "client/client.jl"],
