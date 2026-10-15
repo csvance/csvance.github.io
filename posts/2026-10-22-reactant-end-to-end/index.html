@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Carroll Vance">
+<meta name="dcterms.date" content="2026-10-22">
+<meta name="description" content="After moving my ML work from PyTorch to Julia, I built the pieces that were missing around Reactant: ReactantNitro for training, ReactantServer for serving, Luximm for pretrained backbones, and a native gRPC stack. This post walks through all of them on a real dataset, from training to a served model.">
+
+<title>From PyTorch to Julia: Building an ML Stack on Reactant – ∇ Selected Gradient Works</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2ed615ca34f5ec8ea7d195f7feb9bb5b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-71395fd93347467f45faaeb5c11f9d27.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2ed615ca34f5ec8ea7d195f7feb9bb5b.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4add10bf26de2987223f0bf86ac824c1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-c96b30a530beaee796f8510a27c0aaae.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-4add10bf26de2987223f0bf86ac824c1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<meta name="quarto:status" content="draft">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="From PyTorch to Julia: Building an ML Stack on Reactant – ∇ Selected Gradient Works">
+<meta property="og:description" content="After moving my ML work from PyTorch to Julia, I built the pieces that were missing around Reactant: ReactantNitro for training, ReactantServer for serving, Luximm for pretrained backbones, and a native gRPC stack. This post walks through all of them on a real dataset, from training to a served model.">
+<meta property="og:image" content="https://csvance.dev/posts/2026-10-22-reactant-end-to-end/figures/hero/pytorch.png">
+<meta property="og:site_name" content="∇ Selected Gradient Works">
+<meta property="og:image:alt" content="The PyTorch logo">
+<meta property="og:image:height" content="291">
+<meta property="og:image:width" content="240">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><div id="quarto-draft-alert" class="alert alert-warning"><i class="bi bi-pencil-square"></i>Draft</div>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">∇ Selected Gradient Works</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/csvance"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">From PyTorch to Julia: Building an ML Stack on Reactant</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">julia</div>
+    <div class="quarto-category">reactant</div>
+    <div class="quarto-category">machine-learning</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    After moving my ML work from PyTorch to Julia, I built the pieces that were missing around Reactant: ReactantNitro for training, ReactantServer for serving, Luximm for pretrained backbones, and a native gRPC stack. This post walks through all of them on a real dataset, from training to a served model.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Carroll Vance </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 22, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="hero" data-base="figures/hero/" data-traj="figures/trajectories.json"></div>
+<script src="figures/hero.js" defer=""></script>
+<p>Nearly a year ago, I decided to give the <a href="https://julialang.org">Julia</a> programming language a shot; not even for machine learning work initially, but as a way to speed up a production service which was CPU bound. Now I know many people are thinking “<a href="https://yuri.is/not-julia/">Julia has correctness issues</a>” and “dynamic typing in mah prod”. In my experience the first is overstated; the second is a real trade-off, and one I’ve chosen to make, because the sort of things I value when deploying services and models for scientific computing are different than the sorts of things many other engineers do.</p>
+<p>These were the parts of the language that sold me:</p>
+<ul>
+<li>A REPL workflow with <a href="https://github.com/timholy/Revise.jl">Revise.jl</a>, where edits to code take effect in the running session without a restart</li>
+<li>Julia code can be differentiated and optimized as it is written, without rewriting it in a framework’s DSL, even an ODE dynamics function that calls <a href="https://github.com/SciML/NonlinearSolve.jl">NonlinearSolve</a> and evaluates a cubic spline from <a href="https://github.com/SciML/DataInterpolations.jl">DataInterpolations.jl</a></li>
+<li>A modern runtime in the spirit of Go: garbage collection, plus <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/">tasks and channels</a> for concurrency</li>
+<li>Multiple dispatch, which lets separately written packages work together and lets you add specializations to other people’s functions, making them faster or better integrated with your code, without opening a pull request. With agents producing more code to review than ever, I think this is a big advantage for Julia</li>
+<li>Fast code that stays generic and readable</li>
+<li><a href="https://sciml.ai">SciML</a>, a mature ecosystem for differential equations, nonlinear solvers and sensitivity analysis</li>
+</ul>
+<p>This post is about my journey, mostly focusing on the ML aspect, but also delving into my journey through the “production” side of things.</p>
+<section id="frustration-with-pytorch" class="level2">
+<h2 data-anchor-id="frustration-with-pytorch">Frustration with PyTorch</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/hero/pytorch.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The PyTorch logo" width="80"></p>
+</figure>
+</div>
+<p>We greatly accelerated our main backend service by rewriting all of the performance sensitive code in Julia. After tasting the initial success I thought to myself maybe we can do something similar with our ML stack? While PyTorch is an absolutely incredible piece of software, there were a couple of pain points that made me feel like my use case wasn’t something that was going to get much support going forward:</p>
+<ol type="1">
+<li><a href="https://docs.pytorch.org/docs/stable/jit.html">torchscript</a> deprecation: We had come to rely on torchscript as a flexible way to deploy models. Data dependent branching and flow control were both possible, which was nice for adding postprocessing to an already trained model. It always felt much easier to just compile our models with the extra logic built in rather than try to use whatever clunky solution our serving platform offered; we loved the convenience that torchscript provided. Having triple digits worth of models tied up in a format that had received basically no support for over five years also meant we had to make a change going forward.</li>
+<li>The serving ecosystem was slow to move to <a href="https://docs.pytorch.org/docs/stable/export.html"><code>torch.export</code></a>: <a href="https://github.com/triton-inference-server/server">NVIDIA Triton Server</a> only got <a href="https://github.com/triton-inference-server/pytorch_backend">support for torch.export</a> ~3 years after torch.export was introduced.</li>
+<li><a href="https://docs.pytorch.org/docs/stable/generated/torch.compile.html"><code>torch.compile</code></a> was underwhelming for a long time: most of the performance gains seemed <a href="https://pytorch.org/get-started/pytorch-2.0/">locked to a specific GPU model</a>, and for several years I measured close to 0% improvement on everything I threw at it, even with <a href="https://docs.pytorch.org/docs/stable/generated/torch.compile.html"><code>fullgraph=True</code></a> guaranteeing there were no graph breaks. Many of the problems with torch.compile have since been fixed, but I was living with the same eager mode performance limitations I had been living with since I first started using PyTorch.</li>
+</ol>
+<p>Together, these made me want a deployment format I could count on for years and a compiler that sped up the models I was actually training. We had already adopted Julia for our backend and were building on it extensively, so the natural next step was to see whether it could handle our ML work as well.</p>
+</section>
+<section id="one-year-ago-the-julia-ml-ecosystem" class="level2">
+<h2 data-anchor-id="one-year-ago-the-julia-ml-ecosystem">One year ago: the Julia ML ecosystem</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/hero/julia.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The Julia logo" width="96"></p>
+</figure>
+</div>
+<p>While I initially found a robust array of packages for scientific computing, I could immediately tell fewer people were doing “<a href="https://pytorch.org">PyTorch</a>” style ML for lack of a better term. In medical imaging it’s still quite common to use CNNs as backbones are not the ceiling on most problems, believe it or not. So I surveyed the ecosystem and here is what I found:</p>
+<ol type="1">
+<li><a href="https://github.com/LuxDL/Lux.jl">Lux.jl</a>/<a href="https://github.com/FluxML/Flux.jl">Flux.jl</a>/<a href="https://github.com/FluxML/Zygote.jl">Zygote.jl</a>/<a href="https://github.com/JuliaGPU/CUDA.jl">CUDA.jl</a> exist and seem to be the most comparable to what I get working with PyTorch.</li>
+<li>There didn’t seem to be an equivalent to <a href="https://github.com/huggingface/pytorch-image-models">timm</a> where you can just load up whatever pretrained backbone you want either.</li>
+<li>People were talking about something called Reactant, but I didn’t really understand what it was or why I needed it</li>
+</ol>
+<p>The core proposition of Zygote seems compelling: automatic differentiation at the language level, through almost any Julia code you write. But for PyTorch-style training workloads, its speed and device memory usage weren’t competitive with PyTorch eager mode, so I decided to give Reactant a shot; there was a lot of talk around <a href="https://github.com/EnzymeAD/Reactant.jl">Reactant.jl</a> and <a href="https://enzyme.mit.edu">Enzyme</a> being the next step forward for ML in Julia.</p>
+</section>
+<section id="reactant-and-enzyme" class="level2">
+<h2 data-anchor-id="reactant-and-enzyme">Reactant and Enzyme: compiling and differentiating Julia</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/hero/enzyme.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The Enzyme logo" width="84"></p>
+</figure>
+</div>
+<p>Reactant compiles Julia code into an <a href="https://mlir.llvm.org">MLIR</a> program, Enzyme differentiates that program at the compiler level <span class="citation" data-cites="moses2020enzyme">(<a href="#ref-moses2020enzyme" role="doc-biblioref">Moses and Churavy 2020</a>)</span>, and <a href="https://openxla.org/xla">XLA</a> turns the result into fused CPU/GPU/TPU kernels. <a href="https://openxla.org/stablehlo">StableHLO</a> is a dialect of MLIR used by XLA, and it has a number of benefits such as promising <a href="https://github.com/openxla/stablehlo/blob/main/docs/compatibility.md">five years of backwards compatibility</a>. If we can compile our models to StableHLO, that means that we should have a relatively stable platform for model training and serving going forward, so I took the dive into Reactant.</p>
+<p>With Reactant, I don’t write backward passes for custom layers. Reactant traces Julia code into a small set of StableHLO operations, Enzyme’s optimization passes simplify that program, and Enzyme differentiates the optimized program, so the gradient gets the same simplifications as the forward pass. In PyTorch, a layer built from loops and indexing is often slow under autograd, and making it fast can mean writing a custom <code>autograd.Function</code> with its own backward. Now when I write a new layer, I only need to consider the forward pass, and Enzyme takes care of the backward pass without giving up performance.</p>
+<p>To be fair, none of this is exclusive to Julia. JAX users can run a function through Enzyme-JAX’s optimization pipeline with the <a href="https://pypi.org/project/enzyme-ad/"><code>enzyme-ad</code></a> package’s <code>enzyme_jax_ir</code> decorator, and the same package lets JAX differentiate external C++ code. Enzyme itself works on LLVM IR, so it can differentiate code from languages that compile to LLVM: C and C++ through Clang, and Rust and Fortran through their own bindings. What Reactant adds is the frontend: it traces ordinary Julia code, so an existing Julia package can become input to these compilers by being made traceable rather than rewritten against a framework’s array API.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Bringing in existing StableHLO">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Bringing in existing StableHLO
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reactant can also call StableHLO that was produced somewhere else. <code>Reactant.Ops.hlo_call</code> takes a StableHLO module as text, for example one exported from PyTorch with torch_xla or from JAX, and inserts it into the traced program. It becomes part of the same program, so it is optimized together with the surrounding Julia code, and Enzyme can differentiate through it. I use this all the time to bring in PyTorch models I haven’t ported to Julia yet.</p>
+</div>
+</div>
+</section>
+<section id="betting-on-reactant" class="level2">
+<h2 data-anchor-id="betting-on-reactant">Betting on Reactant</h2>
+<p>The next two weeks of my life were a living hell. I had no idea what I was doing with Reactant, constantly hitting tracing errors, going OoM, dealing with hour long compile times. But I persevered and kept learning from my mistakes; I had a particularly difficult problem which I needed to iterate on, but I just couldn’t get PyTorch to speed it up. I was working on a problem that combined a large backbone with a NeuralODE and was using <a href="https://github.com/rtqichen/torchdiffeq">torchdiffeq</a>. The model took nearly a week to converge across 4x NVIDIA A6000 (Ampere). I kept going, convinced that the optimizations provided by XLA would prove decisive for the NeuralODE part.</p>
+<p>Then the eureka moment came: effectively a 10x speedup over what I was seeing with PyTorch eager. All that time I had spent learning the basics of Reactant had paid off, and now I was in a position to quickly iterate on the model and solved the problem later that week. For the sake of transparency, it’s worth noting that I have since revisited a similar workload with <code>torch.compile</code>, and got much more comparable numbers with Reactant still holding the lead, but not an “order of magnitude”. Regardless, I was sold: it was time to build a full training and serving stack on top of Reactant.</p>
+</section>
+<section id="what-i-built" class="level2">
+<h2 data-anchor-id="what-i-built">What I built</h2>
+<section id="reactantnitro" class="level3">
+<h3 data-anchor-id="reactantnitro">ReactantNitro.jl</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/projects/reactantnitro.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The ReactantNitro.jl logo" width="96"></p>
+</figure>
+</div>
+<p><a href="https://github.com/EnzymeAD/ReactantNitro.jl">ReactantNitro.jl</a> is an ML framework with a training loop designed around making Reactant easier to work with and avoiding unnecessary compiling. It has a REPL + <a href="https://github.com/timholy/Revise.jl">Revise.jl</a> first workflow: you can hot reload your data processing code, sweep hyperparameters, etc. without restarting your REPL or re-compiling.</p>
+<p>Why another framework, you say? There are two main reasons. The first is that a compiler like Reactant warrants its own framework, one that handles the <a href="https://enzymead.github.io/ReactantNitro.jl/stable/pitfalls/">pitfalls</a> I ran into before I created ReactantNitro: datasets ending up in the trace and slowing compiles, programs recompiling when nothing they depend on has changed, stale programs after a code edit, device transfers at unexpected times, and device memory building up across batches.</p>
+<p>The second is a training workflow built around Revise. In October 2025 I <a href="https://news.ycombinator.com/item?id=45520854">wrote on Hacker News</a> that waiting 15+ seconds to test small changes to my PyTorch training code was rather annoying, and that “sometimes I wish we could have a training workflow similar to how Revise works.” That is how I train now. I keep one Julia session open, edit the model, loss or data pipeline in my editor, and Revise patches the change into the running session. The next run picks it up without restarting Julia or reloading packages, and Nitro recompiles only the programs the edit reaches. The <code>@experiment</code> declaration makes this possible by stating which settings shape the compiled program and which can change freely. Each stage of the workflow, from setting up an experiment through training, validation, evaluation, prediction and export, is a function call at the REPL, and a Ctrl-C stops a run cleanly and hands the session back. It turns out that an interface designed for a REPL is only a few steps away from one an agent can use over MCP, so Nitro’s MCP tools, covered in <a href="#working-with-agents">Working with agents</a>, call the same entry points.</p>
+</section>
+<section id="reactantserver" class="level3">
+<h3 data-anchor-id="reactantserver">ReactantServer.jl</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/projects/reactantserver.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The ReactantServer.jl logo" width="96"></p>
+</figure>
+</div>
+<p>ReactantServer grew out of one question: can we serve more models than their weights can fit on the GPU by hot swapping them in real time? That solved a real problem for us. We have a lot of models that are called infrequently, and together they were close to no longer fitting on our pod. Beyond that, it’s a general serving platform for StableHLO.</p>
+<p><a href="https://github.com/EnzymeAD/ReactantServer.jl">ReactantServer.jl</a> uses Reactant’s <a href="https://openxla.org/xla/pjrt">PJRT</a> interface to serve <a href="https://openxla.org/stablehlo">StableHLO</a> produced by <code>Reactant.@compile</code> using the <a href="https://kserve.github.io/website/latest/modelserving/data_plane/v2_protocol/">KServe V2 protocol</a>. It allows you to express arbitrary pre and post processing in pure Julia without having to set up a Python environment or compile any stubs, and supports hot swapping more models than you can fit in memory at PCIe speed (typically between 10-100 ms for most CNN vision models).</p>
+</section>
+<section id="stepping-stones" class="level3">
+<h3 data-anchor-id="stepping-stones">Stepping stones</h3>
+<p>Neither of these got built overnight. Three smaller projects came first, and ReactantNitro and ReactantServer both depend on them.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/projects/luximm-logo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The Luximm.jl logo" width="295"></p>
+</figure>
+</div>
+<p><a href="https://github.com/csvance/Luximm.jl">Luximm.jl</a> does for Lux.jl what <a href="https://github.com/huggingface/pytorch-image-models">timm</a> does for PyTorch. It ports timm’s image backbones to Lux and loads their pretrained weights directly from Hugging Face Hub. It covers ResNet, SE-ResNet, BiT ResNetV2, ConvNeXt, ConvNeXt V2, VGG, ViT and CoAtNet, and parity tests check each port against the PyTorch original. The ConvNeXt V2 backbone in the walkthrough below comes from Luximm.</p>
+<p><a href="https://github.com/JuliaIO/gRPCClient.jl">gRPCClient.jl</a> and <a href="https://github.com/JuliaIO/gRPCServer.jl">gRPCServer.jl</a> give Julia a native gRPC stack, which ReactantServer uses to speak KServe V2. I rewrote gRPCClient.jl on top of libcurl’s HTTP/2 support. Sébastien Celles and I wrote gRPCServer.jl.</p>
+</section>
+</section>
+<section id="reactant.jl-end-to-end-training-exporting-and-serving-a-pathmnist-cnn-and-neuralode-classifier-with-reactantnitro-and-reactantserver" class="level2">
+<h2 data-anchor-id="reactant.jl-end-to-end-training-exporting-and-serving-a-pathmnist-cnn-and-neuralode-classifier-with-reactantnitro-and-reactantserver">Reactant.jl end-to-end: Training, exporting, and serving a PathMNIST CNN and NeuralODE classifier with ReactantNitro and ReactantServer</h2>
+<p>What would a good blog post be without actually showing how you can train and serve your own models end-to-end with the Reactant stack? Yes, it’s a real thing, you can do it today if you want. Since we are dealing with Julia, there must be a reason to add a NeuralODE somewhere. Honestly, I don’t need one: I still find these models fascinating, especially the functions and representations they learn. Let’s start with how the full stack fits together.</p>
+<svg class="diagram" font-family="system-ui, sans-serif" viewbox="0 0 720 412" role="img" aria-labelledby="stack-title stack-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="stack-title">The Reactant ML stack, from training to serving</title>
+  <desc id="stack-desc">Training runs in one Julia process: an experiment and a Lux model feed ReactantNitro, which compiles its programs through Reactant, with Enzyme differentiating the traced program, and XLA compiling for CPU, GPU, or TPU. ReactantNitro writes a model bundle through ReactantServerExport. ReactantServer serves the bundle over gRPC, and ReactantServerClient or any Triton or KServe client calls it.</desc>
+  <defs>
+    <marker id="st-arr" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto-start-reverse"><path class="head" fill="#8c959f" d="M0,0 L10,5 L0,10 z"></path></marker>
+    <marker id="st-arr-accent" viewbox="0 0 10 10" refx="9" refy="5" markerwidth="7" markerheight="7" orient="auto-start-reverse"><path class="head credit" fill="#3987e5" d="M0,0 L10,5 L0,10 z"></path></marker>
+  </defs>
+
+  <!-- frames -->
+  <text class="note" fill="#3987e5" font-size="12" x="20" y="18">Train: one Julia process</text>
+  <rect class="process" fill="none" stroke="#8c959f" stroke-width="1.5" stroke-dasharray="6 4" x="10" y="26" width="450" height="376" rx="14"></rect>
+  <text class="note" fill="#3987e5" font-size="12" x="490" y="18">Serve: a container</text>
+  <rect class="process" fill="none" stroke="#8c959f" stroke-width="1.5" stroke-dasharray="6 4" x="480" y="26" width="230" height="236" rx="14"></rect>
+
+  <!-- row A: user code -->
+  <rect class="box" fill="none" stroke="#8c959f" stroke-width="1.25" x="25" y="44" width="190" height="64" rx="10"></rect>
+  <text class="code" fill="currentColor" font-family="monospace" font-size="13" font-weight="600" x="120" y="68" text-anchor="middle">@experiment + hooks</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="120" y="86" text-anchor="middle">your code: one struct,</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="120" y="100" text-anchor="middle">a handful of hooks</text>
+  <rect class="box" fill="none" stroke="#8c959f" stroke-width="1.25" x="255" y="44" width="190" height="64" rx="10"></rect>
+  <text class="title" fill="currentColor" font-size="14" font-weight="600" x="350" y="68" text-anchor="middle">Lux.jl</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="350" y="86" text-anchor="middle">explicit-parameter model</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="350" y="100" text-anchor="middle">Luximm pretrained backbone</text>
+  <path class="arrow" fill="none" stroke="#8c959f" stroke-width="1.25" d="M120,108 V130" marker-end="url(#st-arr)"></path>
+  <path class="arrow" fill="none" stroke="#8c959f" stroke-width="1.25" d="M350,108 V130" marker-end="url(#st-arr)"></path>
+
+  <!-- row B: ReactantNitro -->
+  <rect class="box accent" fill="none" stroke="#3987e5" stroke-width="1.25" x="25" y="134" width="420" height="64" rx="10"></rect>
+  <text class="title" fill="currentColor" font-size="14" font-weight="600" x="235" y="158" text-anchor="middle">ReactantNitro.jl</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="235" y="176" text-anchor="middle">compiles the gradient, optimizer, and eval programs</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="235" y="190" text-anchor="middle">data pipeline · checkpoints · export</text>
+  <path class="arrow" fill="none" stroke="#8c959f" stroke-width="1.25" d="M120,198 V220" marker-end="url(#st-arr)"></path>
+  <path class="arrow" fill="none" stroke="#8c959f" stroke-width="1.25" d="M350,198 V220" marker-end="url(#st-arr)"></path>
+
+  <!-- row C: Reactant and Enzyme -->
+  <rect class="box" fill="none" stroke="#8c959f" stroke-width="1.25" x="25" y="224" width="190" height="64" rx="10"></rect>
+  <text class="title" fill="currentColor" font-size="14" font-weight="600" x="120" y="248" text-anchor="middle">Reactant.jl</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="120" y="266" text-anchor="middle">traces Julia code to</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="120" y="280" text-anchor="middle">MLIR (StableHLO)</text>
+  <rect class="box" fill="none" stroke="#8c959f" stroke-width="1.25" x="255" y="224" width="190" height="64" rx="10"></rect>
+  <text class="title" fill="currentColor" font-size="14" font-weight="600" x="350" y="248" text-anchor="middle">Enzyme</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="350" y="266" text-anchor="middle">reverse-mode AD on</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="350" y="280" text-anchor="middle">the traced program</text>
+  <path class="arrow" fill="none" stroke="#8c959f" stroke-width="1.25" d="M215,256 H251" marker-end="url(#st-arr)"></path>
+  <path class="arrow" fill="none" stroke="#8c959f" stroke-width="1.25" d="M120,288 V310" marker-end="url(#st-arr)"></path>
+  <path class="arrow" fill="none" stroke="#8c959f" stroke-width="1.25" d="M350,288 V310" marker-end="url(#st-arr)"></path>
+
+  <!-- row D: XLA -->
+  <rect class="box" fill="none" stroke="#8c959f" stroke-width="1.25" x="25" y="314" width="420" height="64" rx="10"></rect>
+  <text class="title" fill="currentColor" font-size="14" font-weight="600" x="235" y="338" text-anchor="middle">XLA, through PJRT</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="235" y="356" text-anchor="middle">optimizes and compiles for CPU, GPU, or TPU: any XLA backend</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="235" y="370" text-anchor="middle">C++ libraries; no Python anywhere</text>
+
+  <!-- export: Nitro to bundle -->
+  <path class="arrow credit" fill="none" stroke="#3987e5" stroke-width="1.25" stroke-dasharray="4 4" d="M445,166 H468 V76 H491" marker-end="url(#st-arr-accent)"></path>
+
+  <!-- right column -->
+  <rect class="box" fill="none" stroke="#8c959f" stroke-width="1.25" x="495" y="44" width="200" height="64" rx="10"></rect>
+  <text class="title" fill="currentColor" font-size="14" font-weight="600" x="595" y="68" text-anchor="middle">model bundle</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="595" y="86" text-anchor="middle">written by ReactantServerExport</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="595" y="100" text-anchor="middle">StableHLO, weights, IO spec</text>
+  <path class="arrow" fill="none" stroke="#8c959f" stroke-width="1.25" d="M595,108 V176" marker-end="url(#st-arr)"></path>
+  <text class="note" fill="#3987e5" font-size="12" x="603" y="146">load</text>
+
+  <rect class="box accent" fill="none" stroke="#3987e5" stroke-width="1.25" x="495" y="180" width="200" height="64" rx="10"></rect>
+  <text class="title" fill="currentColor" font-size="14" font-weight="600" x="595" y="204" text-anchor="middle">ReactantServer.jl</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="595" y="222" text-anchor="middle">KServe V2 over gRPC (:8001)</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="595" y="236" text-anchor="middle">compiled ahead of time, CUDA</text>
+
+  <path class="arrow" fill="none" stroke="#8c959f" stroke-width="1.25" d="M595,248 V310" marker-start="url(#st-arr)" marker-end="url(#st-arr)"></path>
+  <text class="note" fill="#3987e5" font-size="12" x="603" y="295">gRPC</text>
+
+  <rect class="box" fill="none" stroke="#8c959f" stroke-width="1.25" x="495" y="314" width="200" height="64" rx="10"></rect>
+  <text class="code" fill="currentColor" font-family="monospace" font-size="13" font-weight="600" x="595" y="338" text-anchor="middle">ReactantServerClient.jl</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="595" y="356" text-anchor="middle">or any Triton or KServe</text>
+  <text class="sub" fill="#8c959f" font-size="12" x="595" y="370" text-anchor="middle">gRPC client</text>
+</svg>
+</section>
+<section id="the-problem-pathmnist" class="level2">
+<h2 data-anchor-id="the-problem-pathmnist">The problem: PathMNIST</h2>
+<p>We are pointing the stack at the PathMNIST dataset rather than something completely trivial like MNIST. The model learns to predict between 9 tissue classes over a set of 224x224 images; this is distantly related to the sorts of problems I deal with at work, but basically none of those sorts of problems have had anything close to an “ImageNet” moment where a high quality dataset is publicly available. So hopefully this is a bit more interesting than a pure “toy” dataset. Open to suggestions here!</p>
+</section>
+<section id="setting-up-the-environment" class="level2">
+<h2 data-anchor-id="setting-up-the-environment">Setting up the environment</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">juliaup</span> add 1.13.1</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/csvance/PathMNISTReactant.jl</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> PathMNISTReactant.jl</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">julia</span> +1.13.1 <span class="at">--project</span><span class="op">=</span>.</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Pkg</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Pkg</span>.<span class="fu">instantiate</span>()</span></code></pre></div>
+</section>
+<section id="reactantnitro.jl-declaring-the-experiment" class="level2">
+<h2 data-anchor-id="reactantnitro.jl-declaring-the-experiment">ReactantNitro.jl: Declaring the <code>@experiment</code></h2>
+<p>ReactantNitro uses a small experiment macro to ensure things are wired up correctly and Reactant’s tracer doesn’t trace over things it shouldn’t, which can be a source of slow compiles. We declare an <code>@experiment</code> for PathMNIST. All of ReactantNitro’s hooks dispatch on this type.</p>
+<p>Each field’s type says how it reaches the compiled program. A <code>GraphConst</code> field is baked into the program as a constant, so changing it recompiles; it is for values that change the graph, such as the number of classes or a layer width. A <code>Device</code> field is passed to the program as a traced input, so it can be swept or scheduled without recompiling; <code>kinetic_weight</code> is one. Unmarked fields stay on the host and never reach the compiled program, which covers everything else, such as the data paths, the batch size and the learning rate.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="The full `@experiment`">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The full <code>@experiment</code>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="2" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@experiment</span> <span class="kw">struct</span> PathMNIST</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Luximm variant: selects both the architecture and the pretrained checkpoint."</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    variant<span class="op">::</span><span class="dt">GraphConst{Symbol} </span><span class="op">=</span> <span class="op">:</span>convnextv2_tiny_fcmae_ft_in22k_in1k</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PathMNIST tissue classes."</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    num_classes<span class="op">::</span><span class="dt">GraphConst{Int} </span><span class="op">=</span> <span class="fl">9</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Per-channel mean the pretrained weights expect (ImageNet)."</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    pixel_mean<span class="op">::</span><span class="dt">GraphConst{NTuple{3, Float32}} </span><span class="op">=</span> (<span class="fl">0.485f0</span>, <span class="fl">0.456f0</span>, <span class="fl">0.406f0</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Per-channel standard deviation the pretrained weights expect (ImageNet)."</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    pixel_std<span class="op">::</span><span class="dt">GraphConst{NTuple{3, Float32}} </span><span class="op">=</span> (<span class="fl">0.229f0</span>, <span class="fl">0.224f0</span>, <span class="fl">0.225f0</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Augmented ODE state dimensions, predicted from the pooled features; the state also</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    carries one logit dimension per class, starting at zero.<span class="st">"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    aug_dims<span class="op">::</span><span class="dt">GraphConst{Int} </span><span class="op">=</span> <span class="fl">32</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Hidden width of the ODE vector field (encoder, tanh, decoder)."</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    node_hidden<span class="op">::</span><span class="dt">GraphConst{Int} </span><span class="op">=</span> <span class="fl">256</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RK4 steps over t in [0, 1]."</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    node_steps<span class="op">::</span><span class="dt">GraphConst{Int} </span><span class="op">=</span> <span class="fl">100</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Weight of the kinetic-energy penalty on the ODE's trajectory (Finlay et al., 2020).</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    Off by default; a traced input, so turning it on or scheduling it recompiles <span class="cn">nothing</span>.<span class="st">"</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    kinetic_weight<span class="op">::</span><span class="dt">Device{Float32} </span><span class="op">=</span> <span class="fl">0.0f0</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Where the archive comes from on first use (MedMNIST+ on Zenodo)."</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    data_url<span class="op">::</span><span class="dt">String </span><span class="op">=</span> <span class="st">"https://zenodo.org/records/10519652/files/pathmnist_224.npz?download=1"</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Directory for the converted, memory-mapped .u8 files, relative to the working directory."</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    data_dir<span class="op">::</span><span class="dt">String </span><span class="op">=</span> <span class="fu">joinpath</span>(<span class="st">"data"</span>, <span class="st">"pathmnist_224"</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Seeds the shuffle; Nitro also reads it as the run seed."</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    seed<span class="op">::</span><span class="dt">Int </span><span class="op">=</span> <span class="fl">0</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Per-step batch: fits a 12 GB consumer GPU."</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    batch_size<span class="op">::</span><span class="dt">Int </span><span class="op">=</span> <span class="fl">16</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gradient accumulation steps (read by Nitro by name): an effective batch of 32."</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    accum<span class="op">::</span><span class="dt">Int </span><span class="op">=</span> <span class="fl">2</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    max_epochs<span class="op">::</span><span class="dt">Int </span><span class="op">=</span> <span class="fl">5</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Peak learning rate of the one-cycle schedule (RAdam)."</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    max_lr<span class="op">::</span><span class="dt">Float64 </span><span class="op">=</span> <span class="fl">1.0e-3</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Learning rate of the NeuralODE vector field relative to the rest of the model."</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    node_lr_ratio<span class="op">::</span><span class="dt">Float64 </span><span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fraction of the run spent warming up to max_lr."</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    pct_start<span class="op">::</span><span class="dt">Float64 </span><span class="op">=</span> <span class="fl">0.3</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Decoupled weight decay; the NeuralODE vector field is not decayed."</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    weight_decay<span class="op">::</span><span class="dt">Float64 </span><span class="op">=</span> <span class="fl">1.0e-4</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Augmentation: random 90° rotations (k = 0:3)."</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    aug_rot90<span class="op">::</span><span class="dt">Bool </span><span class="op">=</span> <span class="cn">true</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Augmentation: random mirror. With aug_rot90, covers all 8 orientations."</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    aug_flip<span class="op">::</span><span class="dt">Bool </span><span class="op">=</span> <span class="cn">true</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-model" class="level2">
+<h2 data-anchor-id="the-model">The model</h2>
+<p>We create a CNN backbone (provided by Luximm.jl) that maps an image to a pooled feature vector. After a LayerNorm, a linear layer projects that vector into the first 32 dimensions of the NeuralODE’s state; the other nine, one per class, always start at zero. The state then evolves over 100 steps of RK4 integration, and the nine class dimensions at the end are the logits. There is no classifier layer after the ODE, so every prediction starts out uniform and only the flow can carry it to a class, an idea that builds on augmented NeuralODEs <span class="citation" data-cites="chen2018neuralode dupont2019anode">(<a href="#ref-chen2018neuralode" role="doc-biblioref">Chen et al. 2018</a>; <a href="#ref-dupont2019anode" role="doc-biblioref">Dupont et al. 2019</a>)</span>.</p>
+<p>Because the logits are part of the ODE’s state, the prediction can be read at any point along the trajectory: <span class="math inline">\(p(t) = \operatorname{softmax}(z(t))\)</span>. Here is what the trained model does with 256 test tiles. A helper script in the companion repo compiles one extra program that records <span class="math inline">\(p(t)\)</span> every two RK4 steps, then draws the flow. It places the nine classes on the corners of a regular nonagon and plots each test tile at <span class="math inline">\(\sum_k p_k(t)\,\mathrm{corner}_k\)</span>. Every trajectory starts at the center, the uniform prediction at <span class="math inline">\(t = 0\)</span>, and the flow carries it out to a class:</p>
+<div class="traj-player" data-src="figures/trajectories.json">
+  <noscript><img src="figures/nonagon.png" alt="256 test tiles, coloured by true class, flowing from a uniform prediction at the center to a class corner as t goes from 0 to 1." style="max-width: 100%"></noscript>
+</div>
+<script src="figures/trajectory-player.js" defer=""></script>
+<p>Press play or drag the slider to move through the integration. Tap a class to isolate its tiles, or a tile to see all nine of its probabilities at the current t.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="`rk4` and `node_head`: RK4 integration and the NeuralODE head">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><code>rk4</code> and <code>node_head</code>: RK4 integration and the NeuralODE head
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="4" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixed-step RK4 over t in [0, 1]. Also returns each sample's kinetic energy,</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ∫|f(u)|² dt, from the four stage evaluations.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">rk4</span>(f, u, steps<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="fu">eltype</span>(u)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    dt <span class="op">=</span> <span class="fu">one</span>(T) <span class="op">/</span> <span class="fu">T</span>(steps)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    half, sixth <span class="op">=</span> dt <span class="op">/</span> <span class="fu">T</span>(<span class="fl">2</span>), dt <span class="op">/</span> <span class="fu">T</span>(<span class="fl">6</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sq</span>(k) <span class="op">=</span> <span class="fu">sum</span>(abs2, k; dims <span class="op">=</span> <span class="fl">1</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    energy <span class="op">=</span> <span class="fu">zero</span>(<span class="fu">sq</span>(u))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span>steps</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        k1 <span class="op">=</span> <span class="fu">f</span>(u)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        k2 <span class="op">=</span> <span class="fu">f</span>(u <span class="op">.+</span> half <span class="op">.*</span> k1)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        k3 <span class="op">=</span> <span class="fu">f</span>(u <span class="op">.+</span> half <span class="op">.*</span> k2)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        k4 <span class="op">=</span> <span class="fu">f</span>(u <span class="op">.+</span> dt <span class="op">.*</span> k3)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        u <span class="op">=</span> u <span class="op">.+</span> sixth <span class="op">.*</span> (k1 <span class="op">.+</span> <span class="fu">T</span>(<span class="fl">2</span>) <span class="op">.*</span> k2 <span class="op">.+</span> <span class="fu">T</span>(<span class="fl">2</span>) <span class="op">.*</span> k3 <span class="op">.+</span> k4)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        energy <span class="op">=</span> energy <span class="op">.+</span> sixth <span class="op">.*</span> (<span class="fu">sq</span>(k1) <span class="op">.+</span> <span class="fu">T</span>(<span class="fl">2</span>) <span class="op">.*</span> <span class="fu">sq</span>(k2) <span class="op">.+</span> <span class="fu">T</span>(<span class="fl">2</span>) <span class="op">.*</span> <span class="fu">sq</span>(k3) <span class="op">.+</span> <span class="fu">sq</span>(k4))</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (; u, energy)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Augmented NeuralODE head. The state is [a; z]: `a` comes from the pooled</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># features, and `z` starts at zero and ends as the logits.</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">node_head</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>, width<span class="op">::</span><span class="dt">Integer</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># captured, not passed to @compact (they would land in st)</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    steps, A, K <span class="op">=</span> <span class="cn">e</span>.node_steps, <span class="cn">e</span>.aug_dims, <span class="cn">e</span>.num_classes</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> A <span class="op">+</span> K</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="pp">@compact</span>(</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        proj <span class="op">=</span> <span class="fu">Dense</span>(width <span class="op">=&gt;</span> A),</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        enc <span class="op">=</span> <span class="fu">Dense</span>(D <span class="op">=&gt;</span> <span class="cn">e</span>.node_hidden, tanh),</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        dec <span class="op">=</span> <span class="fu">Dense</span>(<span class="cn">e</span>.node_hidden <span class="op">=&gt;</span> D; init_weight <span class="op">=</span> zeros32, init_bias <span class="op">=</span> zeros32),</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    ) <span class="cf">do</span> pooled                            <span class="co"># (width, N)</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        a0 <span class="op">=</span> <span class="fu">proj</span>(pooled)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        u0 <span class="op">=</span> <span class="fu">vcat</span>(a0, <span class="fu">zeros</span>(<span class="fu">eltype</span>(a0), K) <span class="op">.*</span> a0[<span class="fl">1</span><span class="op">:</span><span class="fl">1</span>, <span class="op">:</span>])   <span class="co"># z(0) = 0</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        (; u, energy) <span class="op">=</span> <span class="fu">rk4</span>(u <span class="op">-&gt;</span> <span class="fu">dec</span>(<span class="fu">enc</span>(u)), u0, steps)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        motion <span class="op">=</span> <span class="fu">sqrt</span>.(<span class="fu">sum</span>(abs2, u <span class="op">.-</span> u0; dims <span class="op">=</span> <span class="fl">1</span>) <span class="op">./</span> <span class="fu">sum</span>(abs2, u0; dims <span class="op">=</span> <span class="fl">1</span>))</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        <span class="pp">@return</span> (; logits <span class="op">=</span> u[(A <span class="op">+</span> <span class="fl">1</span>)<span class="op">:</span>D, <span class="op">:</span>], energy, motion)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="`build_model`: the backbone, the head, and pretrained weights">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><code>build_model</code>: the backbone, the head, and pretrained weights
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="6" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> ReactantNitro.<span class="fu">build_model</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>, rng)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># num_classes = 0 drops the ImageNet classifier and returns the last</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># feature map. prefix = (:backbone,) points the weight loader at the</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># @compact slot of the same name.</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    backbone, load_backbone <span class="op">=</span> <span class="fu">create_pretrained</span>(<span class="cn">e</span>.variant; num_classes <span class="op">=</span> <span class="fl">0</span>, prefix <span class="op">=</span> (<span class="op">:</span>backbone,))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    width <span class="op">=</span> <span class="fu">last</span>(<span class="fu">feature_info</span>(<span class="cn">e</span>.variant).channels)          <span class="co"># 768 for Tiny</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Captured by the closure rather than passed to @compact, which would</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make them trainable parameters.</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">=</span> <span class="fu">reshape</span>(<span class="fu">collect</span>(<span class="cn">e</span>.pixel_mean), <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">1</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    σ <span class="op">=</span> <span class="fu">reshape</span>(<span class="fu">collect</span>(<span class="cn">e</span>.pixel_std), <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">1</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> <span class="pp">@compact</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        backbone <span class="op">=</span> backbone,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        norm <span class="op">=</span> <span class="fu">LayerNorm</span>((width,)),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        head <span class="op">=</span> <span class="fu">node_head</span>(<span class="cn">e</span>, width),</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="cf">do</span> x                                 <span class="co"># (W, H, 3, N) UInt8, as stored on disk</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="fu">to_float32</span>(x)                  <span class="co"># UInt8 to [0, 1] on device: 4x less to transfer</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> (x <span class="op">.-</span> μ) <span class="op">./</span> σ</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        feats <span class="op">=</span> <span class="fu">backbone</span>(x)                <span class="co"># (W/32, H/32, width, N)</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        pooled <span class="op">=</span> <span class="fu">dropdims</span>(<span class="fu">mean</span>(feats; dims <span class="op">=</span> (<span class="fl">1</span>, <span class="fl">2</span>)); dims <span class="op">=</span> (<span class="fl">1</span>, <span class="fl">2</span>))</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="pp">@return</span> <span class="fu">head</span>(<span class="fu">norm</span>(pooled))         <span class="co"># (num_classes, N) logits</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    ps, st <span class="op">=</span> Lux.<span class="fu">setup</span>(rng, model)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Load here, not later: Nitro snapshots the weights build_model returns</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># as the initial point (w0).</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    ps, st <span class="op">=</span> <span class="fu">load_backbone</span>(ps, st)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model, ps, st</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-data-pipeline" class="level2">
+<h2 data-anchor-id="the-data-pipeline">The data pipeline</h2>
+<p>Only the training split is augmented. Validation and test tiles go through exactly as they are stored, so every evaluation, and every request to the served model later on, sees the same pixels.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Augmentations">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Augmentations
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Augmentation</th>
+<th>Range / distribution</th>
+<th>Justification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Rotation by multiples of 90° (<code>aug_rot90</code>)</td>
+<td><span class="math inline">\(k \in \{0, 1, 2, 3\}\)</span>, uniform</td>
+<td>Tissue has no canonical orientation; an index permutation, so no interpolation and essentially free</td>
+</tr>
+<tr class="even">
+<td>Mirror (<code>aug_flip</code>)</td>
+<td><span class="math inline">\(\mathrm{Bernoulli}(0.5)\)</span></td>
+<td>With rotation, covers all 8 symmetries of the square uniformly; also an index permutation</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="How Nitro drives the loader: PyTorch `DataLoader` vs ReactantNitro">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>How Nitro drives the loader: PyTorch <code>DataLoader</code> vs ReactantNitro
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>ReactantNitro supports parallel dataloaders, but there are some key differences from how that works in PyTorch.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>PyTorch <code>DataLoader</code></th>
+<th>ReactantNitro + MLUtils <code>DataLoader</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unit of parallelism</td>
+<td>Worker processes (<code>num_workers</code>)</td>
+<td>Tasks on the default thread pool, inside the training process</td>
+</tr>
+<tr class="even">
+<td>Dataset in workers</td>
+<td>A copy per worker process</td>
+<td>One object, one memory map, shared</td>
+</tr>
+<tr class="odd">
+<td>Batch hand-off</td>
+<td>Tensors in shared memory, handles through queues</td>
+<td>Same address space; batches passed directly</td>
+</tr>
+<tr class="even">
+<td>Throughput knob</td>
+<td><code>num_workers</code></td>
+<td><code>julia -t N,1</code> (N tasks)</td>
+</tr>
+<tr class="odd">
+<td>Read-ahead</td>
+<td><code>prefetch_factor</code> batches per worker (default 2)</td>
+<td><code>host_batches = 2 × N</code> on the host, <code>device_batches = 1</code> on the device</td>
+</tr>
+<tr class="even">
+<td>Host to device</td>
+<td>Your loop: <code>pin_memory</code>, <code>.to(device, non_blocking=True)</code></td>
+<td>One transfer task, only the fields the hooks declare</td>
+</tr>
+<tr class="odd">
+<td>Worker lifetime</td>
+<td>Restarted each epoch unless <code>persistent_workers=True</code></td>
+<td>Tasks, cheap to start every epoch</td>
+</tr>
+<tr class="even">
+<td>Short final batch</td>
+<td><code>drop_last</code>, one setting for the loader</td>
+<td>Train must drop it (fixed program shape); eval keeps it, padded by Nitro</td>
+</tr>
+<tr class="odd">
+<td>Memory management</td>
+<td>Per-process; workers never pause the training process</td>
+<td>Shared GC; data-path allocation can pause training</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="training-with-reactantnitro" class="level2">
+<h2 data-anchor-id="training-with-reactantnitro">Training with ReactantNitro</h2>
+<p>The remaining hooks are <code>forward</code>, <code>loss</code> and <code>train_metrics</code>. <code>forward</code> is the program Nitro compiles for both training and inference, and <code>loss</code> is the scalar Enzyme differentiates: cross-entropy, plus the kinetic-energy penalty of <span class="citation" data-cites="finlay2020rnode">Finlay et al. (<a href="#ref-finlay2020rnode" role="doc-biblioref">2020</a>)</span> when <code>kinetic_weight</code> is turned up. <code>train_metrics</code> runs inside the gradient program, so the dynamics are logged every step at no extra cost.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="`forward`, `loss` and `train_metrics`: the training hooks">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><code>forward</code>, <code>loss</code> and <code>train_metrics</code>: the training hooks
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="8" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">forward</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>, model, ps, st; img) <span class="op">=</span> Lux.<span class="fu">apply</span>(model, img, ps, st)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">cross_entropy</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>, logits, label)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    onehot <span class="op">=</span> <span class="fu">reshape</span>(<span class="fl">1</span><span class="op">:</span><span class="cn">e</span>.num_classes, <span class="op">:</span>, <span class="fl">1</span>) <span class="op">.==</span> <span class="fu">reshape</span>(label, <span class="fl">1</span>, <span class="op">:</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">-mean</span>(<span class="fu">sum</span>(onehot <span class="op">.*</span> <span class="fu">logsoftmax</span>(logits; dims <span class="op">=</span> <span class="fl">1</span>); dims <span class="op">=</span> <span class="fl">1</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">loss</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>, out; label) <span class="op">=</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cross_entropy</span>(<span class="cn">e</span>, out.logits, label) <span class="op">+</span> <span class="cn">e</span>.kinetic_weight <span class="op">*</span> <span class="fu">mean</span>(out.energy)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">train_metrics</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>, out) <span class="op">=</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    (; kinetic <span class="op">=</span> <span class="fu">mean</span>(out.energy), motion <span class="op">=</span> <span class="fu">mean</span>(out.motion))</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p><code>metrics</code> runs on the host after each validation batch. Each entry is <code>value =&gt; mode</code>: <code>value =&gt; n</code> is added up over the split and divided once by the summed <code>n</code>, and <code>value =&gt; :sum</code> is only summed, which is how the confusion matrix and the calibration bins travel. A mode can cover a whole group of values, so the three calibration sums travel together under one name. <code>finalize_metrics</code> turns them into the numbers that matter once per epoch: macro accuracy (the mean of per-class recall, the main metric here, since the test set’s classes are not balanced), plain accuracy, the expected calibration error over 15 confidence bins, and the mean motion and kinetic energy of the ODE, so validation also shows whether the dynamics are doing anything.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="`metrics` and `finalize_metrics`: macro accuracy, ECE, and the ODE's motion">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><code>metrics</code> and <code>finalize_metrics</code>: macro accuracy, ECE, and the ODE’s motion
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="10" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> ECE_BINS <span class="op">=</span> <span class="fl">15</span>    <span class="co"># confidence bins for the expected calibration error</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> ReactantNitro.<span class="fu">metrics</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>, out; label)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="fu">length</span>(label)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    probs <span class="op">=</span> <span class="fu">softmax</span>(out.logits; dims <span class="op">=</span> <span class="fl">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    confusion <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">Int</span>, <span class="cn">e</span>.num_classes, <span class="cn">e</span>.num_classes)       <span class="co"># rows true, columns predicted</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    samples, conf, correct <span class="op">=</span> <span class="fu">zeros</span>(ECE_BINS), <span class="fu">zeros</span>(ECE_BINS), <span class="fu">zeros</span>(ECE_BINS)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (p, l) <span class="kw">in</span> <span class="fu">zip</span>(<span class="fu">eachcol</span>(probs), label)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        c, pred <span class="op">=</span> <span class="fu">findmax</span>(p)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        confusion[l, pred] <span class="op">+=</span> <span class="fl">1</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> <span class="fu">clamp</span>(<span class="fu">ceil</span>(<span class="dt">Int</span>, c <span class="op">*</span> ECE_BINS), <span class="fl">1</span>, ECE_BINS)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        samples[b] <span class="op">+=</span> <span class="fl">1</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        conf[b] <span class="op">+=</span> c</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        correct[b] <span class="op">+=</span> pred <span class="op">==</span> l</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (;</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        val_loss <span class="op">=</span> <span class="fu">cross_entropy</span>(<span class="cn">e</span>, out.logits, label) <span class="op">*</span> n <span class="op">=&gt;</span> n,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        confusion <span class="op">=</span> confusion <span class="op">=&gt;</span> <span class="op">:</span>sum,</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        calib <span class="op">=</span> (; samples, conf, correct) <span class="op">=&gt;</span> <span class="op">:</span>sum,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        kinetic <span class="op">=</span> <span class="fu">sum</span>(out.energy) <span class="op">=&gt;</span> n,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        motion <span class="op">=</span> <span class="fu">sum</span>(out.motion) <span class="op">=&gt;</span> n,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> ReactantNitro.<span class="fu">finalize_metrics</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>, acc, split)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> acc.confusion</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    recall <span class="op">=</span> [c[k, k] <span class="op">/</span> <span class="fu">sum</span>(c[k, <span class="op">:</span>]) for k <span class="kw">in</span> <span class="fu">axes</span>(c, <span class="fl">1</span>) if <span class="fu">sum</span>(c[k, <span class="op">:</span>]) <span class="op">&gt;</span> <span class="fl">0</span>]</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    (; samples, conf, correct) <span class="op">=</span> acc.calib</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (;</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        acc.val_loss,</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        macro_acc <span class="op">=</span> <span class="fu">sum</span>(recall) <span class="op">/</span> <span class="fu">length</span>(recall),            <span class="co"># mean per-class recall</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        acc <span class="op">=</span> <span class="fu">sum</span>(c[k, k] <span class="cf">for</span> k <span class="kw">in</span> <span class="fu">axes</span>(c, <span class="fl">1</span>)) <span class="op">/</span> <span class="fu">sum</span>(c),</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        ece <span class="op">=</span> <span class="fu">sum</span>(<span class="fu">abs</span>.(conf <span class="op">.-</span> correct)) <span class="op">/</span> <span class="fu">sum</span>(samples),</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        acc.motion,</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>        acc.kinetic,</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="The optimizer and learning-rate schedule">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The optimizer and learning-rate schedule
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The optimizer is RAdam, Nitro’s default rule, with decoupled weight decay of <span class="math inline">\(10^{-4}\)</span> on the weights, except the NeuralODE’s vector field, which gets its own parameter group with no decay, since decay would keep pulling the dynamics back toward zero. Biases and normalization scales and shifts are never decayed: a <code>no_decay</code> rule excludes every parameter with at most one dimension larger than 1, which covers them however many singleton dimensions Lux stores them with. The learning rate follows a one-cycle schedule <span class="citation" data-cites="smith2019superconvergence">(<a href="#ref-smith2019superconvergence" role="doc-biblioref">Smith and Topin 2019</a>)</span> from <a href="https://github.com/FluxML/ParameterSchedulers.jl">ParameterSchedulers.jl</a>, peaking at <span class="math inline">\(10^{-3}\)</span> at 30% of the run. A schedule key binds to an optimizer rule field, here <code>eta</code>, the learning rate, or to a <code>Device</code> field of the experiment, so <code>kinetic_weight</code> could be scheduled the same way without a recompile. None of these values are part of the compiled program, so changing them does not trigger a recompile. The checkpointer keeps the epochs with the best validation macro accuracy.</p>
+<div id="12" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ParameterSchedulers</span>: OneCycle</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">param_group</span>(<span class="op">::</span><span class="dt">PathMNIST</span>, ks) <span class="op">=</span> (<span class="op">:</span>enc <span class="kw">in</span> ks <span class="op">||</span> <span class="op">:</span>dec <span class="kw">in</span> ks) ? <span class="op">:</span>node <span class="op">:</span> <span class="op">:</span>default</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">learning_rate</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>) <span class="op">=</span> <span class="fu">Float32</span>(<span class="cn">e</span>.max_lr)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">learning_rate</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>, <span class="op">::</span><span class="dt">Val{:node}</span>) <span class="op">=</span> <span class="fu">Float32</span>(<span class="cn">e</span>.max_lr <span class="op">*</span> <span class="cn">e</span>.node_lr_ratio)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">lambda</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>) <span class="op">=</span> <span class="fu">Float32</span>(<span class="cn">e</span>.weight_decay)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">lambda</span>(<span class="op">::</span><span class="dt">PathMNIST</span>, <span class="op">::</span><span class="dt">Val{:node}</span>) <span class="op">=</span> <span class="fl">0.0f0</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># No decay on biases or norm scales and shifts: any leaf with at most one</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># dimension larger than 1, whatever singleton dimensions Lux gives it</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">no_decay</span>(<span class="op">::</span><span class="dt">PathMNIST</span>, ks, x) <span class="op">=</span> <span class="fu">count</span>(<span class="fu">&gt;</span>(<span class="fl">1</span>), <span class="fu">size</span>(x)) <span class="op">&lt;=</span> <span class="fl">1</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">schedules</span>(<span class="cn">e</span><span class="op">::</span><span class="dt">PathMNIST</span>) <span class="op">=</span> (;</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    eta <span class="op">=</span> total <span class="op">-&gt;</span> <span class="fu">OneCycle</span>(</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        total, <span class="fu">Float32</span>(<span class="cn">e</span>.max_lr); percent_start <span class="op">=</span> <span class="cn">e</span>.pct_start,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        startval <span class="op">=</span> <span class="fu">Float32</span>(<span class="cn">e</span>.max_lr <span class="op">/</span> <span class="fl">25</span>), endval <span class="op">=</span> <span class="fu">Float32</span>(<span class="cn">e</span>.max_lr <span class="op">/</span> <span class="fl">25</span> <span class="op">/</span> <span class="fl">1.0e4</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">checkpointer</span>(<span class="op">::</span><span class="dt">PathMNIST</span>) <span class="op">=</span> <span class="fu">TopKCheckpointer</span>(; metric <span class="op">=</span> <span class="op">:</span>macro_acc, mode <span class="op">=</span> <span class="op">:</span>max)</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>The batch fields (<code>img</code>, <code>label</code>) are keyword arguments, so each hook declares exactly what it reads, and Nitro only transfers those fields to the device. To train, create a handle and call <code>train!</code>:</p>
+<div id="14" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">PathMNISTReactant</span>, <span class="bu">ReactantNitro</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>nitro <span class="op">=</span> <span class="fu">Nitro</span>(<span class="fu">PathMNIST</span>(); run_dir <span class="op">=</span> <span class="st">"runs/pathmnist"</span>, restore_best <span class="op">=</span> <span class="cn">true</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">train!</span>(nitro)    <span class="co"># ends by loading the best checkpoint by validation macro accuracy</span></span></code></pre></div>
+</div>
+<p>Five epochs took 31 minutes on one RTX A6000, compilation included. The first loss is 2.197, which is <span class="math inline">\(\ln 9\)</span>, because the logits and the dynamics both start at zero and the model initially predicts all nine classes equally. After training, displaying the handle prints a summary of the run: the final epoch and step, the checkpoint it restored, the last validation metrics, what each schedule and setting bound to and where it came from, and the settings each parameter group ended up with:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Output of `nitro` after training: the run summary">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Output of <code>nitro</code> after training: the run summary
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="16" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nitro</span></code></pre></div>
+</div>
+<pre><code>Nitro for PathMNIST
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ phase          Done (completed)                                                                                           │
+│ epoch          5 / 5                                                                                                      │
+│ step           14060 / 14060                                                                                              │
+│ params         27,912,393 in 2 groups                                                                                     │
+│ batch_size     16                                                                                                         │
+│ devices        1  (no mesh)                                                                                               │
+│ elapsed        30m 40s  (this `train!` call)                                                                              │
+│ weights        trained here, then restored to the best checkpoint, epoch 5 (`restore_best`)                               │
+│ run_dir        runs/pathmnist   run FrMe8zap                                                                              │
+│ seed           0   accum 2                                                                                                │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ checkpoint                                                                                                                │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ selected       epoch 5, macro_acc 0.9969854799235072, run FrMe8zap  (the handle holds these weights)                      │
+│ path           runs/pathmnist/epoch-0005-step-14060-macro_acc=0.996985.jld2                                               │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ metrics  (validation, epoch 5)                                                                                            │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ val_loss       0.013404024f0                                                                                              │
+│ macro_acc      0.9969854799235072                                                                                         │
+│ acc            0.997001199520192                                                                                          │
+│ ece            0.0013020081383759668                                                                                      │
+│ motion         0.28475937f0                                                                                               │
+│ kinetic        462.94992f0                                                                                                │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ data                                                                                                                      │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ split          resolved                                                                                                   │
+│ train          5624 batches; prefetch: 16 workers, 1 on device, 32 on host                                                │
+│ val            626 batches; prefetch: 16 workers, 1 on device, 32 on host                                                 │
+│ test           449 batches; prefetch: 16 workers, 1 on device, 32 on host                                                 │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ bindings                                                                                                                  │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ binding        what                                                                                   source              │
+│ gradient clip  none, threshold 0; a run with no clipping                                              [framework default] │
+│ eta            optimizer field, all groups, per-group ratio applied                                   [schedules(e)]      │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ parameter groups (G = 2)                                                                                                  │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ group          settings                                                                               params              │
+│ :default       eta 0.001 (x1.0), lambda 0.0001 toward zero, RAdam                                     27,891,104          │
+│ :node          eta 0.001 (x1.0), lambda 0.0 toward zero, RAdam                                        21,289              │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+  ask it for more with `history`, `experiment`, `parameters`, `states`, `logger_info`</code></pre>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Output of `history(nitro)`: the per-epoch series">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Output of <code>history(nitro)</code>: the per-epoch series
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Validation improves every epoch, most of all once the learning rate is past its peak and annealing, and the <code>motion</code> and <code>kinetic</code> columns show the ODE’s dynamics growing from zero:</p>
+<div id="18" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">history</span>(nitro)</span></code></pre></div>
+</div>
+<pre><code>history of PathMNIST  (runs/pathmnist)
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│ epoch   step     loss  macro_acc  val_loss     acc       ece  motion  kinetic    │
+├──────────────────────────────────────────────────────────────────────────────────┤
+│     1   2812  0.52093     0.9036   0.32873  0.9030  0.023010  0.3244    105.0    │
+│     2   5624  0.16438     0.9435   0.18530  0.9425  0.010009  0.2646    277.5    │
+│     3   8436  0.10003     0.9833   0.05752  0.9828  0.002654  0.2838    452.0    │
+│     4  11248  0.04580     0.9909   0.02962  0.9911  0.002893  0.2892    477.2    │
+│     5  14060  0.01317     0.9970   0.01340  0.9970  0.001302  0.2848    462.9  * │
+└──────────────────────────────────────────────────────────────────────────────────┘
+  * best macro_acc (max), the checkpointer's metric</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluating-on-the-test-set" class="level2">
+<h2 data-anchor-id="evaluating-on-the-test-set">Evaluating on the test set</h2>
+<p>Validation comes from the same source as training (NCT-CRC-HE-100K), so it is close to saturated. The test set is CRC-VAL-HE-7K, a separate cohort of patients, so it is the better measure of how well the model generalizes. The same handle evaluates it with the programs it already compiled:</p>
+<div id="20" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">evaluate</span>(nitro; split <span class="op">=</span> <span class="op">:</span>test)</span></code></pre></div>
+</div>
+<pre><code>(val_loss = 0.13172214f0, macro_acc = 0.9592741093176953, acc = 0.9676880222841225, ece = 0.016802187816014197, motion = 0.29917392f0, kinetic = 452.36755f0)</code></pre>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Test metric</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Macro accuracy</td>
+<td style="text-align: right;">95.93%</td>
+</tr>
+<tr class="even">
+<td>Accuracy</td>
+<td style="text-align: right;">96.77%</td>
+</tr>
+<tr class="odd">
+<td>Expected calibration error (15 bins)</td>
+<td style="text-align: right;">1.68%</td>
+</tr>
+<tr class="even">
+<td>Loss</td>
+<td style="text-align: right;">0.132</td>
+</tr>
+</tbody>
+</table>
+<p>For comparison with published results on the same test set: Kather et al., who built the dataset, reported 94.3% accuracy with a VGG19 <span class="citation" data-cites="kather2019">(<a href="#ref-kather2019" role="doc-biblioref">Kather et al. 2019</a>)</span>. In the MedMNIST+ benchmark at 224 px, the best models reach about 96% accuracy, with 96.07% for SAM ViT-B/16 trained end to end and 96.14% for a linear probe on DINO ViT-B/16 <span class="citation" data-cites="doerrich2025medmnistplus">(<a href="#ref-doerrich2025medmnistplus" role="doc-biblioref">Doerrich et al. 2025</a>)</span>. Large pathology foundation models land in the same place: UNI 2 and Virchow 2 both reach 95.3% balanced accuracy (the same measure as macro accuracy here) and 96.0% and 96.7% accuracy, and Shazam, which combines several of them, reaches 96.0% and 97.2% <span class="citation" data-cites="lei2025shazam">(<a href="#ref-lei2025shazam" role="doc-biblioref">Lei et al. 2025</a>)</span>. This model’s 95.93% macro accuracy and 96.77% accuracy are within that range.</p>
+<p>I suspect part of that ceiling comes from the dataset itself. Ignatov and Malivenko found inappropriate color normalization, JPEG artifacts that differ between classes, and corrupted tiles in NCT-CRC-HE-100K, and a classifier that only sees color histograms reached over 82% accuracy on it <span class="citation" data-cites="ignatov2024nctcrche">(<a href="#ref-ignatov2024nctcrche" role="doc-biblioref">Ignatov and Malivenko 2024</a>)</span>. Some of what a model learns from the training set is therefore not tissue structure, and it may not carry over to a test cohort that was prepared differently.</p>
+<div class="light-content">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/correct.png" class="img-fluid figure-img"></p>
+<figcaption>A typical correct test prediction for each class: the median-confidence correct example.</figcaption>
+</figure>
+</div>
+</div>
+<div class="dark-content">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/correct-dark.png" class="img-fluid figure-img"></p>
+<figcaption>A typical correct test prediction for each class: the median-confidence correct example.</figcaption>
+</figure>
+</div>
+</div>
+<p>Per class, seven of the nine tissues are above 94% recall. Smooth muscle and stroma are the outliers, and they are mostly mistaken for each other. The model misclassifies 232 of the 7,180 test tiles. In the confusion matrix below, each row is a true class, and each cell is the share of that class’s tiles predicted as the column’s class. The buttons switch it to raw counts, or to shares of the predicted class.</p>
+<div class="cm-player" data-src="figures/confusion.json">
+  <noscript><img src="figures/confusion.png" alt="Confusion matrix on the test set, as a share of each true class. Correct cells use a blue scale over the recall range; errors use a red log scale." style="max-width: 100%"></noscript>
+</div>
+<script src="figures/confusion-matrix.js" defer=""></script>
+<p>Stroma and smooth muscle are both pink, fibrous tissue made of elongated, spindle-shaped cells, and the model is often confident when it confuses them. 51 of the 232 errors have a confidence above 99%, and all of the 12 most confident errors are stroma tiles predicted as smooth muscle. The four most confident are shown below beside correctly classified tiles of both classes, and they look more like the smooth muscle examples than the stroma ones:</p>
+<div class="light-content">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/incorrect.png" class="img-fluid figure-img"></p>
+<figcaption>The four most confident test errors, stroma predicted as smooth muscle, above correctly classified smooth muscle and stroma tiles.</figcaption>
+</figure>
+</div>
+</div>
+<div class="dark-content">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/incorrect-dark.png" class="img-fluid figure-img"></p>
+<figcaption>The four most confident test errors, stroma predicted as smooth muscle, above correctly classified smooth muscle and stroma tiles.</figcaption>
+</figure>
+</div>
+</div>
+<p>The calibration error is small overall, and the reliability diagram shows where it comes from. 6,785 of the 7,180 test tiles land in the top bin, where confidence and accuracy agree; in all but one of the bins below it the model is overconfident, but each holds at most about a hundred tiles (the count is on each bar).</p>
+<div class="light-content">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/reliability.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Reliability diagram on the test set: accuracy against confidence in 15 bins, with the number of tiles in each bin. The dashed line is perfect calibration.</figcaption>
+</figure>
+</div>
+</div>
+<div class="dark-content">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/reliability-dark.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Reliability diagram on the test set: accuracy against confidence in 15 bins, with the number of tiles in each bin. The dashed line is perfect calibration.</figcaption>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Ablations: what didn't help">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Ablations: what didn’t help
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>I tried a few things on top of this run, all on the same 5-epoch schedule unless noted, and none of them clearly beat it. Training the same configuration with different seeds moves test macro accuracy by about 0.6 points, so anything smaller than that is noise.</p>
+<ul>
+<li><strong>A wavelet texture branch:</strong> five Haar levels of subband energies, concatenated to the pooled backbone features. On RGB it changed nothing (two seeds). On haematoxylin and eosin densities, after colour deconvolution, it was ahead on two seeds and behind on the third: +0.2 points on average.</li>
+<li><strong>HSV colour jitter</strong> (hue ±0.05 of a turn, saturation ±30%, value ±20%): about 1.5 points worse on test, at 5 and at 10 epochs. It also needed gradient clipping; without it, training diverged during the warm-up.</li>
+<li><strong>Label smoothing 0.1</strong> on top of the jitter: no better, and much worse calibrated (ECE around 8%).</li>
+<li><strong>10 epochs</strong>, or <strong>a gentler backbone learning rate</strong>: both within noise.</li>
+</ul>
+<p>The backbone may also be part of why the texture ideas added nothing. ConvNeXt V2 is pretrained as a fully convolutional masked autoencoder (FCMAE) before its ImageNet fine-tuning <span class="citation" data-cites="woo2023convnextv2">(<a href="#ref-woo2023convnextv2" role="doc-biblioref">Woo et al. 2023</a>)</span>: it learns by reconstructing masked regions from their surroundings, which might make it particularly well suited to local features and textures already. SAM’s image encoder, the best end-to-end model in MedMNIST+, was also initialized from masked-autoencoder pretraining.</p>
+<p>Given how close the published results above are to this model, I suspect we are near the limit of what this test set allows. The code for these runs is in the companion repo at commit <a href="https://github.com/csvance/PathMNISTReactant.jl/tree/7684532">7684532</a>, and each run’s settings and numbers are in <code>blog/sweep_results.jsonl</code>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="exporting-the-model" class="level2">
+<h2 data-anchor-id="exporting-the-model">Exporting the model</h2>
+<p>Export turns the trained model into a bundle ReactantServer can load: StableHLO for each batch size, the weights, and a manifest describing the tensors on the wire. Two hooks define the inputs a client sends and the outputs it gets back. The model already converts <code>UInt8</code> pixels to normalized <code>Float32</code> inside its own program, so the wire tensor is the same <code>img</code> batch field <code>forward</code> reads, and of everything <code>forward</code> returns, only the logits ship; the kinetic energy and motion stay in training.</p>
+<div id="22" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">export_inputs</span>(<span class="op">::</span><span class="dt">PathMNIST</span>) <span class="op">=</span> [<span class="fu">ExportSpec</span>(<span class="st">"img"</span>, <span class="dt">UInt8</span>, [<span class="fl">224</span>, <span class="fl">224</span>, <span class="fl">3</span>, <span class="fl">1</span>])]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ReactantNitro.<span class="fu">export_outputs</span>(<span class="op">::</span><span class="dt">PathMNIST</span>) <span class="op">=</span> [<span class="fu">ExportSpec</span>(<span class="st">"logits"</span>)]</span></code></pre></div>
+</div>
+<p>The export itself is one call on the trained handle. <code>ReactantServerExport</code> is a separate package that loads ReactantNitro’s export extension, so a training environment that doesn’t export never has to load it. Export is a CPU trace and does not reuse the training compile cache; for both batch sizes it took about seven minutes.</p>
+<div id="24" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ReactantServerExport</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">export_model</span>(nitro, <span class="fu">ReactantServerBundle</span>(); dir <span class="op">=</span> <span class="st">"bundles"</span>, name <span class="op">=</span> <span class="st">"pathmnist_node"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    batch_sizes <span class="op">=</span> [<span class="fl">1</span>, <span class="fl">16</span>])</span></code></pre></div>
+</div>
+<pre><code>bundles/pathmnist_node/
+├── manifest.yaml           1.5 KB
+├── model.b1.mlir            50 KB   StableHLO, batch 1
+├── model.b16.mlir           50 KB   StableHLO, batch 16
+└── weights.safetensors     107 MB</code></pre>
+<p>The manifest describes the tensors the server expects and returns, in Julia’s axis order with the batch axis last. It also carries provenance: the full experiment configuration, the ReactantNitro and Reactant versions, and the checkpoint the weights came from.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">executable_inputs</span><span class="kw">:</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> </span><span class="st">"img"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dtype</span><span class="kw">:</span><span class="at"> </span><span class="st">"u8"</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">shape</span><span class="kw">:</span><span class="at"> </span><span class="st">"acdn"</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dims</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="at"> </span><span class="fu">a</span><span class="kw">:</span><span class="at"> </span><span class="dv">224</span><span class="kw">,</span><span class="at"> </span><span class="fu">c</span><span class="kw">:</span><span class="at"> </span><span class="dv">224</span><span class="kw">,</span><span class="at"> </span><span class="fu">d</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span><span class="at"> </span><span class="kw">}</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">executable_outputs</span><span class="kw">:</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> </span><span class="st">"logits"</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dtype</span><span class="kw">:</span><span class="at"> </span><span class="st">"f32"</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">shape</span><span class="kw">:</span><span class="at"> </span><span class="st">"an"</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dims</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="at"> </span><span class="fu">a</span><span class="kw">:</span><span class="at"> </span><span class="dv">9</span><span class="at"> </span><span class="kw">}</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="fu">batching</span><span class="kw">:</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">compiled_batch_sizes</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="dv">1</span><span class="kw">,</span><span class="at"> </span><span class="dv">16</span><span class="kw">]</span></span></code></pre></div>
+</section>
+<section id="serving-with-reactantserver" class="level2">
+<h2 data-anchor-id="serving-with-reactantserver">Serving with ReactantServer</h2>
+<p>ReactantServer serves every bundle in a model repository over the KServe V2 gRPC protocol. The image is pinned by digest, so the command runs exactly the server described here even after newer images are published. Mount the repository read-write, since the server stores each bundle’s compiled executables beside it so later starts skip compilation:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Prerequisites">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Prerequisites
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><a href="https://podman.io">podman</a>, the <a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html">NVIDIA Container Toolkit</a>, and a CDI spec so podman can see the GPU. Rootless podman works.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> nvidia-ctk cdi generate <span class="at">--output</span><span class="op">=</span>/etc/cdi/nvidia.yaml</span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">podman</span> run <span class="at">--rm</span> <span class="at">--device</span> nvidia.com/gpu=0 <span class="dt">\</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> ./bundles:/var/lib/reactantserver/models:Z <span class="dt">\</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-p</span> 8001:8001 <span class="at">-p</span> 8002:8002 <span class="dt">\</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  ghcr.io/enzymead/reactantserver@sha256:ba640d6a1b048ae9bc728a47ade971318d37fa8cfbcc6e2539e5d096b07cb0d5</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> localhost:8002/readyz                <span class="co"># 200 once the model is compiled and serving</span></span></code></pre></div>
+</section>
+<section id="calling-the-server" class="level2">
+<h2 data-anchor-id="calling-the-server">Calling the server</h2>
+<p>The client only depends on ReactantServerClient, which doesn’t pull in Reactant or XLA, so it can run on a machine without a GPU. It reads the test split from the same memory-mapped <code>.u8</code> files used for training.</p>
+<p>For streaming a whole dataset, ReactantServerClient stages requests in a pool of buffers it allocates once and reuses, so sending the test set doesn’t allocate a new array per request or put pressure on the garbage collector. Several requests are in flight at once, and when the server is on the same host the client can send the data through shared memory instead.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Streaming the test set through the staging pool">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Streaming the test set through the staging pool
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="26" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ReactantServerClient</span>, <span class="bu">Mmap</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> TILE <span class="op">=</span> (<span class="fl">3</span>, <span class="fl">224</span>, <span class="fl">224</span>)                 <span class="co"># bytes on disk are (C, W, H, N)</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">load_split</span>(dir, split)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    images <span class="op">=</span> <span class="fu">open</span>(<span class="fu">joinpath</span>(dir, <span class="st">"</span><span class="sc">$</span>(split)<span class="st">_images.u8"</span>)) <span class="cf">do</span> io</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Mmap</span>.<span class="fu">mmap</span>(io, <span class="dt">Array</span>{<span class="dt">UInt8</span>, <span class="fl">4</span>}, (TILE<span class="op">...</span>, <span class="fu">filesize</span>(io) <span class="op">÷</span> <span class="fu">prod</span>(TILE)))</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    labels <span class="op">=</span> <span class="fu">Int</span>.(<span class="fu">read</span>(<span class="fu">joinpath</span>(dir, <span class="st">"</span><span class="sc">$</span>(split)<span class="st">_labels.u8"</span>))) <span class="op">.+</span> <span class="fl">1</span>   <span class="co"># 0-based on disk</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> images, labels</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> TileIO <span class="op">&lt;:</span><span class="dt"> AbstractInferenceIO</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    images<span class="op">::</span><span class="dt">Array{UInt8, 4}           </span><span class="co"># memory-mapped, (C, W, H, N)</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    logits<span class="op">::</span><span class="dt">Matrix{Float32}           </span><span class="co"># filled in as responses arrive</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="bu">Base</span>.<span class="fu">length</span>(io<span class="op">::</span><span class="dt">TileIO</span>) <span class="op">=</span> <span class="fu">size</span>(io.images, <span class="fl">4</span>)</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>ReactantServerClient.<span class="fu">item_input_bytes</span>(<span class="op">::</span><span class="dt">TileIO</span>) <span class="op">=</span> <span class="fu">prod</span>(TILE)</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> ReactantServerClient.<span class="fu">infer_encode_chunk!</span>(io<span class="op">::</span><span class="dt">TileIO</span>, r<span class="op">::</span><span class="dt">UnitRange</span>, slot<span class="op">::</span><span class="dt">PoolSlot</span>)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    input <span class="op">=</span> <span class="fu">scratch</span>(slot, <span class="st">"img"</span>, (<span class="fl">224</span>, <span class="fl">224</span>, <span class="fl">3</span>, <span class="fu">length</span>(r)), <span class="dt">UInt8</span>)</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    buf <span class="op">=</span> <span class="fu">pool_view</span>(input)</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k, i) <span class="kw">in</span> <span class="fu">enumerate</span>(r)        <span class="co"># (C, W, H) on disk to the model's (W, H, C)</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">permutedims!</span>(<span class="fu">view</span>(buf, <span class="op">:</span>, <span class="op">:</span>, <span class="op">:</span>, k), <span class="fu">view</span>(io.images, <span class="op">:</span>, <span class="op">:</span>, <span class="op">:</span>, i), (<span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">1</span>))</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> input</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> ReactantServerClient.<span class="fu">infer_decode_chunk!</span>(io<span class="op">::</span><span class="dt">TileIO</span>, r<span class="op">::</span><span class="dt">UnitRange</span>, response)</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    io.logits[<span class="op">:</span>, r] <span class="op">=</span> <span class="fu">InferOutput</span>(<span class="st">"logits"</span>, response, <span class="dt">Float32</span>)</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="cn">nothing</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>images, labels <span class="op">=</span> <span class="fu">load_split</span>(<span class="st">"data/pathmnist_224"</span>, <span class="st">"test"</span>)</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>logits <span class="op">=</span> <span class="fu">zeros</span>(<span class="dt">Float32</span>, <span class="fl">9</span>, <span class="fu">length</span>(labels))</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a><span class="fu">kserve_init</span>()</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> <span class="fu">KServeModel</span>(<span class="st">"grpc://127.0.0.1:8001"</span>, <span class="st">"pathmnist_node"</span>; max_batch_size <span class="op">=</span> <span class="fl">16</span>)</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a><span class="fu">infer_async</span>(model, <span class="fu">TileIO</span>(images, logits))</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> [<span class="fu">argmax</span>(z) for z <span class="kw">in</span> <span class="fu">eachcol</span>(logits)]</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(pred <span class="op">.==</span> labels) <span class="op">/</span> <span class="fu">length</span>(labels)</span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>On the same RTX A6000, the full test set ran at about 1,030 tiles per second in batches of 16, and a single tile took 7.8 ms at the median (about 90 ms at the 99th percentile, consistently across runs). For comparison, a training step in the <a href="#training-speed-against-pytorch">benchmark below</a> takes 88.5 ms for 32 tiles, about 360 tiles per second. Serving is about 2.9 times faster than training, since it runs only the forward pass, without the backward pass or the optimizer update. The served model agrees with the in-process one:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: right;">In-process (<code>evaluate</code>)</th>
+<th style="text-align: right;">Served</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Accuracy</td>
+<td style="text-align: right;">96.77%</td>
+<td style="text-align: right;">96.77%</td>
+</tr>
+<tr class="even">
+<td>Macro accuracy</td>
+<td style="text-align: right;">95.93%</td>
+<td style="text-align: right;">95.93%</td>
+</tr>
+<tr class="odd">
+<td>Predictions that differ</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">0 of 7,180</td>
+</tr>
+<tr class="even">
+<td>Largest probability difference</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">0.00044</td>
+</tr>
+</tbody>
+</table>
+<p>The small probability differences come from the server compiling and autotuning its own kernels. And because ReactantServer speaks the standard KServe V2 protocol, the client does not have to be Julia: Triton’s <a href="https://github.com/triton-inference-server/client"><code>tritonclient</code></a> or any gRPC client that implements the spec works the same way.</p>
+</section>
+<section id="training-speed-against-pytorch" class="level2">
+<h2 data-anchor-id="training-speed-against-pytorch">Training speed against PyTorch</h2>
+<p>The switch started with a 10x speedup over PyTorch eager on a CNN into a NeuralODE. A year later, I ran the comparison again on this post’s model and on the NeuralODE by itself, against both PyTorch eager and <code>torch.compile</code>. It only covers these two workloads: enough to show that Reactant’s performance is good and that compile time is not a deal breaker.</p>
+<p>The biggest surprise for me was <code>torch.compile</code>. Coming back to it after a year, it now works smoothly on these workloads. Much of the 10x I originally saw was against PyTorch eager, and a hand-written RK4 loop compiled with <code>mode="reduce-overhead"</code>, which captures each step in CUDA graphs, closes most of that gap. I couldn’t get torchdiffeq itself to compile, even with its RK4 solver, so both stacks here use a hand-written RK4.</p>
+<p>Both stacks use the same weights (timm’s ConvNeXt V2 Tiny and Luximm’s port of it), batch size 16 with 2 accumulation steps, 224×224 inputs and TF32, on one RTX A6000. “Step” is the steady-state time for one training step, and the last column is the first step, including compilation.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 28%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Workload</th>
+<th>Stack</th>
+<th style="text-align: right;">Step</th>
+<th style="text-align: right;">First step (compile included)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CNN to NeuralODE (this post’s model)</td>
+<td>Julia, Reactant default</td>
+<td style="text-align: right;"><strong>88.5 ms</strong></td>
+<td style="text-align: right;">318 s</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>PyTorch <code>max-autotune</code> (fastest)</td>
+<td style="text-align: right;">100.3 ms</td>
+<td style="text-align: right;">1,420 s</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>PyTorch <code>reduce-overhead</code></td>
+<td style="text-align: right;">107.2 ms</td>
+<td style="text-align: right;">147 s</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>PyTorch eager</td>
+<td style="text-align: right;">391.6 ms</td>
+<td style="text-align: right;"><strong>6 s</strong></td>
+</tr>
+<tr class="odd">
+<td>NeuralODE alone (MLP, RK4, 100 steps)</td>
+<td>Julia, Reactant default</td>
+<td style="text-align: right;"><strong>10.8 ms</strong></td>
+<td style="text-align: right;">99 s</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>PyTorch <code>reduce-overhead</code> (fastest)</td>
+<td style="text-align: right;">16.1 ms</td>
+<td style="text-align: right;">6 s</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>PyTorch eager</td>
+<td style="text-align: right;">127.1 ms</td>
+<td style="text-align: right;"><strong>0.4 s</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Reactant, through XLA, is ahead of <code>torch.compile</code> (Inductor) on both workloads: 1.13x faster than its fastest mode on the full CNN to NeuralODE model, and 1.5x on the NeuralODE alone. Against PyTorch eager the gap is 4.4x and 12x. Compilation takes a few minutes, and ReactantNitro keeps the compiled programs for as long as the Julia process runs, so later runs reuse them unless the graph changes. PyTorch’s fastest mode on the full model, <code>max-autotune</code>, compiled for 24 minutes. On the NeuralODE alone, though, <code>torch.compile</code> is much quicker than Reactant: 6 s against 99 s.</p>
+</section>
+<section id="working-with-agents" class="level2">
+<h2 data-anchor-id="working-with-agents">Working with agents</h2>
+<div style="text-align: center">
+<p><img src="figures/hero/revise.png" class="img-fluid" alt="The Revise.jl logo" width="96"> <img src="figures/hero/kaimon.png" class="img-fluid" alt="The Kaimon.jl logo" width="96"></p>
+</div>
+<p>I keep one long-lived Julia session open with <a href="https://github.com/timholy/Revise.jl">Revise.jl</a>. Changes that don’t touch the compiled graph, such as the learning rate, schedules, augmentation, data loading or logging, take effect immediately with no restart and no recompile. A run already in progress keeps running the code it started with, so edits take effect from the next run. This matters even more for agents, which make many small edits and check each one.</p>
+<p>Day to day, I don’t write much code by hand anymore. Coding agents write most of it, while I review the results and make the decisions. <a href="https://github.com/kahliburke/Kaimon.jl">Kaimon.jl</a>, by <a href="https://slate-portfolio.pages.dev/">Kahli Burke</a>, is what makes that practical in Julia. It runs Julia sessions and exposes them to an agent over MCP, so the agent evaluates code, runs tests and searches the codebase in a warm session, instead of starting a new Julia process for every command and paying for package loading and compilation each time.</p>
+<p>ReactantNitro and ReactantServer both build on this. Each has a package extension that loads when KaimonGate, the part of Kaimon that runs inside the Julia session, is present, and registers MCP tools for its own work. ReactantNitro’s tools set up an experiment; start, monitor and stop training; and validate, evaluate, predict and export (<code>nitro_setup</code>, <code>nitro_train</code>, <code>nitro_status</code>, <code>nitro_stop</code>, <code>nitro_validate</code>, <code>nitro_evaluate</code>, <code>nitro_predict</code>, <code>nitro_export</code>). ReactantServer’s tools start and stop a server, report its status and list the models it serves (<code>rserver_start</code>, <code>rserver_status</code>, <code>rserver_models</code>, <code>rserver_stop</code>). An agent can train a model, export it and serve it from the same session it uses to edit the code. Training runs in the background and the tool returns a run ID straight away, so the agent checks on the run instead of waiting for it.</p>
+<p>Any Julia package can give agents tools the same way. It declares KaimonGate as a weak dependency and adds a package extension, and Julia compiles and loads that extension automatically whenever KaimonGate is loaded in the same session, and never otherwise, so the package itself takes on no new dependency. Inside the extension, a tool is an ordinary Julia function: KaimonGate reads its arguments and keyword arguments to build the MCP schema, and uses its docstring as the tool’s description.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="`ext/MyPackageKaimonGateExt.jl`: one tool">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span><code>ext/MyPackageKaimonGateExt.jl</code>: one tool
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="28" class="cell" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> MyPackageKaimonGateExt</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">MyPackage</span>, <span class="bu">KaimonGate</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="st">    mypackage_status(; verbose = false) -&gt; String</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="st">Report what MyPackage is doing in this session.</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">mypackage_status</span>(; verbose<span class="op">::</span><span class="dt">Bool </span><span class="op">=</span> <span class="cn">false</span>) <span class="op">=</span> MyPackage.<span class="fu">status_report</span>(; verbose)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Register with the session's running gate; tools merge by name with other packages' tools.</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="fu">register</span>() <span class="op">=</span> KaimonGate.<span class="fu">serve</span>(tools <span class="op">=</span> [KaimonGate.<span class="fu">GateTool</span>(<span class="st">"mypackage_status"</span>, mypackage_status)])</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>The model in this post was built this way. An agent ran the training runs, the hyperparameter sweep behind the ablations, and the scripts that produce the figures, through Kaimon.</p>
+</section>
+<section id="whats-next" class="level2">
+<h2 data-anchor-id="whats-next">What’s next</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/hero/sciml.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="The SciML logo" width="88"></p>
+</figure>
+</div>
+<p>I want to keep writing one language and use it to target many compilers and accelerators. Reactant compiles ordinary Julia to StableHLO, which XLA optimizes for CPU, GPU or TPU and <a href="https://github.com/EnzymeAD/Enzyme-JAX">Enzyme-JAX</a> differentiates. I’m also looking forward to the seemingly never-ending stream of optimization work on Enzyme-JAX, and to seeing the Reactant.jl ecosystem mature.</p>
+<p>I’d also like to see the SciML ecosystem follow, so that the existing <a href="https://github.com/SciML/OrdinaryDiffEq.jl">OrdinaryDiffEq</a> and <a href="https://github.com/SciML/SciMLSensitivity.jl">SciMLSensitivity</a> packages can be called inside a Reactant-compiled program, the way <a href="https://github.com/patrick-kidger/diffrax">Diffrax</a> works inside JAX. That would bring their adaptive and stiff solvers and choice of adjoint methods into compiled programs, instead of the hand-written RK4 I use today. It isn’t here yet, but work is moving toward it. A <a href="https://github.com/SciML/OrdinaryDiffEq.jl/pull/4436">draft pull request</a> makes OrdinaryDiffEq’s <code>solve</code> trace under Reactant’s <code>@compile</code> for explicit solvers, with the remaining pieces, such as <code>saveat</code>, callbacks and implicit solvers, tracked in <a href="https://github.com/SciML/OrdinaryDiffEq.jl/issues/4657">an issue</a>. SciMLSensitivity can already compile the vector-Jacobian products inside its adjoints with <code>ReactantVJP</code>.</p>
+</section>
+<section id="wrapping-up" class="level2">
+<h2 data-anchor-id="wrapping-up">Wrapping up</h2>
+<p>A year ago I started using Julia to speed up a CPU-bound service. Today I train, export and serve models with it, and the bet solved each of the problems that pushed me away from PyTorch. Every PyTorch model we had converted to StableHLO, including object detection models, several BERT models and many other computer vision models. Pre and post processing is ordinary Julia code compiled into the same program as the model, and ReactantServer serves those programs directly. We have been testing it for months, and it is part of an upcoming regulated release. On the workloads I measured, Reactant trains faster than <code>torch.compile</code>, and I haven’t trained a PyTorch model in half a year. The walkthrough in this post covers the whole path on a real dataset: a ConvNeXt V2 backbone with a NeuralODE head, trained with ReactantNitro to results in line with published models on the same test set, exported to StableHLO, and served by ReactantServer with the same predictions it makes in process.</p>
+<p>Getting here took more than Reactant. I spent a significant amount of time getting the gRPC client and server packages stable enough for production use, ported timm’s backbones to Lux, and built my own ML framework and serving platform. Startup is still slower than PyTorch eager. Compiling takes minutes, while eager mode in my experience takes up to 30 to 45 seconds to start training. Once training is running, <code>torch.compile</code> has closed most of the speed gap on these workloads.</p>
+<p>The day-to-day workflow has made that effort worth it. Agents train, export and serve models through MCP, and they do well with a REPL and Revise driven workflow, where each small edit can be checked in a session that is already running.</p>
+<p>Using Julia hasn’t impeded my work, and I’m more excited about the language’s future than ever. If you want to try it, the <a href="https://github.com/csvance/PathMNISTReactant.jl">companion repo</a> reproduces this walkthrough, and ReactantNitro’s <a href="https://enzymead.github.io/ReactantNitro.jl/stable/pitfalls/">pitfalls page</a> covers what I learned the hard way. <a href="https://github.com/EnzymeAD/ReactantNitro.jl">ReactantNitro.jl</a> and <a href="https://github.com/EnzymeAD/ReactantServer.jl">ReactantServer.jl</a> are open for issues and pull requests.</p>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>Thanks to:</p>
+<ul>
+<li>All of the <a href="https://github.com/EnzymeAD/Reactant.jl">Reactant</a>, <a href="https://github.com/EnzymeAD/Enzyme">Enzyme</a> and <a href="https://github.com/EnzymeAD/Enzyme-JAX">Enzyme-JAX</a> contributors, for the foundation this work sits on, and for putting up with me as I continue to learn Reactant’s internals through trial and error</li>
+<li><a href="https://github.com/wsmoses">William Moses</a>, for welcoming my projects into <a href="https://github.com/EnzymeAD">EnzymeAD</a></li>
+<li><a href="https://github.com/avik-pal">Avik Pal</a>, for <a href="https://github.com/LuxDL/Lux.jl">Lux.jl</a></li>
+<li><a href="https://slate-portfolio.pages.dev/">Kahli Burke</a>, research scientist in the Plasma Theory and Computation group of the Nuclear Engineering and Engineering Physics Department at UW Madison, for making it easy to bring the full ML lifecycle into agentic workflows through <a href="https://github.com/kahliburke/Kaimon.jl">Kaimon.jl</a></li>
+<li>The <a href="https://github.com/FluxML">FluxML</a> organization, for so many essential packages, such as <a href="https://github.com/FluxML/Optimisers.jl">Optimisers.jl</a> and <a href="https://github.com/FluxML/ParameterSchedulers.jl">ParameterSchedulers.jl</a></li>
+<li><a href="https://www.medicalmetrics.com">Medical Metrics Inc.</a>, for funding the development of these projects and allowing them to be open sourced</li>
+</ul>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bengio2015scheduled" class="csl-entry" role="listitem">
+Bengio, Samy, Oriol Vinyals, Navdeep Jaitly, and Noam Shazeer. 2015. <span>“Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks.”</span> <em>Advances in Neural Information Processing Systems 28 (NeurIPS 2015)</em>, 1171–79. <a href="https://arxiv.org/abs/1506.03099">https://arxiv.org/abs/1506.03099</a>.
+</div>
+<div id="ref-bezanson2017julia" class="csl-entry" role="listitem">
+Bezanson, Jeff, Alan Edelman, Stefan Karpinski, and Viral B. Shah. 2017. <span>“Julia: A Fresh Approach to Numerical Computing.”</span> <em>SIAM Review</em> 59 (1): 65–98. <a href="https://doi.org/10.1137/141000671">https://doi.org/10.1137/141000671</a>.
+</div>
+<div id="ref-chen2018neuralode" class="csl-entry" role="listitem">
+Chen, Ricky T. Q., Yulia Rubanova, Jesse Bettencourt, and David Duvenaud. 2018. <span>“Neural Ordinary Differential Equations.”</span> <em>Advances in Neural Information Processing Systems</em> 31. <a href="https://arxiv.org/abs/1806.07366">https://arxiv.org/abs/1806.07366</a>.
+</div>
+<div id="ref-doerrich2025medmnistplus" class="csl-entry" role="listitem">
+Doerrich, Sebastian, Francesco Di Salvo, Julius Brockmann, and Christian Ledig. 2025. <span>“Rethinking Model Prototyping Through the <span>MedMNIST+</span> Dataset Collection.”</span> <em>Scientific Reports</em> 15 (1). <a href="https://doi.org/10.1038/s41598-025-92156-9">https://doi.org/10.1038/s41598-025-92156-9</a>.
+</div>
+<div id="ref-dupont2019anode" class="csl-entry" role="listitem">
+Dupont, Emilien, Arnaud Doucet, and Yee Whye Teh. 2019. <span>“Augmented Neural <span>ODEs</span>.”</span> <em>Advances in Neural Information Processing Systems</em> 32. <a href="https://arxiv.org/abs/1904.01681">https://arxiv.org/abs/1904.01681</a>.
+</div>
+<div id="ref-finlay2020rnode" class="csl-entry" role="listitem">
+Finlay, Chris, Jörn-Henrik Jacobsen, Levon Nurbekyan, and Adam M. Oberman. 2020. <span>“How to Train Your Neural <span>ODE</span>: The World of <span>Jacobian</span> and Kinetic Regularization.”</span> <em>Proceedings of the 37th International Conference on Machine Learning</em>, Proceedings of machine learning research, vol. 119. <a href="https://arxiv.org/abs/2002.02798">https://arxiv.org/abs/2002.02798</a>.
+</div>
+<div id="ref-ignatov2024nctcrche" class="csl-entry" role="listitem">
+Ignatov, Andrey, and Grigory Malivenko. 2024. <em><span>NCT-CRC-HE</span>: Not All Histopathological Datasets Are Equally Useful</em>. <a href="https://arxiv.org/abs/2409.11546">https://arxiv.org/abs/2409.11546</a>.
+</div>
+<div id="ref-kather2019" class="csl-entry" role="listitem">
+Kather, Jakob Nikolas, Johannes Krisam, Pornpimol Charoentong, et al. 2019. <span>“Predicting Survival from Colorectal Cancer Histology Slides Using Deep Learning: A Retrospective Multicenter Study.”</span> <em>PLOS Medicine</em> 16 (1): e1002730. <a href="https://doi.org/10.1371/journal.pmed.1002730">https://doi.org/10.1371/journal.pmed.1002730</a>.
+</div>
+<div id="ref-lei2025shazam" class="csl-entry" role="listitem">
+Lei, Wenhui, Yusheng Tan, Anqi Li, et al. 2025. <em>Unifying Multiple Foundation Models for Advanced Computational Pathology</em>. <a href="https://arxiv.org/abs/2503.00736">https://arxiv.org/abs/2503.00736</a>.
+</div>
+<div id="ref-moses2021enzymegpu" class="csl-entry" role="listitem">
+Moses, William S., Valentin Churavy, Ludger Paehler, et al. 2021. <span>“Reverse-Mode Automatic Differentiation and Optimization of <span>GPU</span> Kernels via <span>Enzyme</span>.”</span> <em>Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis</em>, SC ’21, 1–16. <a href="https://doi.org/10.1145/3458817.3476165">https://doi.org/10.1145/3458817.3476165</a>.
+</div>
+<div id="ref-moses2020enzyme" class="csl-entry" role="listitem">
+Moses, William, and Valentin Churavy. 2020. <span>“Instead of Rewriting Foreign Code for Machine Learning, Automatically Synthesize Fast Gradients.”</span> In <em>Advances in Neural Information Processing Systems</em>, edited by H. Larochelle, M. Ranzato, R. Hadsell, M. F. Balcan, and H. Lin, vol. 33. Curran Associates, Inc. <a href="https://proceedings.neurips.cc/paper/2020/file/9332c513ef44b682e9347822c2e457ac-Paper.pdf">https://proceedings.neurips.cc/paper/2020/file/9332c513ef44b682e9347822c2e457ac-Paper.pdf</a>.
+</div>
+<div id="ref-pal2023lux" class="csl-entry" role="listitem">
+Pal, Avik. 2023. <em><span class="nocase">Lux: Explicit Parameterization of Deep Neural Networks in Julia</span></em>. Zenodo. <a href="https://doi.org/10.5281/zenodo.7808903">https://doi.org/10.5281/zenodo.7808903</a>.
+</div>
+<div id="ref-smith2019superconvergence" class="csl-entry" role="listitem">
+Smith, Leslie N., and Nicholay Topin. 2019. <span>“Super-Convergence: Very Fast Training of Neural Networks Using Large Learning Rates.”</span> <em>Artificial Intelligence and Machine Learning for Multi-Domain Operations Applications</em>, Proceedings of SPIE, vol. 11006: 1100612. <a href="https://doi.org/10.1117/12.2520589">https://doi.org/10.1117/12.2520589</a>.
+</div>
+<div id="ref-woo2023convnextv2" class="csl-entry" role="listitem">
+Woo, Sanghyun, Shoubhik Debnath, Ronghang Hu, et al. 2023. <span>“<span>ConvNeXt V2</span>: Co-Designing and Scaling <span>ConvNets</span> with Masked Autoencoders.”</span> <em>2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</em>, 16133–42. <a href="https://doi.org/10.1109/CVPR52729.2023.01548">https://doi.org/10.1109/CVPR52729.2023.01548</a>.
+</div>
+<div id="ref-yang2023medmnist" class="csl-entry" role="listitem">
+Yang, Jiancheng, Rui Shi, Donglai Wei, et al. 2023. <span>“<span class="nocase">MedMNIST v2</span>: A Large-Scale Lightweight Benchmark for <span>2D</span> and <span>3D</span> Biomedical Image Classification.”</span> <em>Scientific Data</em> 10 (1). <a href="https://doi.org/10.1038/s41597-022-01721-8">https://doi.org/10.1038/s41597-022-01721-8</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script>
+// Collapsed info boxes are optional detail. Mark each one as supplementary content, so browser
+// reading modes that build their view from the live page leave them out: role="complementary"
+// is the landmark for asides, and Firefox's Readability drops elements with a "supplemental"
+// class. The normal page is unchanged.
+document.querySelectorAll(".callout").forEach((box) => {
+  if (!box.querySelector(".callout-btn-toggle")) return;   // only the collapsed ones
+  box.classList.add("supplemental");
+  box.setAttribute("role", "complementary");
+  const title = box.getAttribute("title");
+  if (title) box.setAttribute("aria-label", title.replace(/`/g, ""));
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/csvance\.dev");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2026 Carroll Vance · <a href="https://github.com/csvance/csvance.github.io/blob/main/LICENSE">MIT License</a></p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
