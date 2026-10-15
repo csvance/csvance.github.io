@@ -19,7 +19,7 @@ about:
 ::: {.about-bio}
 I build scientific machine learning models and production services in a
 regulated medical device setting, mostly in Julia these days. When I'm not
-programming, I'm usually doing typical dad things like playing with my son and
+building things, I'm usually doing typical dad stuff like playing with my son and
 hanging out with family or cooking chicken korma.
 :::
 
