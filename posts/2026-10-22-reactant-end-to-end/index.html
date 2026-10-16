@@ -8,9 +8,9 @@
 
 <meta name="author" content="Carroll Vance">
 <meta name="dcterms.date" content="2026-10-22">
-<meta name="description" content="After moving my ML work from PyTorch to Julia, I built the pieces that were missing around Reactant: ReactantNitro for training, ReactantServer for serving, Luximm for pretrained backbones, and a native gRPC stack. This post walks through all of them on a real dataset, from training to a served model.">
+<meta name="description" content="A year after replacing PyTorch with Julia for my ML work, a look at the tools I built on Reactant to train, export and serve models, walked through end to end on a real pathology dataset.">
 
-<title>From PyTorch to Julia: Building an ML Stack on Reactant – ∇ Selected Gradient Works</title>
+<title>Replacing PyTorch with Julia and Reactant: One Year In – ∇ Selected Gradient Works</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -149,8 +149,8 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="From PyTorch to Julia: Building an ML Stack on Reactant – ∇ Selected Gradient Works">
-<meta property="og:description" content="After moving my ML work from PyTorch to Julia, I built the pieces that were missing around Reactant: ReactantNitro for training, ReactantServer for serving, Luximm for pretrained backbones, and a native gRPC stack. This post walks through all of them on a real dataset, from training to a served model.">
+<meta property="og:title" content="Replacing PyTorch with Julia and Reactant: One Year In – ∇ Selected Gradient Works">
+<meta property="og:description" content="A year after replacing PyTorch with Julia for my ML work, a look at the tools I built on Reactant to train, export and serve models, walked through end to end on a real pathology dataset.">
 <meta property="og:image" content="https://csvance.dev/posts/2026-10-22-reactant-end-to-end/figures/hero/pytorch.png">
 <meta property="og:site_name" content="∇ Selected Gradient Works">
 <meta property="og:image:alt" content="The PyTorch logo">
@@ -378,7 +378,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">From PyTorch to Julia: Building an ML Stack on Reactant</h1>
+<h1 class="title">Replacing PyTorch with Julia and Reactant: One Year In</h1>
   <div class="quarto-categories">
     <div class="quarto-category">julia</div>
     <div class="quarto-category">reactant</div>
@@ -388,7 +388,7 @@ window.Quarto = {
 
 <div>
   <div class="description">
-    After moving my ML work from PyTorch to Julia, I built the pieces that were missing around Reactant: ReactantNitro for training, ReactantServer for serving, Luximm for pretrained backbones, and a native gRPC stack. This post walks through all of them on a real dataset, from training to a served model.
+    A year after replacing PyTorch with Julia for my ML work, a look at the tools I built on Reactant to train, export and serve models, walked through end to end on a real pathology dataset.
   </div>
 </div>
 
@@ -423,7 +423,7 @@ window.Quarto = {
 <p>These were the parts of the language that sold me:</p>
 <ul>
 <li>A REPL workflow with <a href="https://github.com/timholy/Revise.jl">Revise.jl</a>, where edits to code take effect in the running session without a restart</li>
-<li>Julia code can be differentiated and optimized as it is written, without rewriting it in a framework’s DSL, even an ODE dynamics function that calls <a href="https://github.com/SciML/NonlinearSolve.jl">NonlinearSolve</a> and evaluates a cubic spline from <a href="https://github.com/SciML/DataInterpolations.jl">DataInterpolations.jl</a></li>
+<li>Julia code can be differentiated and optimized as it is written, without rewriting it in a framework’s DSL. I reuse part of an ODE dynamics function, built on a cubic spline from <a href="https://github.com/SciML/DataInterpolations.jl">DataInterpolations.jl</a>, as is inside a <a href="https://github.com/SciML/NonlinearSolve.jl">NonlinearSolve</a> problem, and optimize over it with the same code</li>
 <li>A modern runtime in the spirit of Go: garbage collection, plus <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/">tasks and channels</a> for concurrency</li>
 <li>Multiple dispatch, which lets separately written packages work together and lets you add specializations to other people’s functions, making them faster or better integrated with your code, without opening a pull request. With agents producing more code to review than ever, I think this is a big advantage for Julia</li>
 <li>Fast code that stays generic and readable</li>
@@ -440,7 +440,7 @@ window.Quarto = {
 <p>We greatly accelerated our main backend service by rewriting all of the performance sensitive code in Julia. After tasting the initial success I thought to myself maybe we can do something similar with our ML stack? While PyTorch is an absolutely incredible piece of software, there were a couple of pain points that made me feel like my use case wasn’t something that was going to get much support going forward:</p>
 <ol type="1">
 <li><a href="https://docs.pytorch.org/docs/stable/jit.html">torchscript</a> deprecation: We had come to rely on torchscript as a flexible way to deploy models. Data dependent branching and flow control were both possible, which was nice for adding postprocessing to an already trained model. It always felt much easier to just compile our models with the extra logic built in rather than try to use whatever clunky solution our serving platform offered; we loved the convenience that torchscript provided. Having triple digits worth of models tied up in a format that had received basically no support for over five years also meant we had to make a change going forward.</li>
-<li>The serving ecosystem was slow to move to <a href="https://docs.pytorch.org/docs/stable/export.html"><code>torch.export</code></a>: <a href="https://github.com/triton-inference-server/server">NVIDIA Triton Server</a> only got <a href="https://github.com/triton-inference-server/pytorch_backend">support for torch.export</a> ~3 years after torch.export was introduced.</li>
+<li>General-purpose model servers were slow to move to <a href="https://docs.pytorch.org/docs/stable/export.html"><code>torch.export</code></a>: <a href="https://github.com/triton-inference-server/server">NVIDIA Triton Server</a> only got <a href="https://github.com/triton-inference-server/pytorch_backend/pull/207">non-beta support</a> for torch.export ~3 years after torch.export was introduced, and <a href="https://github.com/pytorch/serve">TorchServe</a>, PyTorch’s own server, was <a href="https://github.com/pytorch/serve/pull/3395">archived</a> without ever supporting it natively.</li>
 <li><a href="https://docs.pytorch.org/docs/stable/generated/torch.compile.html"><code>torch.compile</code></a> was underwhelming for a long time: most of the performance gains seemed <a href="https://pytorch.org/get-started/pytorch-2.0/">locked to a specific GPU model</a>, and for several years I measured close to 0% improvement on everything I threw at it, even with <a href="https://docs.pytorch.org/docs/stable/generated/torch.compile.html"><code>fullgraph=True</code></a> guaranteeing there were no graph breaks. Many of the problems with torch.compile have since been fixed, but I was living with the same eager mode performance limitations I had been living with since I first started using PyTorch.</li>
 </ol>
 <p>Together, these made me want a deployment format I could count on for years and a compiler that sped up the models I was actually training. We had already adopted Julia for our backend and were building on it extensively, so the natural next step was to see whether it could handle our ML work as well.</p>
