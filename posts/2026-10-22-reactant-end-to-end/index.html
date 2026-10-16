@@ -8,7 +8,7 @@
 
 <meta name="author" content="Carroll Vance">
 <meta name="dcterms.date" content="2026-10-22">
-<meta name="description" content="A year after replacing PyTorch with Julia for my ML work, a look at the tools I built on Reactant to train, export and serve models, walked through end to end on a real pathology dataset.">
+<meta name="description" content="Over the past year I replaced PyTorch with Julia for my ML work. This post covers the tools I built on Reactant to train, export and serve models, and walks through all of it on a real pathology dataset.">
 
 <title>Replacing PyTorch with Julia and Reactant: One Year In – ∇ Selected Gradient Works</title>
 <style>
@@ -150,7 +150,7 @@ window.Quarto = {
 
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="Replacing PyTorch with Julia and Reactant: One Year In – ∇ Selected Gradient Works">
-<meta property="og:description" content="A year after replacing PyTorch with Julia for my ML work, a look at the tools I built on Reactant to train, export and serve models, walked through end to end on a real pathology dataset.">
+<meta property="og:description" content="Over the past year I replaced PyTorch with Julia for my ML work. This post covers the tools I built on Reactant to train, export and serve models, and walks through all of it on a real pathology dataset.">
 <meta property="og:image" content="https://csvance.dev/posts/2026-10-22-reactant-end-to-end/figures/hero/pytorch.png">
 <meta property="og:site_name" content="∇ Selected Gradient Works">
 <meta property="og:image:alt" content="The PyTorch logo">
@@ -388,7 +388,7 @@ window.Quarto = {
 
 <div>
   <div class="description">
-    A year after replacing PyTorch with Julia for my ML work, a look at the tools I built on Reactant to train, export and serve models, walked through end to end on a real pathology dataset.
+    Over the past year I replaced PyTorch with Julia for my ML work. This post covers the tools I built on Reactant to train, export and serve models, and walks through all of it on a real pathology dataset.
   </div>
 </div>
 
@@ -423,7 +423,7 @@ window.Quarto = {
 <p>These were the parts of the language that sold me:</p>
 <ul>
 <li>A REPL workflow with <a href="https://github.com/timholy/Revise.jl">Revise.jl</a>, where edits to code take effect in the running session without a restart</li>
-<li>Julia code can be differentiated and optimized as it is written, without rewriting it in a framework’s DSL. I reuse part of an ODE dynamics function, built on a cubic spline from <a href="https://github.com/SciML/DataInterpolations.jl">DataInterpolations.jl</a>, as is inside a <a href="https://github.com/SciML/NonlinearSolve.jl">NonlinearSolve</a> problem, and optimize over it with the same code</li>
+<li>Julia code can be differentiated and optimized as written, without porting it to a framework’s DSL. Part of one of my ODE dynamics functions, built on a cubic spline from <a href="https://github.com/SciML/DataInterpolations.jl">DataInterpolations.jl</a>, drops straight into a <a href="https://github.com/SciML/NonlinearSolve.jl">NonlinearSolve</a> problem with no changes</li>
 <li>A modern runtime in the spirit of Go: garbage collection, plus <a href="https://docs.julialang.org/en/v1/manual/asynchronous-programming/">tasks and channels</a> for concurrency</li>
 <li>Multiple dispatch, which lets separately written packages work together and lets you add specializations to other people’s functions, making them faster or better integrated with your code, without opening a pull request. With agents producing more code to review than ever, I think this is a big advantage for Julia</li>
 <li>Fast code that stays generic and readable</li>
