@@ -1,6 +1,6 @@
 # Project slideshow
 
-The animated project carousel from "From PyTorch to Julia: Building an ML Stack on Reactant"
+The animated project carousel from "Replacing PyTorch with Julia and Reactant: One Year In"
 (it sat at the top of "What I built" until it was taken out of that post). Kept here to reuse in
 future posts. Quarto does not publish directories that start with an underscore, so nothing here
 appears on the site until a post copies it in.

@@ -1,6 +1,6 @@
 ---
-title: "From PyTorch to Julia: Building an ML Stack on Reactant"
-description: "After moving my ML work from PyTorch to Julia, I built the pieces that were missing around Reactant: ReactantNitro for training, ReactantServer for serving, Luximm for pretrained backbones, and a native gRPC stack. This post walks through all of them on a real dataset, from training to a served model."
+title: "Replacing PyTorch with Julia and Reactant: One Year In"
+description: "A year after replacing PyTorch with Julia for my ML work, a look at the tools I built on Reactant to train, export and serve models, walked through end to end on a real pathology dataset."
 date: 2026-10-22
 categories: [julia, reactant, machine-learning]
 engine: julia
