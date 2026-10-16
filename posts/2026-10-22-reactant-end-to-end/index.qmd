@@ -1,6 +1,6 @@
 ---
 title: "Replacing PyTorch with Julia and Reactant: One Year In"
-description: "A year after replacing PyTorch with Julia for my ML work, a look at the tools I built on Reactant to train, export and serve models, walked through end to end on a real pathology dataset."
+description: "Over the past year I replaced PyTorch with Julia for my ML work. This post covers the tools I built on Reactant to train, export and serve models, and walks through all of it on a real pathology dataset."
 date: 2026-10-22
 categories: [julia, reactant, machine-learning]
 engine: julia
@@ -33,7 +33,7 @@ Nearly a year ago, I decided to give the [Julia](https://julialang.org) programm
 These were the parts of the language that sold me:
 
 - A REPL workflow with [Revise.jl](https://github.com/timholy/Revise.jl), where edits to code take effect in the running session without a restart
-- Julia code can be differentiated and optimized as it is written, without rewriting it in a framework's DSL. I reuse part of an ODE dynamics function, built on a cubic spline from [DataInterpolations.jl](https://github.com/SciML/DataInterpolations.jl), as is inside a [NonlinearSolve](https://github.com/SciML/NonlinearSolve.jl) problem, and optimize over it with the same code
+- Julia code can be differentiated and optimized as written, without porting it to a framework's DSL. Part of one of my ODE dynamics functions, built on a cubic spline from [DataInterpolations.jl](https://github.com/SciML/DataInterpolations.jl), drops straight into a [NonlinearSolve](https://github.com/SciML/NonlinearSolve.jl) problem with no changes
 - A modern runtime in the spirit of Go: garbage collection, plus [tasks and channels](https://docs.julialang.org/en/v1/manual/asynchronous-programming/) for concurrency
 - Multiple dispatch, which lets separately written packages work together and lets you add specializations to other people's functions, making them faster or better integrated with your code, without opening a pull request. With agents producing more code to review than ever, I think this is a big advantage for Julia
 - Fast code that stays generic and readable
